@@ -5,7 +5,7 @@ import time
 import urllib.request
 
 BASE = 'qwen3-coder:30b-a3b-q4_K_M'
-MODEL = 'qwen3-coder-supervised:8k'
+MODEL = 'qwen3-coder-supervised:32k'
 ROOT = Path('/home/topher/Language-matrix-coder')
 
 def request(path, data=None):

@@ -1,0 +1,53 @@
+{
+  "old_failure": [
+    {
+      "reason": "length",
+      "tokens": {
+        "total": 8192,
+        "input": 8191,
+        "output": 1,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 0
+        }
+      }
+    }
+  ],
+  "active_session": "ses_eaa36a251ffeUZ1FgIDHYtwkUU",
+  "transport": "one server http://127.0.0.1:4097; run and TUI attach",
+  "assignment_in_server": true,
+  "model_context": 32768,
+  "output_limit": 4096,
+  "gpu_layers": 10,
+  "all_tools_enabled": true,
+  "job_complete": false,
+  "observed_steps_beyond_old_limit": [
+    {
+      "reason": "tool-calls",
+      "tokens": {
+        "total": 8800,
+        "input": 8749,
+        "output": 51,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 0
+        }
+      }
+    },
+    {
+      "reason": "tool-calls",
+      "tokens": {
+        "total": 9782,
+        "input": 9729,
+        "output": 53,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 0
+        }
+      }
+    }
+  ]
+}

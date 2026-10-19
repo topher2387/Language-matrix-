@@ -1,7 +1,7 @@
 {
   "coding_worker": {
     "provider": "ollama-local",
-    "model": "qwen3-coder-supervised:8k",
+    "model": "qwen3-coder-supervised:32k",
     "base_model": "qwen3-coder:30b-a3b-q4_K_M",
     "approval_required": true,
     "automatic_packet_dispatch": false
