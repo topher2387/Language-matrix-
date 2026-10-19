@@ -1,0 +1,58 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "language-matrix/kanana-2-30b-a3b",
+  "small_model": "language-matrix/kanana-2-30b-a3b",
+  "enabled_providers": [
+    "language-matrix"
+  ],
+  "provider": {
+    "language-matrix": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Local Kanana 2 30B-A3B",
+      "options": {
+        "baseURL": "http://127.0.0.1:11532/v1",
+        "apiKey": "local-only",
+        "timeout": 1800000
+      },
+      "models": {
+        "kanana-2-30b-a3b": {
+          "name": "Kanana 2 30B-A3B \u2014 sparse local Korean/English",
+          "limit": {
+            "context": 16384,
+            "output": 1024
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "options": {
+            "temperature": 0.6,
+            "top_p": 0.95
+          }
+        }
+      }
+    }
+  },
+  "default_agent": "chat",
+  "agent": {
+    "chat": {
+      "description": "Korean teaching and language advice only; retired from coding",
+      "mode": "primary",
+      "model": "language-matrix/kanana-2-30b-a3b",
+      "prompt": "You are Kanana, reserved exclusively for Korean-language teaching and advice. Do not accept coding assignments, modify project code, run coding packets, or publish changes. Refer coding work to the supervised Qwen3-Coder worker. Converse in Korean and English; distinguish language advice from independently verified claims. Zero spending, no billing activation, no Lichen modifications. Never claim a tool action happened without evidence.",
+      "permission": {
+        "*": "allow"
+      }
+    }
+  },
+  "permission": {
+    "*": "allow"
+  },
+  "plugin": [],
+  "mcp": {},
+  "share": "disabled",
+  "autoupdate": false,
+  "compaction": {
+    "auto": true
+  }
+}

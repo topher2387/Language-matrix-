@@ -1,0 +1,103 @@
+{
+  "base": "qwen3-coder:30b-a3b-q4_K_M",
+  "runtime_alias": "qwen3-coder-supervised:8k",
+  "passed": true,
+  "identity": {
+    "name": "qwen3-coder:30b-a3b-q4_K_M",
+    "model": "qwen3-coder:30b-a3b-q4_K_M",
+    "modified_at": "2026-10-19T14:54:53.644927369-05:00",
+    "size": 18556700761,
+    "digest": "06c1097efce0431c2045fe7b2e5108366e43bee1b4603a7aded8f21689e90bca",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen3moe",
+      "families": [
+        "qwen3moe"
+      ],
+      "parameter_size": "30.5B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 262144,
+      "embedding_length": 2048
+    },
+    "capabilities": [
+      "completion",
+      "tools"
+    ]
+  },
+  "details": {
+    "parent_model": "qwen3-coder:30b-a3b-q4_K_M",
+    "format": "gguf",
+    "family": "qwen3moe",
+    "families": [
+      "qwen3moe"
+    ],
+    "parameter_size": "30.5B",
+    "quantization_level": "Q4_K_M"
+  },
+  "capabilities": [
+    "completion",
+    "tools"
+  ],
+  "parameters": "num_batch                      128\nnum_thread                     8\nstop                           \"<|im_start|>\"\nstop                           \"<|im_end|>\"\nstop                           \"<|endoftext|>\"\nnum_ctx                        8192\nnum_gpu                        12\nnum_predict                    1024\nrepeat_penalty                 1.05\ntemperature                    0.2\ntop_k                          20\ntop_p                          0.8",
+  "tool_response": {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "call_lu5hc60b",
+        "function": {
+          "index": 0,
+          "name": "report_ready",
+          "arguments": {
+            "status": "ready"
+          }
+        }
+      }
+    ]
+  },
+  "timing": {
+    "tokens": 22,
+    "generation_seconds": 1.371351,
+    "tokens_per_second": 16.042574074762772,
+    "prompt_tokens": 301,
+    "prompt_seconds": 0.07359,
+    "load_seconds": 0.130801415
+  },
+  "wall_seconds": 1.5963124359841458,
+  "roundtrip_response": {
+    "role": "assistant",
+    "content": "READY_CONFIRMED"
+  },
+  "roundtrip_timing": {
+    "tokens": 4,
+    "generation_seconds": 0.194655,
+    "tokens_per_second": 20.54917674860651,
+    "prompt_tokens": 364,
+    "prompt_seconds": 1.008202,
+    "load_seconds": 0.122949937
+  },
+  "placement": {
+    "models": [
+      {
+        "name": "qwen3-coder-supervised:8k",
+        "model": "qwen3-coder-supervised:8k",
+        "size": 23712623491,
+        "digest": "785b2ca21d704dc060fb0f247043af14ff566273f783e130764413e21b845d51",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3moe",
+          "families": [
+            "qwen3moe"
+          ],
+          "parameter_size": "30.5B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-10-19T15:31:54.912138747-05:00",
+        "size_vram": 4827245444,
+        "context_length": 8192
+      }
+    ]
+  }
+}
