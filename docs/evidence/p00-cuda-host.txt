@@ -1,0 +1,17 @@
+2026-10-19 approved host execution outside the restricted sandbox
+Environment: /home/topher/miniconda/envs/qwen3tts/bin/python
+Probe: import torch; allocate torch.arange(16,device='cuda',dtype=torch.float32);
+compute (x*x).sum(); torch.cuda.synchronize(); report allocator/device metadata.
+No model loading, downloads, driver/system/container changes or Lichen edits.
+Exit code: 0
+
+torch 2.6.0+cu124
+cuda_available True
+device_count 1
+device NVIDIA GeForce RTX 3060 Ti
+sum_of_squares 1240.0
+peak_allocated_bytes 1536
+free_total_bytes (5410521088, 8211660800)
+
+This establishes real CUDA compute access on the host. It does not measure a
+TTS model workload, linguistic accuracy or inference peak memory.

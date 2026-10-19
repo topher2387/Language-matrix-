@@ -1,0 +1,7 @@
+{
+  "returncode": 0,
+  "text": "capsule jsonschema available\n",
+  "timed_out": false,
+  "group_exited": true,
+  "isolation": "bubblewrap-offline"
+}

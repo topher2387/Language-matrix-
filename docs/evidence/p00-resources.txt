@@ -4,3 +4,13 @@ FAILED: NVIDIA-SMI could not communicate with NVIDIA driver.
 No claim of current GPU model, usable VRAM, or successful local inference.
 free -h: 46Gi total RAM, 15Gi used, 31Gi available; 8Gi swap, 5.8Gi used.
 No resources modified or models downloaded.
+
+Correction after isolating execution boundaries (2026-10-19):
+The initial command ran inside Codex's restricted execution sandbox, where GPU
+/dev nodes are hidden. It does not establish a host driver failure.
+The same read-only query outside that sandbox succeeded:
+name, driver_version, memory.total [MiB], memory.used [MiB]
+NVIDIA GeForce RTX 3060 Ti, 580.178.04, 8192 MiB, 2510 MiB
+Host GPU access is available via approved execution outside the sandbox.
+No driver, Docker, system configuration, or Lichen changes were needed.
+CUDA/model inference and peak workload VRAM still require separate execution.
