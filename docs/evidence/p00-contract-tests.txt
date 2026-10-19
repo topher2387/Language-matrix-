@@ -1,0 +1,12 @@
+test_bounded_limits_and_unknown_nested_fields (test_contracts.ContractsTest.test_bounded_limits_and_unknown_nested_fields) ... ok
+test_lesson_requires_all_four_teaching_surfaces (test_contracts.ContractsTest.test_lesson_requires_all_four_teaching_surfaces) ... ok
+test_no_implicit_verified_status (test_contracts.ContractsTest.test_no_implicit_verified_status) ... ok
+test_requests_reject_paid_network_and_execution_controls (test_contracts.ContractsTest.test_requests_reject_paid_network_and_execution_controls) ... ok
+test_reviewed_status_requires_named_reviewer (test_contracts.ContractsTest.test_reviewed_status_requires_named_reviewer) ... ok
+test_samples_validate (test_contracts.ContractsTest.test_samples_validate) ... ok
+test_unknown_widget_and_generated_code_rejected (test_contracts.ContractsTest.test_unknown_widget_and_generated_code_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.163s
+
+OK

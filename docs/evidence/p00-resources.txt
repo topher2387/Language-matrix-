@@ -1,0 +1,6 @@
+2026-10-19 local controller observation
+nvidia-smi --query-gpu=name,memory.total,memory.used --format=csv
+FAILED: NVIDIA-SMI could not communicate with NVIDIA driver.
+No claim of current GPU model, usable VRAM, or successful local inference.
+free -h: 46Gi total RAM, 15Gi used, 31Gi available; 8Gi swap, 5.8Gi used.
+No resources modified or models downloaded.

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.dev-harness/
+.superpowers/
+node_modules/
+playwright-report/
