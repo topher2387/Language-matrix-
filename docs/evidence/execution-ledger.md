@@ -13,11 +13,11 @@ P00 commit `30e4696`, PR [#10](https://github.com/topher2387/Language-matrix-/pu
 | P01 #2 | Admitted: [worker #11](https://github.com/topher2387/Language-matrix-/issues/11) | P00 contracts; semantic validator, 25 provisional cases, independent Korean review and model benchmark evidence distinct from code tests. |
 | P02 #3 | Admitted: [worker #12](https://github.com/topher2387/Language-matrix-/issues/12) | P00 contracts; mocked lesson, browser mobile/desktop and actual offline reload evidence. |
 | P03 #4 | Admitted: [worker #13](https://github.com/topher2387/Language-matrix-/issues/13) | P00 contracts; mocked provider state flow, adversarial requests, output/deadline/permission validation. |
-| P04 #5 | Dependency blocked | Accepted P03; external adapter only, zero-cost/quota/idempotency/GPU guard evidence. |
-| P05 #6 | Dependency blocked | Accepted P03; SQLite/blob integrity/migration/GC evidence, parallel with P04. |
-| P06 #7 | Dependency blocked; host GPU available | Accepted P04/P05; weight licences, approved host CUDA execution, Korean review and playable synthetic voice evidence. |
-| P07 #8 | Dependency blocked; optional | Accepted P04/P05; safe image fallback and asset provenance. |
-| P08 #9 | Dependency blocked | Accepted P01–P06; actual phone/offline/audio demonstration and resource evidence. P07 optional. |
+| P04 #5 | [Worker #14](https://github.com/topher2387/Language-matrix-/issues/14); dependency blocked | Accepted P03; external adapter only, zero-cost/quota/idempotency/GPU guard evidence. |
+| P05 #6 | [Worker #15](https://github.com/topher2387/Language-matrix-/issues/15); dependency blocked | Accepted P03; SQLite/blob integrity/migration/GC evidence, parallel with P04. |
+| P06 #7 | [Worker #16](https://github.com/topher2387/Language-matrix-/issues/16); dependency blocked; host GPU available | Accepted P04/P05; weight licences, approved host CUDA execution, Korean review and playable synthetic voice evidence. |
+| P07 #8 | [Worker #17](https://github.com/topher2387/Language-matrix-/issues/17); dependency blocked; optional | Accepted P04/P05; safe image fallback and asset provenance. |
+| P08 #9 | [Worker #18](https://github.com/topher2387/Language-matrix-/issues/18); dependency blocked | Accepted P01–P06; actual phone/offline/audio demonstration and resource evidence. P07 optional. |
 
 The Forge supervisor serializes model phases through one shared provider quota ledger. Independent packets may be admitted together, while inference is bounded and serialized. Operator ceilings are local safety limits, not claims of provider entitlement. Fresh zero-price catalogue checks precede inference; no paid/unknown fallback or billing activation.
 
