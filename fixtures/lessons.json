@@ -1,0 +1,672 @@
+[
+  {
+    "schema_version": "1.0",
+    "lesson_id": "nasalisation-1",
+    "title": "Nasalisation: final stops before nasals",
+    "source_language": "en",
+    "target_language": "ko",
+    "verification": {
+      "status": "unverified",
+      "reviewer": null,
+      "notes": "Provisional offline teaching fixture; no independent Korean review or audio assessment."
+    },
+    "units": [
+      {
+        "unit_id": "n1",
+        "english": "Soup or broth.",
+        "hangul": "국물",
+        "spoken_phonetics": "gung-mul",
+        "phonology": "The final ㄱ of 국 is followed by the nasal ㅁ of 물, so ㄱ becomes the nasal ㅇ: [궁물]. The learner cue gung-mul reflects that change.",
+        "structure": "A two-noun compound: 국 (soup) plus 물 (water or liquid). Korean compounds do not need an English-style possessive marker.",
+        "register": "Everyday neutral noun; usable in polite speech.",
+        "translation_note": "English usually says soup or broth; the literal compound image is soup water.",
+        "dialect_note": "Standard pronunciation example; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Soup water."
+      },
+      {
+        "unit_id": "n2",
+        "english": "Korean language; spoken Korean.",
+        "hangul": "한국말",
+        "spoken_phonetics": "han-gung-mal",
+        "phonology": "The final ㄱ of 국 meets the nasal ㅁ of 말 and becomes ㅇ: [한궁말].",
+        "structure": "한국 (Korea) plus 말 (speech or language). The compound is understood as one noun.",
+        "register": "Neutral and slightly colloquial; 한국어 is often preferred in formal writing.",
+        "translation_note": "English says Korean language. 말 stresses speech, while 어 is a more formal bound word for language.",
+        "dialect_note": "Standard-language example; regional vocabulary is not assessed here.",
+        "audio_assets": [],
+        "literal_english": "Korea speech."
+      },
+      {
+        "unit_id": "n3",
+        "english": "Is, am, or are (formal polite copula).",
+        "hangul": "입니다",
+        "spoken_phonetics": "im-ni-da",
+        "phonology": "The final ㅂ of 입 is followed by ㄴ and becomes ㅁ: [임니다].",
+        "structure": "The copula 입니다 attaches to a noun in the formal polite 합니다 style.",
+        "register": "Formal polite; common in presentations, announcements, and service encounters.",
+        "translation_note": "English supplies a be verb; Korean often omits a clear subject and relies on context.",
+        "dialect_note": "Standard formal register; no dialect comparison.",
+        "audio_assets": [],
+        "literal_english": "It is."
+      },
+      {
+        "unit_id": "n4",
+        "english": "One hundred thousand.",
+        "hangul": "십만",
+        "spoken_phonetics": "sim-man",
+        "phonology": "The final ㅂ of 십 meets the nasal ㅁ and becomes ㅁ: [심만].",
+        "structure": "Sino-Korean number: 십 (ten) times 만 (ten thousand), giving one hundred thousand.",
+        "register": "Neutral counting register.",
+        "translation_note": "English groups large numbers by thousands; Korean groups them by ten-thousands.",
+        "dialect_note": "Standard number reading; no regional variant claimed.",
+        "audio_assets": [],
+        "literal_english": "Ten ten-thousands."
+      },
+      {
+        "unit_id": "n5",
+        "english": "Jongno, a district in Seoul.",
+        "hangul": "종로",
+        "spoken_phonetics": "jong-no",
+        "phonology": "The final ㅇ of 종 is followed by ㄹ, and ㄹ becomes the nasal ㄴ: [종노].",
+        "structure": "A place-name compound of 종 and 로. Its conventional pronunciation is lexical.",
+        "register": "Neutral place name.",
+        "translation_note": "English uses the transliteration Jongno rather than a meaning-based translation.",
+        "dialect_note": "This is the standard name and pronunciation for the Seoul district.",
+        "audio_assets": [],
+        "literal_english": "Bell street, from historical components; not a current translation."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "e1",
+        "kind": "reading_choice",
+        "prompt": "How is 국물 pronounced in connected speech?",
+        "unit_id": "n1",
+        "options": ["gung-mul", "guk-mul"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e2",
+        "kind": "reading_choice",
+        "prompt": "Choose the connected-speech form of 한국말.",
+        "unit_id": "n2",
+        "options": ["han-gung-mal", "han-guk-mal"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e3",
+        "kind": "reading_choice",
+        "prompt": "The final ㅂ in 입니다 becomes which sound before ㄴ?",
+        "unit_id": "n3",
+        "options": ["ㅁ", "ㅍ"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e4",
+        "kind": "reading_choice",
+        "prompt": "Which pronunciation matches 십만?",
+        "unit_id": "n4",
+        "options": ["sim-man", "sip-man"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e5",
+        "kind": "reading_choice",
+        "prompt": "Which pronunciation matches 종로?",
+        "unit_id": "n5",
+        "options": ["jong-no", "jong-ro"],
+        "correct_option": 0
+      }
+    ],
+    "widgets": [
+      {"type": "teaching_unit", "ref_id": "n1"},
+      {"type": "teaching_unit", "ref_id": "n2"},
+      {"type": "teaching_unit", "ref_id": "n3"},
+      {"type": "teaching_unit", "ref_id": "n4"},
+      {"type": "teaching_unit", "ref_id": "n5"},
+      {"type": "comparison", "ref_id": "n1"},
+      {"type": "exercise", "ref_id": "e1"},
+      {"type": "exercise", "ref_id": "e2"},
+      {"type": "exercise", "ref_id": "e3"},
+      {"type": "exercise", "ref_id": "e4"},
+      {"type": "exercise", "ref_id": "e5"}
+    ]
+  },
+  {
+    "schema_version": "1.0",
+    "lesson_id": "liaison-1",
+    "title": "Liaison: finals move before vowels",
+    "source_language": "en",
+    "target_language": "ko",
+    "verification": {
+      "status": "unverified",
+      "reviewer": null,
+      "notes": "Provisional offline teaching fixture; no independent Korean review or audio assessment."
+    },
+    "units": [
+      {
+        "unit_id": "l1",
+        "english": "Music.",
+        "hangul": "음악",
+        "spoken_phonetics": "eu-mak",
+        "phonology": "The final ㅁ of 음 moves to the empty initial position of 악, giving [으막].",
+        "structure": "A Sino-Korean noun. In isolation it needs no particle; sentence roles use particles.",
+        "register": "Neutral noun.",
+        "translation_note": "English music is a direct equivalent; no article is needed in Korean.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Music."
+      },
+      {
+        "unit_id": "l2",
+        "english": "The Korean language.",
+        "hangul": "한국어",
+        "spoken_phonetics": "han-gu-geo",
+        "phonology": "The final ㄱ of 국 moves before the vowel 어: [한구거]. It is no longer a final consonant.",
+        "structure": "한국 (Korea) plus 어, a bound Sino-Korean word for language.",
+        "register": "Neutral to formal; 한국말 is more conversational.",
+        "translation_note": "English Korean language. Korean can combine two roots without a space.",
+        "dialect_note": "Standard-language example; regional vocabulary is outside this fixture.",
+        "audio_assets": [],
+        "literal_english": "Korea language."
+      },
+      {
+        "unit_id": "l3",
+        "english": "Clothes, with the subject particle.",
+        "hangul": "옷이",
+        "spoken_phonetics": "o-si",
+        "phonology": "The final ㅅ of 옷 moves to the vowel 이, producing [오시].",
+        "structure": "옷 (clothes) plus 이, the subject marker used after a consonant.",
+        "register": "Neutral sentence fragment.",
+        "translation_note": "English marks subjects by word order; Korean often marks them with a particle.",
+        "dialect_note": "Standard particle form; no dialect claim.",
+        "audio_assets": [],
+        "literal_english": "Clothes-subject."
+      },
+      {
+        "unit_id": "l4",
+        "english": "A flower, with the object particle.",
+        "hangul": "꽃을",
+        "spoken_phonetics": "kko-cheul",
+        "phonology": "The final ㅊ of 꽃 moves before the vowel 을: [꼬츨].",
+        "structure": "꽃 (flower) plus 을, the object marker used after a consonant.",
+        "register": "Neutral sentence fragment.",
+        "translation_note": "The object particle has no separate English word; English shows the role by position.",
+        "dialect_note": "Standard particle form; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Flower-object."
+      },
+      {
+        "unit_id": "l5",
+        "english": "Rice or a meal, with the object particle.",
+        "hangul": "밥을",
+        "spoken_phonetics": "ba-beul",
+        "phonology": "The final ㅂ of 밥 moves before the vowel 을: [바블].",
+        "structure": "밥 (rice or meal) plus 을, the object marker after a consonant.",
+        "register": "Everyday neutral speech.",
+        "translation_note": "English meal or rice depends on context; the Korean noun covers both.",
+        "dialect_note": "Standard particle form; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Rice-object."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "e1",
+        "kind": "reading_choice",
+        "prompt": "Which connected-speech reading matches 음악?",
+        "unit_id": "l1",
+        "options": ["eu-mak", "eum-ak"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e2",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 한국어?",
+        "unit_id": "l2",
+        "options": ["han-gu-geo", "han-guk-eo"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e3",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 옷이?",
+        "unit_id": "l3",
+        "options": ["o-si", "ot-i"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e4",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 꽃을?",
+        "unit_id": "l4",
+        "options": ["kko-cheul", "kkot-eul"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e5",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 밥을?",
+        "unit_id": "l5",
+        "options": ["ba-beul", "bap-eul"],
+        "correct_option": 0
+      }
+    ],
+    "widgets": [
+      {"type": "teaching_unit", "ref_id": "l1"},
+      {"type": "teaching_unit", "ref_id": "l2"},
+      {"type": "teaching_unit", "ref_id": "l3"},
+      {"type": "teaching_unit", "ref_id": "l4"},
+      {"type": "teaching_unit", "ref_id": "l5"},
+      {"type": "comparison", "ref_id": "l3"},
+      {"type": "exercise", "ref_id": "e1"},
+      {"type": "exercise", "ref_id": "e2"},
+      {"type": "exercise", "ref_id": "e3"},
+      {"type": "exercise", "ref_id": "e4"},
+      {"type": "exercise", "ref_id": "e5"}
+    ]
+  },
+  {
+    "schema_version": "1.0",
+    "lesson_id": "aspiration-1",
+    "title": "Aspiration: ㅎ combines with plain consonants",
+    "source_language": "en",
+    "target_language": "ko",
+    "verification": {
+      "status": "unverified",
+      "reviewer": null,
+      "notes": "Provisional offline teaching fixture; no independent Korean review or audio assessment."
+    },
+    "units": [
+      {
+        "unit_id": "a1",
+        "english": "Good; okay.",
+        "hangul": "좋다",
+        "spoken_phonetics": "jo-ta",
+        "phonology": "The final ㅎ of 좋 combines with the following ㄷ to make ㅌ: [조타].",
+        "structure": "A dictionary-form adjective. Stem 좋- takes endings such as -아요 or -습니다.",
+        "register": "Everyday neutral adjective.",
+        "translation_note": "English good is an adjective; Korean adjectives also conjugate for tense and politeness.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Good."
+      },
+      {
+        "unit_id": "a2",
+        "english": "Congratulations.",
+        "hangul": "축하",
+        "spoken_phonetics": "chu-ka",
+        "phonology": "The final ㄱ of 축 meets ㅎ and becomes aspirated ㅋ: [추카].",
+        "structure": "A Sino-Korean noun. It commonly appears with 합니다 or 드립니다 in polite formulas.",
+        "register": "Polite congratulatory formula.",
+        "translation_note": "English congratulations is plural in form; Korean 축하 is a noun.",
+        "dialect_note": "Standard expression; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Celebration."
+      },
+      {
+        "unit_id": "a3",
+        "english": "School admission; entering a school.",
+        "hangul": "입학",
+        "spoken_phonetics": "i-pak",
+        "phonology": "The final ㅂ of 입 combines with ㅎ to make ㅍ: [이팍].",
+        "structure": "Sino-Korean 입 (enter) plus 학 (study or school).",
+        "register": "Neutral to formal institutional vocabulary.",
+        "translation_note": "English can say school admission or entering school; Korean uses one noun.",
+        "dialect_note": "Standard vocabulary; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Entering study."
+      },
+      {
+        "unit_id": "a4",
+        "english": "To seat someone; to set something down.",
+        "hangul": "앉히다",
+        "spoken_phonetics": "an-chi-da",
+        "phonology": "The final cluster of 앉 leaves ㄴ, while ㅈ combines with ㅎ to make ㅊ: [안치다].",
+        "structure": "Causative 앉- (sit) plus the causative suffix -히-.",
+        "register": "Neutral verb.",
+        "translation_note": "English uses a separate causative verb; Korean adds a causative suffix.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Make sit."
+      },
+      {
+        "unit_id": "a5",
+        "english": "Eldest brother.",
+        "hangul": "맏형",
+        "spoken_phonetics": "ma-tyeong",
+        "phonology": "The final ㄷ of 맏 combines with ㅎ to make aspirated ㅌ: [마텽].",
+        "structure": "맏 (eldest) plus 형 (older brother). Kinship terms depend on the speaker and relationship.",
+        "register": "Familiar kinship term, usually used by a male speaker for an older brother.",
+        "translation_note": "English eldest brother is descriptive; Korean kinship terms also encode age and relationship.",
+        "dialect_note": "Standard kinship term; regional usage may vary.",
+        "audio_assets": [],
+        "literal_english": "Eldest older brother."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "e1",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 좋다?",
+        "unit_id": "a1",
+        "options": ["jo-ta", "jot-da"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e2",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 축하?",
+        "unit_id": "a2",
+        "options": ["chu-ka", "chuk-ha"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e3",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 입학?",
+        "unit_id": "a3",
+        "options": ["i-pak", "ip-hak"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e4",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 앉히다?",
+        "unit_id": "a4",
+        "options": ["an-chi-da", "an-hi-da"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e5",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 맏형?",
+        "unit_id": "a5",
+        "options": ["ma-tyeong", "mat-hyeong"],
+        "correct_option": 0
+      }
+    ],
+    "widgets": [
+      {"type": "teaching_unit", "ref_id": "a1"},
+      {"type": "teaching_unit", "ref_id": "a2"},
+      {"type": "teaching_unit", "ref_id": "a3"},
+      {"type": "teaching_unit", "ref_id": "a4"},
+      {"type": "teaching_unit", "ref_id": "a5"},
+      {"type": "comparison", "ref_id": "a2"},
+      {"type": "exercise", "ref_id": "e1"},
+      {"type": "exercise", "ref_id": "e2"},
+      {"type": "exercise", "ref_id": "e3"},
+      {"type": "exercise", "ref_id": "e4"},
+      {"type": "exercise", "ref_id": "e5"}
+    ]
+  },
+  {
+    "schema_version": "1.0",
+    "lesson_id": "tensification-1",
+    "title": "Tensification: obstruent clusters become tense",
+    "source_language": "en",
+    "target_language": "ko",
+    "verification": {
+      "status": "unverified",
+      "reviewer": null,
+      "notes": "Provisional offline teaching fixture; no independent Korean review or audio assessment."
+    },
+    "units": [
+      {
+        "unit_id": "t1",
+        "english": "School.",
+        "hangul": "학교",
+        "spoken_phonetics": "hak-kkyo",
+        "phonology": "The final ㄱ of 학 is followed by another ㄱ, and the second becomes tense ㄲ: [학꾜].",
+        "structure": "Sino-Korean 학 (study) plus 교 (school).",
+        "register": "Neutral noun.",
+        "translation_note": "English school maps directly to the Korean compound; no article is used.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Study school."
+      },
+      {
+        "unit_id": "t2",
+        "english": "Dining table; meal table.",
+        "hangul": "밥상",
+        "spoken_phonetics": "bap-ssang",
+        "phonology": "The final ㅂ of 밥 is followed by ㅅ, and ㅅ becomes tense ㅆ: [밥쌍].",
+        "structure": "밥 (rice or meal) plus 상 (table).",
+        "register": "Everyday neutral noun.",
+        "translation_note": "English dining table is natural; the literal image is a rice table.",
+        "dialect_note": "Standard compound; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Rice table."
+      },
+      {
+        "unit_id": "t3",
+        "english": "To exist, to have, or to be located.",
+        "hangul": "있다",
+        "spoken_phonetics": "it-tta",
+        "phonology": "The tense final ㅆ of 있 is followed by ㄷ, and ㄷ becomes tense ㄸ: [읻따].",
+        "structure": "An existential verb. It also appears in possession and progressive constructions.",
+        "register": "Neutral verb used across polite registers.",
+        "translation_note": "English have, exist, or be located depends on the construction; Korean uses 있다 in several patterns.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Exists."
+      },
+      {
+        "unit_id": "t4",
+        "english": "Conflict; friction.",
+        "hangul": "갈등",
+        "spoken_phonetics": "gal-tteung",
+        "phonology": "The final ㄹ of 갈 is followed by ㄷ, and ㄷ becomes tense ㄸ: [갈뜽].",
+        "structure": "A Sino-Korean noun used for interpersonal or social conflict.",
+        "register": "Neutral to formal vocabulary.",
+        "translation_note": "English conflict is broader; Korean 갈등 often suggests tension between parties.",
+        "dialect_note": "Standard vocabulary; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Tangled vines, from historical components; current meaning is conflict."
+      },
+      {
+        "unit_id": "t5",
+        "english": "Restaurant; dining hall.",
+        "hangul": "식당",
+        "spoken_phonetics": "sik-ttang",
+        "phonology": "The final ㄱ of 식 is followed by ㄷ, and ㄷ becomes tense ㄸ: [식땅].",
+        "structure": "Sino-Korean 식 (eat) plus 당 (hall or building).",
+        "register": "Common neutral noun.",
+        "translation_note": "English restaurant is natural; the literal compound is eating hall.",
+        "dialect_note": "Standard vocabulary; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Eating hall."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "e1",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 학교?",
+        "unit_id": "t1",
+        "options": ["hak-kkyo", "hak-gyo"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e2",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 밥상?",
+        "unit_id": "t2",
+        "options": ["bap-ssang", "bap-sang"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e3",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 있다?",
+        "unit_id": "t3",
+        "options": ["it-tta", "it-da"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e4",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 갈등?",
+        "unit_id": "t4",
+        "options": ["gal-tteung", "gal-deung"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e5",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 식당?",
+        "unit_id": "t5",
+        "options": ["sik-ttang", "sik-dang"],
+        "correct_option": 0
+      }
+    ],
+    "widgets": [
+      {"type": "teaching_unit", "ref_id": "t1"},
+      {"type": "teaching_unit", "ref_id": "t2"},
+      {"type": "teaching_unit", "ref_id": "t3"},
+      {"type": "teaching_unit", "ref_id": "t4"},
+      {"type": "teaching_unit", "ref_id": "t5"},
+      {"type": "comparison", "ref_id": "t1"},
+      {"type": "exercise", "ref_id": "e1"},
+      {"type": "exercise", "ref_id": "e2"},
+      {"type": "exercise", "ref_id": "e3"},
+      {"type": "exercise", "ref_id": "e4"},
+      {"type": "exercise", "ref_id": "e5"}
+    ]
+  },
+  {
+    "schema_version": "1.0",
+    "lesson_id": "palatalisation-1",
+    "title": "Palatalisation: ㄷ and ㅌ before 이",
+    "source_language": "en",
+    "target_language": "ko",
+    "verification": {
+      "status": "unverified",
+      "reviewer": null,
+      "notes": "Provisional offline teaching fixture; no independent Korean review or audio assessment."
+    },
+    "units": [
+      {
+        "unit_id": "p1",
+        "english": "Together.",
+        "hangul": "같이",
+        "spoken_phonetics": "ga-chi",
+        "phonology": "The final ㅌ of 같 becomes ㅊ before the vowel 이: [가치].",
+        "structure": "An adverb formed from the adjective 같- with the adverbial suffix -이.",
+        "register": "Everyday neutral adverb.",
+        "translation_note": "English together is not a literal gloss of like; the Korean form is lexicalized.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "As being the same."
+      },
+      {
+        "unit_id": "p2",
+        "english": "Stubbornly; insistently; unnecessarily.",
+        "hangul": "굳이",
+        "spoken_phonetics": "gu-ji",
+        "phonology": "The final ㄷ of 굳 becomes ㅈ before the vowel 이: [구지].",
+        "structure": "An adverb from the adjective 굳- plus the adverbial suffix -이.",
+        "register": "Neutral adverb, often mildly critical.",
+        "translation_note": "English has several context-dependent equivalents; no single gloss covers every use.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Firmly."
+      },
+      {
+        "unit_id": "p3",
+        "english": "To be closed; to close.",
+        "hangul": "닫히다",
+        "spoken_phonetics": "da-chi-da",
+        "phonology": "The final ㄷ of 닫 meets the suffix 히, and ㄷ plus ㅎ becomes ㅊ: [다치다].",
+        "structure": "Passive 닫- (close) plus the passive suffix -히-.",
+        "register": "Neutral verb.",
+        "translation_note": "English can use passive be closed or active close; Korean uses a passive suffix.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Be closed."
+      },
+      {
+        "unit_id": "p4",
+        "english": "To attach; to stick.",
+        "hangul": "붙이다",
+        "spoken_phonetics": "bu-chi-da",
+        "phonology": "The final ㅌ of 붙 becomes ㅊ before the vowel 이: [부치다].",
+        "structure": "Transitive or causative 붙- (stick) plus the suffix -이-.",
+        "register": "Neutral verb.",
+        "translation_note": "English attach or stick is transitive; Korean marks the change with a suffix.",
+        "dialect_note": "Standard pronunciation; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Make stick."
+      },
+      {
+        "unit_id": "p5",
+        "english": "Sunrise.",
+        "hangul": "해돋이",
+        "spoken_phonetics": "hae-do-ji",
+        "phonology": "The final ㄷ of 돋 becomes ㅈ before the vowel 이: [해도지].",
+        "structure": "해 (sun) plus 돋- (rise) plus the nominalizing suffix -이.",
+        "register": "Neutral noun.",
+        "translation_note": "English sunrise is a noun; Korean builds it from sun, rise, and a nominalizer.",
+        "dialect_note": "Standard vocabulary; no regional claim.",
+        "audio_assets": [],
+        "literal_english": "Sun rising."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "e1",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 같이?",
+        "unit_id": "p1",
+        "options": ["ga-chi", "gat-i"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e2",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 굳이?",
+        "unit_id": "p2",
+        "options": ["gu-ji", "gut-i"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e3",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 닫히다?",
+        "unit_id": "p3",
+        "options": ["da-chi-da", "dat-hi-da"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e4",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 붙이다?",
+        "unit_id": "p4",
+        "options": ["bu-chi-da", "but-i-da"],
+        "correct_option": 0
+      },
+      {
+        "exercise_id": "e5",
+        "kind": "reading_choice",
+        "prompt": "Which reading matches 해돋이?",
+        "unit_id": "p5",
+        "options": ["hae-do-ji", "hae-dod-i"],
+        "correct_option": 0
+      }
+    ],
+    "widgets": [
+      {"type": "teaching_unit", "ref_id": "p1"},
+      {"type": "teaching_unit", "ref_id": "p2"},
+      {"type": "teaching_unit", "ref_id": "p3"},
+      {"type": "teaching_unit", "ref_id": "p4"},
+      {"type": "teaching_unit", "ref_id": "p5"},
+      {"type": "comparison", "ref_id": "p4"},
+      {"type": "exercise", "ref_id": "e1"},
+      {"type": "exercise", "ref_id": "e2"},
+      {"type": "exercise", "ref_id": "e3"},
+      {"type": "exercise", "ref_id": "e4"},
+      {"type": "exercise", "ref_id": "e5"}
+    ]
+  }
+]
