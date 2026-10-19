@@ -36,3 +36,11 @@ No queued/deferred job is marked complete from a worker assertion. Record comman
 P01 first worker timed out at 240 seconds after 8 completed steps; process group exited, no partial outputs copied back, final usage unknown. Original job and its full 16-request reservation remain preserved. P02 generation returned a complete stop result at 16 steps and zero reported cost, with 579849 observed tokens. Its source still requires tests, independent review and real browser evidence.
 
 The initial 12000-token forecast was too small because every context/cached input counts across steps. Before further inference, project-local ceilings changed to 240 requests/day and 10M tokens/day with 20% reserve; forecasts are 700k/worker and 150k/reviewer, finite 16-step/600-second worker calls. These are bounded operator safety budgets, never provider-entitlement claims. Shared DB, reservations and pricing/429/positive-cost hard stops remain intact. No billing activation or paid fallback. The compact P01 successor reuses jsonschema and narrows gratuitous APIs rather than replaying the failed original job.
+
+## Published first-wave work
+
+P01 compact worker #19 completed its Forge review/test/publish flow as [PR #20](https://github.com/topher2387/Language-matrix-/pull/20). P02 worker #12 completed review/test/publish as [PR #21](https://github.com/topher2387/Language-matrix-/pull/21). These are reviewed draft implementation PRs; full linguistic/browser/audio acceptance and integration remain separate. Original execution issues stay open.
+
+P03 worker #13 is blocked: its pretest reviewer transport failed, and no independent verified-free alternate reviewer was available. Source has not been accepted or published as a completed packet. P04–P08 remain dependency-held. No replay or fake approval was used to advance them. Sanitized commands/outcomes are in worker-dispatch-summary.json; raw private transcripts and quota state remain ignored.
+
+User then requested a separate interactive EXAONE 4.0 32B Q4_K_M local OpenCode setup, with tools and GitHub updates enabled. This uses its own chat directory/config/model server, existing GitHub authentication, zero paid fallback and the standing prohibition on Lichen edits. Its download/setup is distinct from packet acceptance.
