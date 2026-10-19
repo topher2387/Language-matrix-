@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "hello-ko",
+  "title": "A polite greeting",
+  "source_language": "en",
+  "target_language": "ko",
+  "verification": {
+    "status": "unverified",
+    "reviewer": null,
+    "notes": "Unverified hand-authored development fixture; no independent Korean reviewer or audio assessment. Not canonical teaching material."
+  },
+  "units": [
+    {
+      "unit_id": "u1",
+      "english": "Hello (a polite greeting).",
+      "hangul": "안녕하세요.",
+      "spoken_phonetics": "an-nyeong-ha-se-yo",
+      "phonology": "The final ㄴ of 안 meets initial ㄴ in 녕; keep the connected nasal sound. This learner spelling is approximate, not IPA.",
+      "structure": "A conventional greeting; do not infer English word order from this fixed expression.",
+      "register": "Polite everyday greeting.",
+      "translation_note": "Natural English greeting; not a word-for-word subtitle translation.",
+      "dialect_note": "Standard-language example; no dialect claim.",
+      "audio_assets": [],
+      "literal_english": "Are you at peace? (conventional greeting; approximate literal gloss)."
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "e1",
+      "kind": "reading_choice",
+      "prompt": "Which English greeting matches 안녕하세요?",
+      "unit_id": "u1",
+      "options": [
+        "Hello",
+        "Goodbye"
+      ],
+      "correct_option": 0
+    }
+  ],
+  "widgets": [
+    {
+      "type": "teaching_unit",
+      "ref_id": "u1"
+    },
+    {
+      "type": "comparison",
+      "ref_id": "u1"
+    },
+    {
+      "type": "exercise",
+      "ref_id": "e1"
+    },
+    {
+      "type": "audio",
+      "ref_id": "u1"
+    }
+  ]
+}
