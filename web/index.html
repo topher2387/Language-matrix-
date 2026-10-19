@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#1f2a44">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'">
+  <title>Language Matrix - Korean tutor</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="lm-skip" href="#lesson">Skip to lesson</a>
+  <header class="lm-header">
+    <p class="lm-brand">Language Matrix</p>
+    <h1 class="lm-title">English to Korean tutor</h1>
+    <p class="lm-subtitle">Finite widget rendering of a validated, unverified sample lesson. Works offline once cached.</p>
+  </header>
+  <main id="lesson" class="lm-root" aria-live="polite">
+    <p class="lm-loading">Loading lesson...</p>
+  </main>
+  <noscript>
+    <section class="lm-error" role="alert">
+      <h2>JavaScript required</h2>
+      <p>This tutor renders validated lesson JSON with fixed accessible elements, so scripting must be enabled.</p>
+    </section>
+  </noscript>
+  <footer class="lm-footer">
+    <h2>Limitations</h2>
+    <ul>
+      <li>The bundled lesson is an unverified development fixture. It is not independently reviewed Korean content.</li>
+      <li>No audio is available: there is no trusted local asset store, so playback is honestly shown as unavailable.</li>
+      <li>The service worker caches the app shell and lesson for offline reload after the first successful load.</li>
+    </ul>
+  </footer>
+</body>
+</html>
