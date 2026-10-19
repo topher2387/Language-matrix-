@@ -1,0 +1,107 @@
+{
+  "harness_commit": "8fe63dbbca3fe78846d85fec71b8ddb50e4b04e2",
+  "base_commit": "30e4696",
+  "operator_limits_not_provider_claims": true,
+  "status": {
+    "sleep_state": "awake",
+    "sleep_reason": "queued_work",
+    "machine_activity": {
+      "cpu_percent": "",
+      "gpu_percent": "",
+      "gpu_state": "not_sampled",
+      "last_sample_at": "1792432281.9337997"
+    },
+    "mire": {
+      "journal_bytes": 0,
+      "archived_offset": 0,
+      "review_offset": 0,
+      "pending_reviews": 0
+    },
+    "jobs": [
+      {
+        "id": "issue-11-lm-p01",
+        "issue": 11,
+        "phase": "blocked",
+        "revision": 0,
+        "strong_revision": 0,
+        "worktree": "/home/topher/Language-matrix--worker-df35ce1ff52d0b2fdf28",
+        "error": "Model invocation not safely retryable; diagnose timeout"
+      },
+      {
+        "id": "issue-12-lm-p02",
+        "issue": 12,
+        "phase": "pretest",
+        "revision": 0,
+        "strong_revision": 0,
+        "worktree": "/home/topher/Language-matrix--worker-e59f838975ba6e53a7b9",
+        "error": ""
+      },
+      {
+        "id": "issue-13-lm-p03",
+        "issue": 13,
+        "phase": "worker",
+        "revision": 0,
+        "strong_revision": 0,
+        "worktree": "/home/topher/Language-matrix--worker-f17ca141c3b383cc5983",
+        "error": "Waiting for verified free capacity for worker"
+      }
+    ],
+    "cooldowns": [],
+    "capacity_basis": "local estimates; provider observations constrain admission when available",
+    "usage": [
+      {
+        "scope": "opencode-shared",
+        "day": "2026-10-19",
+        "reserved_requests": 32,
+        "estimated_or_observed_tokens": 806197
+      }
+    ],
+    "status_errors": {}
+  },
+  "events": [
+    {
+      "job": "issue-11-lm-p01",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 124,
+      "paid_cost": 0,
+      "steps": 8,
+      "request_ceiling": 16,
+      "timed_out": true,
+      "usage_unknown": true,
+      "group_exited": true,
+      "tokens": 226348,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": true
+    },
+    {
+      "job": "issue-11-lm-p01",
+      "phase": "failure_route",
+      "model": "opencode/deepseek-v4.1-flash-free"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 16,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 579849,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    }
+  ],
+  "issues": {
+    "p01": "https://github.com/topher2387/Language-matrix-/issues/11",
+    "p02": "https://github.com/topher2387/Language-matrix-/issues/12",
+    "p03": "https://github.com/topher2387/Language-matrix-/issues/13"
+  }
+}
