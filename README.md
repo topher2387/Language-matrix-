@@ -1,5 +1,7 @@
 # Language Matrix
-Standalone, local-first Korean language tutor. **Planning and worker packets committed; implementation not started.**
+Standalone, local-first Korean language tutor. **P00 contracts are validated and published for review; P01/P02/P03 worker execution is underway. No usable-product milestone is claimed yet.**
+
+Current execution evidence: [ledger](docs/evidence/execution-ledger.md), [P00 PR #10](https://github.com/topher2387/Language-matrix-/pull/10), and [contracts](docs/contracts/README.md). GPU access works under approved host execution; the restricted sandbox hides GPU devices.
 
 ## Start here (Codex / worker coordinator)
 1. Read [implementation charter](docs/IMPLEMENTATION_PLAN.md) and all [execution packets](https://github.com/topher2387/Language-matrix-/issues).

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "request_id": "request-hello",
+  "capability": "phonology.check",
+  "provider": "local",
+  "input": {
+    "text": "안녕하세요.",
+    "language": "ko"
+  },
+  "policy": {
+    "max_cost_usd": 0,
+    "allow_network": false,
+    "max_attempts": 1,
+    "timeout_seconds": 30
+  },
+  "rationale": "Check the pronunciation explanation before presenting it as reviewed.",
+  "output_schema": "phonology-report.v1",
+  "permissions": [
+    "cache.read",
+    "local.generate"
+  ],
+  "deadline_utc": "2026-10-20T00:00:00Z"
+}

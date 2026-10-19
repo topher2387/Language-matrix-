@@ -1,0 +1,348 @@
+{
+  "harness_commit": "8fe63dbbca3fe78846d85fec71b8ddb50e4b04e2",
+  "operator_limits_not_provider_claims": true,
+  "jobs": [
+    {
+      "issue": 11,
+      "phase": "blocked",
+      "base": "30e469625566fcfcdb51ac22be3030c9e953d1cb",
+      "worktree": "/home/topher/Language-matrix--worker-df35ce1ff52d0b2fdf28",
+      "error": "Model invocation not safely retryable; diagnose timeout"
+    },
+    {
+      "issue": 12,
+      "phase": "completed",
+      "base": "8f588201652ebc30014756d2d4fb6fd052137e20",
+      "worktree": "/home/topher/Language-matrix--worker-e59f838975ba6e53a7b9",
+      "error": ""
+    },
+    {
+      "issue": 13,
+      "phase": "blocked",
+      "base": "d50530dcbc386687f5eb566eb77f03024cbe109e",
+      "worktree": "/home/topher/Language-matrix--worker-f17ca141c3b383cc5983",
+      "error": "No independent verified-free alternate reviewer available"
+    },
+    {
+      "issue": 19,
+      "phase": "completed",
+      "base": "4a50f1e1822c09bf72da689adf0a5eb3f312f18f",
+      "worktree": "/home/topher/Language-matrix--worker-c2803281a30f44619ce2",
+      "error": ""
+    }
+  ],
+  "events": [
+    {
+      "job": "issue-11-lm-p01",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 124,
+      "paid_cost": 0,
+      "steps": 8,
+      "request_ceiling": 16,
+      "timed_out": true,
+      "usage_unknown": true,
+      "group_exited": true,
+      "tokens": 226348,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": true
+    },
+    {
+      "job": "issue-11-lm-p01",
+      "phase": "failure_route",
+      "model": "opencode/deepseek-v4.1-flash-free"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 16,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 579849,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 16,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 624307,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 29071,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "decision",
+      "model": null
+    },
+    {
+      "job": "issue-13-lm-p03",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 16,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 590631,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "pretest",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 19628,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "pretest_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 6,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 52354,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-13-lm-p03",
+      "phase": "pretest",
+      "model": "opencode/big-pickle",
+      "returncode": 1,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 48664,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": true
+    },
+    {
+      "job": "issue-13-lm-p03",
+      "phase": "failure_route",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-13-lm-p03",
+      "phase": "review_transport_failover",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "tests",
+      "model": null,
+      "returncode": 0,
+      "timed_out": false,
+      "group_exited": true,
+      "isolation": "bubblewrap-offline",
+      "test_output": "test_bounded_limits_and_unknown_nested_fields (test_contracts.ContractsTest.test_bounded_limits_and_unknown_nested_fields) ... ok\ntest_lesson_requires_all_four_teaching_surfaces (test_contracts.ContractsTest.test_lesson_requires_all_four_teaching_surfaces) ... ok\ntest_no_implicit_verified_status (test_contracts.ContractsTest.test_no_implicit_verified_status) ... ok\ntest_requests_reject_paid_network_and_execution_controls (test_contracts.ContractsTest.test_requests_reject_paid_network_and_execution_controls) ... ok\ntest_reviewed_status_requires_named_reviewer (test_contracts.ContractsTest.test_reviewed_status_requires_named_reviewer) ... ok\ntest_samples_validate (test_contracts.ContractsTest.test_samples_validate) ... ok\ntest_unknown_widget_and_generated_code_rejected (test_contracts.ContractsTest.test_unknown_widget_and_generated_code_rejected) ... ok\ntest_contract_sample_remains_valid_and_unverified (test_lessons.LessonEngineTest.test_contract_sample_remains_valid_and_unverified) ... ok\ntest_default_generation_is_deterministic_and_defensive (test_lessons.LessonEngineTest.test_default_generation_is_deterministic_and_defensive) ... ok\ntest_duplicate_unit_and_exercise_ids_fail (test_lessons.LessonEngineTest.test_duplicate_unit_and_exercise_ids_fail) ... ok\ntest_exercise_references_and_answer_bounds_fail (test_lessons.LessonEngineTest.test_exercise_references_and_answer_bounds_fail) ... ok\ntest_fixture_coverage_and_offline_defaults (test_lessons.LessonEngineTest.test_fixture_coverage_and_offline_defaults) ... ok\ntest_listening_can_use_trusted_local_audio_metadata (test_lessons.LessonEngineTest.test_listening_can_use_trusted_local_audio_metadata) ... ok\ntest_listening_requires_audio_and_trusted_availability (test_lessons.LessonEngineTest.test_listening_requires_audio_and_trusted_availability) ... ok\ntest_provider_cannot_bypass_listening_or_review_checks (test_lessons.LessonEngineTest.test_provider_cannot_bypass_listening_or_review_checks) ... ok\ntest_provider_results_are_validated (test_lessons.LessonEngineTest.test_provider_results_are_validated) ... ok\ntest_reviewed_and_verified_claims_need_trusted_provenance (test_lessons.LessonEngineTest.test_reviewed_and_verified_claims_need_trusted_provenance) ... ok\ntest_structure_and_unknown_fields_fail (test_lessons.LessonEngineTest.test_structure_and_unknown_fields_fail) ... ok\ntest_unverified_content_and_plain_strings_are_preserved (test_lessons.LessonEngineTest.test_unverified_content_and_plain_strings_are_preserved) ... ok\ntest_widget_references_must_match_type (test_lessons.LessonEngineTest.test_widget_references_must_match_type) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 0.196s\n\nOK\n"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 25836,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "decision",
+      "model": null
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "final",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 35342,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "final_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "worker",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 13,
+      "request_ceiling": 16,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 298084,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-19-lm-p01-compact",
+      "phase": "published",
+      "model": null,
+      "pull_request": "https://github.com/topher2387/Language-matrix-/pull/20",
+      "url": "https://github.com/topher2387/Language-matrix-/issues/19#issuecomment-6274144566",
+      "branch": "harness/issue-19-lm-p01-compact"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 28808,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "pretest_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "tests",
+      "model": null,
+      "returncode": 0,
+      "timed_out": false,
+      "group_exited": true,
+      "isolation": "bubblewrap-offline",
+      "test_output": "test_bounded_limits_and_unknown_nested_fields (test_contracts.ContractsTest.test_bounded_limits_and_unknown_nested_fields) ... ok\ntest_lesson_requires_all_four_teaching_surfaces (test_contracts.ContractsTest.test_lesson_requires_all_four_teaching_surfaces) ... ok\ntest_no_implicit_verified_status (test_contracts.ContractsTest.test_no_implicit_verified_status) ... ok\ntest_requests_reject_paid_network_and_execution_controls (test_contracts.ContractsTest.test_requests_reject_paid_network_and_execution_controls) ... ok\ntest_reviewed_status_requires_named_reviewer (test_contracts.ContractsTest.test_reviewed_status_requires_named_reviewer) ... ok\ntest_samples_validate (test_contracts.ContractsTest.test_samples_validate) ... ok\ntest_unknown_widget_and_generated_code_rejected (test_contracts.ContractsTest.test_unknown_widget_and_generated_code_rejected) ... ok\ntest_app_js_uses_text_content_and_no_network_or_html_sinks (test_web.WebAssetsTest.test_app_js_uses_text_content_and_no_network_or_html_sinks) ... ok\ntest_bundled_lesson_is_honestly_unverified (test_web.WebAssetsTest.test_bundled_lesson_is_honestly_unverified) ... ok\ntest_bundled_lesson_matches_p00_schema (test_web.WebAssetsTest.test_bundled_lesson_matches_p00_schema) ... ok\ntest_bundled_lesson_renders_all_registered_widget_types (test_web.WebAssetsTest.test_bundled_lesson_renders_all_registered_widget_types) ... ok\ntest_index_references_local_assets_and_csp (test_web.WebAssetsTest.test_index_references_local_assets_and_csp) ... ok\ntest_listening_lookup_guards_malformed_units (test_web.WebAssetsTest.test_listening_lookup_guards_malformed_units) ... ok\ntest_manifest_is_local_and_complete (test_web.WebAssetsTest.test_manifest_is_local_and_complete) ... ok\ntest_no_web_asset_references_network_urls (test_web.WebAssetsTest.test_no_web_asset_references_network_urls) ... ok\ntest_optional_node_browser_smoke (test_web.WebAssetsTest.test_optional_node_browser_smoke) ... ok\ntest_owned_assets_exist (test_web.WebAssetsTest.test_owned_assets_exist) ... ok\ntest_service_worker_precaches_lesson_and_shell (test_web.WebAssetsTest.test_service_worker_precaches_lesson_and_shell) ... ok\n\n----------------------------------------------------------------------\nRan 18 tests in 0.186s\n\nOK\n"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "final",
+      "model": "opencode/big-pickle",
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 1,
+      "request_ceiling": 2,
+      "timed_out": false,
+      "usage_unknown": false,
+      "group_exited": true,
+      "tokens": 30409,
+      "isolation": "bubblewrap-selected-source-provider-network",
+      "provider_error": false,
+      "rate_limited": false,
+      "transport_error": false
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "final_findings",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "job": "issue-12-lm-p02",
+      "phase": "published",
+      "model": null,
+      "pull_request": "https://github.com/topher2387/Language-matrix-/pull/21",
+      "url": "https://github.com/topher2387/Language-matrix-/issues/12#issuecomment-6274433940",
+      "branch": "harness/issue-12-lm-p02"
+    }
+  ]
+}

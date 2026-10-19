@@ -1,0 +1,18 @@
+{
+  "returncode": 124,
+  "steps": 8,
+  "paid_cost": 0,
+  "timed_out": true,
+  "usage_unknown": true,
+  "group_exited": true,
+  "request_ceiling": 16,
+  "tokens": 226348,
+  "isolation": "bubblewrap-selected-source-provider-network",
+  "packet": "P01",
+  "worker_issue": 11,
+  "job_state": "blocked",
+  "accepted_implementation": false,
+  "partial_outputs_copied_back": false,
+  "diagnosis": "Authenticated free worker executed 8 completed steps and began another; 240-second process timeout interrupted generation. Its completed write transcript contained a 900-line hand-coded validator; a compact successor should reuse installed jsonschema, with an adequate bounded runtime. No original job replay or quota release is authorized.",
+  "billing_evidence_note": "Completed events report zero cost, but timeout means final usage is unknown. Preserve the full conservative reservation; do not represent this as a complete zero-cost usage receipt."
+}
