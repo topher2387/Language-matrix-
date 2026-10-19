@@ -1,0 +1,17 @@
+[Unit]
+Description=Language Matrix shared OpenCode server
+Requires=language-matrix-ollama.service
+After=language-matrix-ollama.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/topher/Language-matrix-qwen-fixture-cli
+ExecStart=/home/topher/Language-matrix-coder/start-opencode.sh
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal

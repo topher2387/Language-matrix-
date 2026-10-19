@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euo pipefail
+systemctl --user start language-matrix-opencode.service
+curl --fail --silent --show-error --max-time 5 http://127.0.0.1:4097/global/health >/dev/null
 export XDG_CONFIG_HOME=/home/topher/Language-matrix-coder/config
 export XDG_DATA_HOME=/home/topher/Language-matrix-coder/data
 export XDG_STATE_HOME=/home/topher/Language-matrix-coder/state

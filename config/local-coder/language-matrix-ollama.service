@@ -1,0 +1,15 @@
+[Unit]
+Description=Language Matrix local Ollama runtime
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/topher/Language-matrix-coder
+ExecStart=/home/topher/Language-matrix-coder/start-ollama.sh
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal
