@@ -50,10 +50,10 @@ def _request(value):
 
 def _select_fixture(lessons, request):
     if "index" in request:
-        try:
-            index = int(request["index"])
-        except (TypeError, ValueError) as exc:
-            raise ValueError("index must be an integer") from exc
+        index = request["index"]
+        # Ensure index is an actual integer, not bool, float or numeric string
+        if not isinstance(index, int) or isinstance(index, bool):
+            raise ValueError("index must be an integer")
         if not 0 <= index < len(lessons):
             raise ValueError("index is outside the fixture lesson range")
         return lessons[index]
@@ -78,6 +78,12 @@ def _reviewers(value):
         return set()
     if isinstance(value, str):
         value = [value]
+    if not isinstance(value, (list, tuple, set, frozenset)):
+        raise ValueError("trusted_reviewers must be a string, list, tuple, or set")
+    # Validate that all items are strings
+    for item in value:
+        if not isinstance(item, str):
+            raise ValueError("trusted_reviewers must contain only strings")
     return {str(item).strip() for item in value if str(item).strip()}
 
 
@@ -100,6 +106,9 @@ def _audio_is_available(asset_id, metadata):
         if isinstance(value, Mapping):
             return value.get("available") is True
         return value is True
+    # For strings/bytes, fail closed - treat as no available audio (substring matching is forbidden)
+    if isinstance(metadata, (str, bytes)):
+        return False
     try:
         return asset_id in metadata
     except TypeError:
@@ -183,11 +192,15 @@ def validate_lesson(data, trusted_reviewers=(), *, available_audio=None):
     return copy.deepcopy(dict(data))
 
 
-def generate_lesson(input=None, provider=None):
+def generate_lesson(input=None, provider=None, *, trusted_reviewers=(), available_audio=None):
     """Generate and validate a lesson from fixtures or an injected provider."""
     request = _request(input)
-    trusted = request.get("trusted_reviewers", ())
-    available_audio = request.get("available_audio")
+    # Reject selector keys that would set trust authority - fail closed
+    if "trusted_reviewers" in request:
+        raise ValueError("trusted_reviewers must be passed as a keyword argument, not in selector object")
+    if "available_audio" in request:
+        raise ValueError("available_audio must be passed as a keyword argument, not in selector object")
+    
     if provider is not None:
         try:
             data = provider(input)
@@ -202,4 +215,4 @@ def generate_lesson(input=None, provider=None):
                 raise ValueError("provider returned invalid JSON") from exc
     else:
         data = _select_fixture(_fixtures(), request)
-    return validate_lesson(data, trusted, available_audio=available_audio)
+    return validate_lesson(data, trusted_reviewers, available_audio=available_audio)

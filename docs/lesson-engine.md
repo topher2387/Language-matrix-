@@ -2,10 +2,10 @@
 
 `language_matrix.lessons` provides two provider-neutral functions:
 
-- `generate_lesson(input=None, provider=None)` returns a validated `lesson-v1` dictionary.
+- `generate_lesson(input=None, provider=None, *, trusted_reviewers=(), available_audio=None)` returns a validated `lesson-v1` dictionary.
 - `validate_lesson(data, trusted_reviewers=(), *, available_audio=None)` returns a defensive copy or raises `ValueError`.
 
-Without a provider, generation selects deterministically from `fixtures/lessons.json` and works offline. `input` may be a fixture `lesson_id`, a topic/case string, an integer index, or a selector object containing `lesson_id`, `case`, `topic`, `subject`, `index`, optional `trusted_reviewers`, and optional `available_audio`. An unknown selector falls back to the first fixture. A provider is called with the original input and may return a dictionary or JSON text; its output still goes through the same structural and semantic validation.
+Without a provider, generation selects deterministically from `fixtures/lessons.json` and works offline. `input` may be a fixture `lesson_id`, a topic/case string, an integer index, or a selector object containing `lesson_id`, `case`, `topic`, `subject`, `index`. An unknown selector falls back to the first fixture. A provider is called with the original input and may return a dictionary or JSON text; its output still goes through the same structural and semantic validation.
 
 ## Validation
 
@@ -21,6 +21,10 @@ Structure is checked with the installed `jsonschema` draft 2020-12 validator fro
 Audio availability is never inferred from a reference alone. Callers may pass `available_audio` as a collection of asset IDs, a mapping from asset ID to `True`/metadata with `"available": true`, or a predicate. If omitted, only audio with trusted reviewed/verified metadata is treated as available.
 
 Plain lesson strings are preserved exactly and remain inert text; no HTML escaping or rendering is performed here. Unverified content is not upgraded by validation. The functions and fixtures are language-only data APIs with no view-model or renderer.
+
+## Trust Authority
+
+Trust authority (`trusted_reviewers` and `available_audio`) must be passed explicitly as keyword arguments, not from selector objects. Selector objects may contain `lesson_id`, `case`, `topic`, `subject`, `index`, but not trust-related keys.
 
 ## Fixtures and acceptance status
 

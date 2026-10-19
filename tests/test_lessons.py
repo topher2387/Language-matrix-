@@ -118,6 +118,33 @@ class LessonEngineTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "trusted reviewer"):
             validate_lesson(lesson, trusted_reviewers=("someone-else",))
 
+    def test_audio_availability_rejects_string_substring_matches(self):
+        for metadata in ('xx-a1-xx', b'a1', 123):
+            with self.subTest(metadata=metadata), self.assertRaisesRegex(ValueError, 'no available audio'):
+                validate_lesson(self.listening(), available_audio=metadata)
+        validate_lesson(self.listening(), available_audio=lambda asset_id: asset_id == 'a1')
+        with self.assertRaisesRegex(ValueError, 'no available audio'):
+            validate_lesson(self.listening(), available_audio=lambda asset_id: False)
+
+    def test_generation_trust_is_separate_from_selector_input(self):
+        reviewed = self.lesson()
+        reviewed['verification'].update(status='verified', reviewer='mallory')
+        for request in ({'trusted_reviewers': ['mallory']}, {'available_audio': {'a1': True}}):
+            with self.subTest(request=request), self.assertRaises(ValueError):
+                generate_lesson(request, provider=lambda _: reviewed)
+        result = generate_lesson({}, provider=lambda _: reviewed, trusted_reviewers=['mallory'])
+        self.assertEqual('verified', result['verification']['status'])
+        validate_lesson(generate_lesson({}, provider=lambda _: self.listening(), available_audio={'a1': True}),
+                        available_audio={'a1': True})
+
+    def test_trust_and_index_inputs_fail_with_value_error(self):
+        for reviewers in (123, {'reviewer': 'rev'}, [123]):
+            with self.subTest(reviewers=reviewers), self.assertRaises(ValueError):
+                validate_lesson(self.lesson(), trusted_reviewers=reviewers)
+        for index in (1.9, True, '1'):
+            with self.subTest(index=index), self.assertRaisesRegex(ValueError, 'index must be an integer'):
+                generate_lesson({'index': index})
+
     def test_reviewed_and_verified_claims_need_trusted_provenance(self):
         lesson = self.lesson()
         lesson["verification"].update(status="reviewed", reviewer="rev")
