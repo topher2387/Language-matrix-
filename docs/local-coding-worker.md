@@ -13,7 +13,7 @@ These are workstation settings for `/home/topher`. Weights, credentials, generat
 
 ## Hardware and launch
 
-Observed host: RTX 3060 Ti 8 GB, 46 GiB usable RAM. Start conservatively with 32768 context tokens, 10 GPU layers, CPU RAM for remaining layers, batch 128, eight CPU threads, quantized KV cache, one parallel request and one loaded Ollama model. The unrelated existing RWKV server is preserved. Kanana's server was unloaded to free memory; its weights and restart script remain intact. Avoid loading both large models concurrently on this GPU.
+Observed host: RTX 3060 Ti 8 GB, 46 GiB usable RAM. Start conservatively with 32768 context tokens, all attention layers and KV cache on GPU, CPU RAM for MoE expert weights, batch 128, eight CPU threads, quantized KV cache, one parallel request and one loaded Ollama model. The dedicated Ollama service exports `LLAMA_ARG_CPU_MOE=1` and the model alias sets `num_gpu 99` (all layers eligible; expert tensors remain CPU). The unrelated existing RWKV server is preserved. Kanana's server was unloaded to free memory; its weights and restart script remain intact. Avoid loading both large models concurrently on this GPU.
 
 Installed workstation copies live under `/home/topher/Language-matrix-coder`:
 
@@ -53,3 +53,11 @@ The local connection failure was reproduced: neither Ollama (11434) nor OpenCode
 Installed dedicated user units `language-matrix-ollama.service` and `language-matrix-opencode.service` from this directory. They are started manually, not enabled at login/boot, and restart on failure with a bounded start-rate limit. They modify no existing Forge or Lichen service. Service logs are available with `journalctl --user -u language-matrix-opencode -u language-matrix-ollama`. The OpenCode unit requires the Ollama unit. `open-coder.sh` now starts the dedicated services and checks health before attaching, preventing silent attachment to a missing server. Do not also launch standalone serve scripts while these units are active.
 
 Observed recovery: both services active with zero restarts, OpenCode health healthy, abort accepted in 0.86 seconds and session idle, then a new prompt returned `RECOVERY_OK` in about 61 seconds including prompt processing. The terminal was reopened on the original assignment session. The unfinished coding job is paused; its generated CLI and full session history were preserved. No test/commit/PR claim is made for that partial implementation. `check-recovery.py` reproduces the no-code-change prompt/abort/response check in a separate test session. Tools and GitHub permissions remain enabled.
+
+## Long-context performance correction
+
+Whole-layer offload left most attention and KV cache on CPU. An actual coding turn at 16119 total context tokens evaluated 2725 new prompt tokens at 80.41 tokens/sec and generated 63 tokens at 1.17 tokens/sec. The model process had no swapped memory.
+
+The installed Ollama 0.30.7 backend documents `LLAMA_ARG_CPU_MOE` and inherits the parent environment ([upstream runner source](https://github.com/ollama/ollama/blob/v0.30.7/llm/llama_server.go)). The dedicated service now exports this flag; `num_gpu 99` puts all 49 layers eligible on GPU while expert FFN weights are overridden to CPU. Logs verify 784 MiB GPU model buffers, 1632 MiB GPU KV cache and CPU expert tensors. Context remains 32768 and all tools remain enabled. Ollama model size/processor percentages do not describe CPU expert placement accurately with tensor overrides; use actual backend buffer logs.
+
+Observed after-change probe: 16035 prompt tokens processed in 81.77 seconds (about 196 tokens/sec), followed by 96 generated tokens at 14.16 tokens/sec; short generation 16.40 tokens/sec. The earlier coding turn and synthetic probe use different text, so this is comparable-context operational evidence, not a controlled identical-prompt speedup. A large uncached prompt still delays first output; prefix cache reuse helps subsequent turns. No model weight, quantization, tutor, existing RWKV service, quota or Lichen file changed.

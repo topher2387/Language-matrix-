@@ -8,4 +8,5 @@ export OLLAMA_NUM_PARALLEL=1
 export OLLAMA_MAX_LOADED_MODELS=1
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE=q8_0
+export LLAMA_ARG_CPU_MOE=1
 exec /usr/local/bin/ollama serve
