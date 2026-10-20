@@ -1,0 +1,37 @@
+{
+  "model": "opencode/mimo-v2.6-flash-free",
+  "paid_cost": 0,
+  "steps": 1,
+  "usage_unknown": false,
+  "review": {
+    "verdict": "request_changes",
+    "findings": [
+      {
+        "severity": "medium",
+        "location": "language_matrix/capabilities.py:_check_schema_refs",
+        "issue": "The recursive walk treats every dict '$ref' key as a reference, without distinguishing schema positions from map-key or data positions. Keys of schema-map keywords (properties, $defs, definitions, patternProperties, dependentSchemas) named '$ref' with object values are rejected as 'non-string reference', and '$ref' keys embedded in annotation/data keywords (const, default, enum, examples, $comment-adjacent payloads) are rejected unless they start with '#'. This over-rejection risks breaking 'preserve existing contracts' for any shipped capability schema that uses '$ref' as a property/definition name or embeds a $ref example as data (plausible in a language-matrix corpus of JSON-Schema examples).",
+        "recommendation": "Restrict the check to actual schema positions: skip the '$ref' test (but still recurse) when the parent key is a schema-map or annotation keyword, or only flag '$ref' when its value's context is unambiguously a schema."
+      },
+      {
+        "severity": "medium",
+        "location": "language_matrix/capabilities.py:_check_schema_refs (offline boundary coverage)",
+        "issue": "Only '$ref' is guarded. Other reference-resolving keywords pass through: '$dynamicRef' may hold an absolute URI (external resolution not rejected at load), and an absolute-URI '$id' re-bases fragment-only '$ref's onto an external base \u2014 under legacy jsonschema RefResolver semantics a root '$id' of https://... plus '$ref':'#/...' can trigger remote resolution, whereas modern referencing-registry jsonschema resolves it in-document. '$recursiveRef' would be relevant if any 2019-09 schemas are loaded through this same loader (validator is Draft202012, so this is secondary). The offline guarantee therefore depends partly on the jsonschema version/registry behavior, which is not established by the evidence.",
+        "recommendation": "Also reject absolute-URI '$id' and '$dynamicRef' (or explicitly document that offline safety rests on jsonschema's registry having no network source)."
+      },
+      {
+        "severity": "low",
+        "location": "CONTROLLER QA: test_external_and_nonstring_references_rejected_before_validator",
+        "issue": "validator.assert_not_called() is vacuous: the exercised path calls only c._load_schema, which never constructs a validator regardless of the guard, so the patch cannot observe ordering. The 'rejected before constructing validator' claim is inferred from code structure, not demonstrated end-to-end through the real entrypoint (e.g. _get_validator() with a poisoned schema). There is also no regression test asserting that the existing on-disk schema corpus still loads, so backwards compatibility of the stricter loader is unverified, and no test of the false-positive contexts in finding 1.",
+        "recommendation": "Drive the negative case through the production getter with Draft202012Validator patched, and add a corpus test loading every shipped schema plus a positive/negative pair for property-named '$ref'."
+      },
+      {
+        "severity": "low",
+        "location": "language_matrix/capabilities.py:_load_schema / _check_schema_refs",
+        "issue": "(a) New ValueError failure mode added to a loader that previously raised only FileNotFoundError/JSONDecodeError; callers with narrow exception handling may not map it to their expected contract. (b) '$ref': '' is rejected although an empty URI-reference resolves locally per RFC 3986 \u2014 stricter than 'allow fragments', though it matches the supplied test. (c) The http/https and '/','./','../' branches are subsumed by the final 'not startswith('#')' branch (any non-'#' ref is rejected anyway); they only improve messages, which is harmless but makes the intended rule ('must be a fragment') implicit.",
+        "recommendation": "Document ValueError as part of the loader contract and state the effective rule ('$ref must start with #') explicitly in a comment; keep '' rejection only if no shipped schema relies on it."
+      }
+    ],
+    "summary": "The guard correctly implements the core assignment: any '$ref' not starting with '#' (URLs, file/relative paths, empty, non-string) is rejected inside _load_schema, before any Draft202012Validator is built, and local fragments ('#/$defs/...') pass through and validate real instances, with the controller's 141 offline tests green. It is not fully approvable because the traversal conflates schema positions with property/data positions (false-positive rejections that threaten existing contracts), the offline boundary is only closed for '$ref' while '$dynamicRef' and '$id' re-basing remain unguarded (impact bounded by jsonschema version), and the test evidence does not demonstrate load-before-validator ordering end-to-end nor regression over the existing schema corpus. Remaining uncertainty: whether any shipped capability schema actually contains property- or data-level '$ref' keys, and which jsonschema resolution implementation is in use \u2014 both were unverifiable without repository/tool access."
+  },
+  "controller_triage": "Accept schema-position false positives, missing dynamicRef guard and entrypoint ordering QA gaps. Do not reject all absolute $id without proof: current schema IDs can be legitimate; reviewer version-dependent rebasing claim requires isolated reproduction. No code approval."
+}

@@ -496,7 +496,92 @@ def _load_schema(schema_file: str) -> Dict[str, Any]:
     schema_path = SCHEMA_ROOT / schema_file
     if not schema_path.exists():
         raise FileNotFoundError(f"Schema file {schema_file} not found")
-    return json.loads(schema_path.read_text())
+
+    # Load the raw schema content first
+    raw_schema = json.loads(schema_path.read_text())
+
+    # Recursively walk through the schema to check for external references
+    _check_schema_refs(raw_schema)
+
+    return raw_schema
+
+
+def _check_schema_refs(obj: Any, path: str = "$") -> None:
+    """Recursively check schema for external $ref references and reject them."""
+    if isinstance(obj, dict):
+        # Check for $ref key (only in schema objects)
+        if '$ref' in obj:
+            ref_value = obj['$ref']
+            if not isinstance(ref_value, str):
+                raise ValueError(f"Invalid $ref value at {path}: non-string reference")
+            # Check if it's an external reference (URL, file path, or relative path)
+            if ref_value.startswith(('http://', 'https://')):
+                raise ValueError(f"External URL $ref not allowed at {path}: {ref_value}")
+            elif ref_value.startswith(('/', './', '../')):
+                raise ValueError(f"External file/relative $ref not allowed at {path}: {ref_value}")
+            elif not ref_value.startswith('#'):
+                # If it doesn't start with #, it's likely an external reference
+                raise ValueError(f"External $ref not allowed at {path}: {ref_value}")
+
+        if '$dynamicRef' in obj:
+            dynamic_ref_value = obj['$dynamicRef']
+            if not isinstance(dynamic_ref_value, str):
+                raise ValueError(f"Invalid $dynamicRef value at {path}: non-string reference")
+            # Check if it's an external reference (URL, file path, or relative path)
+            if dynamic_ref_value.startswith(('http://', 'https://')):
+                raise ValueError(f"External URL $dynamicRef not allowed at {path}: {dynamic_ref_value}")
+            elif dynamic_ref_value.startswith(('/', './', '../')):
+                raise ValueError(f"External file/relative $dynamicRef not allowed at {path}: {dynamic_ref_value}")
+            elif not dynamic_ref_value.startswith('#'):
+                # If it doesn't start with #, it's likely an external reference
+                raise ValueError(f"External $dynamicRef not allowed at {path}: {dynamic_ref_value}")
+
+        # Schema keywords that should be traversed as schemas (not as containers)
+        schema_map_keywords = {
+            'properties', '$defs', 'definitions', 'patternProperties',
+            'dependentSchemas'
+        }
+
+        schema_array_keywords = {
+            'allOf', 'anyOf', 'oneOf', 'prefixItems'
+        }
+
+        schema_single_keywords = {
+            'items', 'additionalProperties', 'unevaluatedProperties', 'unevaluatedItems',
+            'contains', 'propertyNames', 'not', 'if', 'then', 'else', 'additionalItems',
+            'contentSchema'
+        }
+
+        # For each key in the object, determine how to traverse it
+        for key, value in obj.items():
+            if key in schema_map_keywords:
+                # These are map keywords that should be traversed as schemas (values are schemas)
+                if isinstance(value, dict):
+                    for map_key, map_value in value.items():
+                        _check_schema_refs(map_value, f"{path}/{key}/{map_key}")
+            elif key in schema_array_keywords:
+                # These are array keywords that should be traversed as schemas (items are schemas)
+                if isinstance(value, list):
+                    for i, item in enumerate(value):
+                        _check_schema_refs(item, f"{path}/{key}[{i}]")
+            elif key in schema_single_keywords:
+                # These are single-value keywords that should be traversed as schemas
+                _check_schema_refs(value, f"{path}/{key}")
+            # Skip annotation/data payload keywords that should not be traversed as schemas
+            elif key in {'const', 'enum', 'default', 'examples', 'title', 'description',
+                       'deprecated', 'readOnly', 'writeOnly', 'contentMediaType',
+                       'contentEncoding', 'format', 'discriminator', 'id', '$id', 'anchor'}:
+                # These are annotation/data payload keywords, not schema objects - do nothing
+                continue
+            else:
+                # For unknown keywords, we don't traverse them as schemas
+                # This prevents false positives like literal $ref in property names
+                pass
+
+    elif isinstance(obj, list):
+        # Recursively check list items
+        for i, item in enumerate(obj):
+            _check_schema_refs(item, f"{path}[{i}]")
 
 def _get_validator() -> Draft202012Validator:
     """Get or create the capability request validator."""

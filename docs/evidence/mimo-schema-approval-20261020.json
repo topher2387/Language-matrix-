@@ -1,0 +1,19 @@
+{
+  "model": "opencode/mimo-v2.6-flash-free",
+  "review": {
+    "verdict": "approve",
+    "findings": [],
+    "summary": "The diff hardens _load_schema with a schema-position-aware walk that rejects non-string and external (http/https, file-style, relative, and any non-'#'-prefixed) $ref/$dynamicRef values before Draft202012Validator construction, while allowing '#'-fragment refs; the final not-startswith('#') clause makes the offline boundary effectively fragment-only, with the scheme/path branches improving error messages. Prior concrete findings are addressed: traversal descends only through real schema positions (properties/$defs/definitions/patternProperties/dependentSchemas maps; allOf/anyOf/oneOf/prefixItems arrays; items/additional*/unevaluated*/contains/propertyNames/not/if/then/else/contentSchema singles), so property names like '$ref' and data payloads under const/enum/default/examples/title/description/discriminator/$id/anchor are preserved byte-for-byte, unknown keywords are skipped per the stated scope, and $id is left unchanged because fragment-only refs cannot trigger retrieval against an absolute base. Controller QA evidences getter ordering (ValueError raised with Draft202012Validator.assert_not_called), live instance validation via local $ref, literal/property-name preservation, and shipped-corpus loading. Under Draft202012Validator the only resolving keywords are $ref and $dynamicRef, both guarded; $recursiveRef is uninterpreted in 2020-12 and therefore not an offline risk. Residual uncertainty: the full suite was still running at review time (only the focused controller pass plus its shipped-corpus subtest are evidenced), empty-string $ref is rejected although RFC 3986 treats it as same-document (conservative and codified by the tests), and negative-test coverage is thin for some map/array keywords though the traversal logic is symmetric; these are non-blocking and no blanket $id or vocabulary changes are warranted without a reproducible fetch."
+  },
+  "paid_cost": 0,
+  "steps": 1,
+  "usage_unknown": false,
+  "controller_verification": {
+    "tests": 145,
+    "exit_code": 0,
+    "isolation": "offline bubblewrap selected-source snapshot",
+    "report": "refs-full-0743-tests.json"
+  },
+  "authorship": "Qwen production guard; controller package-import/assertion corrections, independent QA restoration/extension, whitespace normalization and quota wording correction",
+  "scope": "fragment-only references in known Draft202012 schema positions; no schemas activated; no full P03 approval"
+}
