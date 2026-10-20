@@ -1,34 +1,21 @@
-"""
-Test for the integration example showing how the bounded capability runtime 
-would be used in P01/P02 work.
-"""
-
+"""Validation previews must not claim reserved capabilities executed."""
 import unittest
 from integration_example import example_worker_integration, example_batch_processing
 
 class IntegrationTest(unittest.TestCase):
-    
-    def test_single_capability_execution(self):
-        """Test that a single capability can be executed through the runtime."""
+    def test_single_capability_is_explicitly_blocked(self):
         result = example_worker_integration()
-        
-        # Verify the result has expected structure
-        self.assertIn('output_schema', result)
-        self.assertIn('request_id', result)
-        self.assertIn('capability', result)
-        self.assertIsNotNone(result.get('result'))
-        
-    def test_batch_processing(self):
-        """Test that batch processing works correctly."""
-        results = example_batch_processing()
-        
-        # Should have processed 2 requests
-        self.assertEqual(len(results), 2)
-        
-        # Both should have valid output schemas
-        for result in results:
-            self.assertIn('output_schema', result)
-            self.assertIsNotNone(result.get('result'))
+        self.assertEqual(result['status'], 'blocked')
+        self.assertFalse(result['executed'])
+        self.assertTrue(any('schema file not found' in e for e in result['errors']))
+        self.assertNotIn('result', result)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_batch_preserves_refusal_for_each_reserved_contract(self):
+        results = example_batch_processing()
+        self.assertEqual(len(results), 2)
+        self.assertEqual([r['capability'] for r in results], ['phonology.check', 'tts.synthesize'])
+        for result in results:
+            self.assertEqual(result['status'], 'blocked')
+            self.assertFalse(result['executed'])
+            self.assertTrue(result['errors'])
+            self.assertNotIn('result', result)
