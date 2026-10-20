@@ -1,0 +1,128 @@
+{
+  "label": "cache2048",
+  "results": {
+    "coding": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "```python\ndef merge_ranges(ranges):\n    if not ranges:\n        return []\n    \n    # Validate and sort ranges by start\n    validated_ranges = []\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(f\"Invalid range: ({start}, {end}) - start > end\")\n        validated_ranges.append((start, end))\n    \n    validated_ranges.sort()\n    \n    # Merge overlapping or adjacent intervals\n    merged = []\n    current_start, current_end = validated_ranges[0]\n    \n    for start, end in validated_ranges[1:]:\n        if start <= current_end + 1:  # Overlapping or adjacent\n            current_end = max(current_end, end)\n        else:\n            merged.append((current_start, current_end))\n            current_start, current_end = start, end\n    \n    merged.append((current_start, current_end))\n    return merged\n```"
+          }
+        }
+      ],
+      "created": 1792516459,
+      "model": "qwen3-coder-next-cache:64k",
+      "system_fingerprint": "b1-4a45de4",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 184,
+        "prompt_tokens": 57,
+        "total_tokens": 241,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "id": "chatcmpl-A55OFnIKI2j0y95S3GA40fL0wAzCjubk",
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 57,
+        "prompt_ms": 1153.696,
+        "prompt_per_token_ms": 20.240280701754383,
+        "prompt_per_second": 49.40642942334896,
+        "predicted_n": 184,
+        "predicted_ms": 7080.626,
+        "predicted_per_token_ms": 38.69194535519126,
+        "predicted_per_second": 25.845172446617006
+      },
+      "wall_seconds": 8.238
+    },
+    "tool_call": {
+      "choices": [
+        {
+          "finish_reason": "tool_calls",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "add",
+                  "arguments": "{\"a\":17,\"b\":25}"
+                },
+                "id": "ExMdDRE7NNowyqMpaclvYhfJzh7JnEJz"
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1792516465,
+      "model": "qwen3-coder-next-cache:64k",
+      "system_fingerprint": "b1-4a45de4",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 31,
+        "prompt_tokens": 313,
+        "total_tokens": 344,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "id": "chatcmpl-n6BEVXIXNtj3toK8sjIQlvVAflEBcAeN",
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 313,
+        "prompt_ms": 3887.75,
+        "prompt_per_token_ms": 12.420926517571885,
+        "prompt_per_second": 80.50929200694489,
+        "predicted_n": 31,
+        "predicted_ms": 1128.774,
+        "predicted_per_token_ms": 37.6258,
+        "predicted_per_second": 26.577507986541153
+      },
+      "wall_seconds": 5.083
+    },
+    "tool_result": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "The result of adding 17 and 25 is 42."
+          }
+        }
+      ],
+      "created": 1792516466,
+      "model": "qwen3-coder-next-cache:64k",
+      "system_fingerprint": "b1-4a45de4",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 17,
+        "prompt_tokens": 359,
+        "total_tokens": 376,
+        "prompt_tokens_details": {
+          "cached_tokens": 343
+        }
+      },
+      "id": "chatcmpl-g5N9XxUDXyRUUJfqbZ2xC7PDTpM09QgA",
+      "timings": {
+        "cache_n": 343,
+        "prompt_n": 16,
+        "prompt_ms": 446.969,
+        "prompt_per_token_ms": 27.9355625,
+        "prompt_per_second": 35.796665988021545,
+        "predicted_n": 17,
+        "predicted_ms": 691.887,
+        "predicted_per_token_ms": 43.2429375,
+        "predicted_per_second": 23.125163502132576
+      },
+      "wall_seconds": 1.143
+    }
+  },
+  "coding_pass": true,
+  "tool_pass": true
+}
