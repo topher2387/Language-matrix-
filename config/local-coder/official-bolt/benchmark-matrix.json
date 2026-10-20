@@ -58,5 +58,10 @@
     "resource_sample_interval_seconds": 2,
     "first_trial_requires_fresh_model_process": true,
     "os_page_cache_flushing": false
+  },
+  "followup_tuning": {
+    "requested": "Use observed spare VRAM after retaining original four-case measurements",
+    "approach": "Compare larger expert cache and/or GPU drafter placement as separately labelled follow-ups, using measured peaks and display headroom. Never change an active measured trial.",
+    "baseline_observation": "About1.8GiBfree during no-cache108Kprefill; first and2warm full-prefill runs ~112tokens/s;16-token answers ~19tokens/s."
   }
 }

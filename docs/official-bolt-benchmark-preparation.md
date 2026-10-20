@@ -124,3 +124,11 @@ MemorySwapMax1G and core dumps disabled to protect desktop/OS headroom after the
 prior reported crash. Limits are identical across all configurations. This may
 constrain actual model performance and is part of the recorded benchmark setup.
 No Codex heartbeat/polling automation is enabled. No P04 resumes automatically.
+
+Live monitor now separates current input-processing speed from output-generation
+speed and persists the last completed answer's output tokens/seconds/tokens-per-sec.
+Short marker answers can finish in under1second, so raw scrolling logs hid them.
+User noted spare VRAM; preserve all original four configurations, then consider
+separately-labelled larger expert-cache/GPU-drafter placement tests from measured
+peak headroom. Do not adjust placement mid-trial or conflate tuned results with
+the fixed baseline matrix.
