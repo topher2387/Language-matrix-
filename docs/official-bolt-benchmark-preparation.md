@@ -85,3 +85,27 @@ later fallback as a separate configuration. No125Kfit/speed result exists yet.
 Configuration verification: shell syntax PASS; all four --print-args cases assert
 125000context,expected cache0/512,and draft absent/present. No model launched.
 Matrix and metrics are saved in config/local-coder/official-bolt/benchmark-matrix.json.
+
+Large-prompt warm-up protocol (run BEFORE short smoke on a fresh server for each
+matrix case): `python3 benchmark-large.py CASE`. It creates and tokenizes a
+fixed seeded inventory fixture to about108Kcontent tokens, streams a short
+boundary-marker answer, and saves input hash/token count plus raw trial timings.
+First full prefill, then3warm full prefills(cache_prompt=false), then3reused-prefix
+trials(cache_prompt=true), identical prompt/seed/output budget. Fresh-process first
+trial is not a claim that OS filesystem cache is cold; normal server startup
+warm-up is retained. No privileged/global page-cache flushing.
+
+Full-prefill cache_n must be0 to confirm actual reprocessing; cached-prefix trials
+record observed cache_n rather than assuming reuse. Hybrid recurrent models may
+reprocess prefixes. Record walltime,time to first content,prompt processing
+milliseconds/prefill tokens per second,generation,finish reason,marker correctness,
+VRAM peak and system available RAM/swap sampled every2s. Compare median warm
+full-prefill versus first, and median prefix reuse separately. Missing telemetry,
+truncation,failed recall or fit errors must not become a success claim. A model
+restart is required between the four configurations; this script does not stop
+or replace any active model.
+
+Harness verification: syntax/CLI PASS. Mocked streaming/tokenization test exercised
+all7trials and checked identical prompt,4full-prefill cache-off phases,3cache-on
+phases,marker/timing/resource parsing. This is harness verification only; official
+large-prompt model measurements remain pending download completion and safe switch.
