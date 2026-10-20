@@ -4,25 +4,25 @@ Capability request validation and execution runtime for P03.
 This module implements structural validation, deadline checks,
 permission validation, and output schema validation for capability requests.
 """
-import copy
 import json
 import math
 import time
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from types import MappingProxyType
 from typing import Any, Callable, Dict, List, Tuple
 from jsonschema import Draft202012Validator
 from pathlib import Path
 
 # Registry of supported capabilities and their output schemas
-CAPABILITY_REGISTRY = {
-    "lesson.generate": ["lesson.v1"],
-    "phonology.check": ["phonology-report.v1"],
-    "tts.synthesize": ["audio-asset.v1"],
-    "asr.transcribe": ["transcript.v1"],
-    "image.generate": ["image-asset.v1"]
-}
+CAPABILITY_REGISTRY = MappingProxyType({
+    "lesson.generate": ("lesson.v1",),
+    "phonology.check": ("phonology-report.v1",),
+    "tts.synthesize": ("audio-asset.v1",),
+    "asr.transcribe": ("transcript.v1",),
+    "image.generate": ("image-asset.v1",)
+})
 
 # Registry of supported permissions
 PERMISSION_REGISTRY = {
@@ -59,6 +59,62 @@ class _CooperativeStop(BaseException):
     def __init__(self, reason: str):
         super().__init__(reason)
         self.reason = reason
+
+
+_JSON_MAX_DEPTH = 64
+_JSON_MAX_NODES = 100000
+
+
+def _json_snapshot(value: Any) -> Any:
+    """Copy plain JSON data without invoking copy/serialization hooks."""
+    return _json_snapshot_value(value, 0, [0], set())
+
+
+def _json_snapshot_value(value: Any, depth: int, nodes: List[int], active: set) -> Any:
+    nodes[0] += 1
+    if nodes[0] > _JSON_MAX_NODES:
+        raise ValueError("JSON value exceeds node limit")
+    if depth > _JSON_MAX_DEPTH:
+        raise ValueError("JSON value exceeds nesting depth limit")
+
+    if value is None or type(value) is bool:
+        return value
+    if type(value) is str:
+        return value
+    if type(value) is int:
+        return value
+    if type(value) is float:
+        if not math.isfinite(value):
+            raise ValueError("JSON number must be finite")
+        return value
+    if type(value) is list:
+        identity = id(value)
+        if identity in active:
+            raise ValueError("JSON value contains a cycle")
+        active.add(identity)
+        try:
+            return [
+                _json_snapshot_value(item, depth + 1, nodes, active)
+                for item in value
+            ]
+        finally:
+            active.remove(identity)
+    if type(value) is dict:
+        identity = id(value)
+        if identity in active:
+            raise ValueError("JSON value contains a cycle")
+        active.add(identity)
+        try:
+            snapshot = {}
+            for key, item in value.items():
+                if type(key) is not str:
+                    raise ValueError("JSON object keys must be strings")
+                snapshot[key] = _json_snapshot_value(item, depth + 1, nodes, active)
+            return snapshot
+        finally:
+            active.remove(identity)
+
+    raise ValueError(f"Unsupported JSON value type: {type(value).__name__}")
 
 
 def _structural_errors(request: Any) -> List[str]:
@@ -273,8 +329,14 @@ def execute_capability_request(
 
     states: List[str] = []
 
-    # Schema-first request validation. No request field selects a handler.
-    structural = _structural_errors(request)
+    # Snapshot plain JSON first, then schema-validate the detached snapshot.
+    # No request field selects a handler and no copy hook is ever invoked.
+    try:
+        request_snapshot = _json_snapshot(request)
+    except ValueError as exc:
+        return _failure(states, 0, [f"Request is not plain JSON: {exc}"])
+
+    structural = _structural_errors(request_snapshot)
     if structural:
         return _failure(states, 0, structural)
 
@@ -282,11 +344,6 @@ def execute_capability_request(
         callable(utc_now) and callable(monotonic) and callable(cancelled)
     ):
         return _failure(states, 0, ["Invalid execution clock or cancellation callable"])
-
-    try:
-        request_snapshot = copy.deepcopy(request)
-    except Exception as exc:
-        return _failure(states, 0, [f"Request cannot be copied: {exc}"])
 
     try:
         grants = _normalize_permission_names(granted_permissions)
@@ -388,7 +445,11 @@ def execute_capability_request(
 
         attempts += 1
         try:
-            output = spec.handler(copy.deepcopy(request_snapshot), context)
+            attempt_request = _json_snapshot(request_snapshot)
+        except ValueError as exc:
+            return _failure(states, attempts, [f"Request cannot be snapshotted: {exc}"])
+        try:
+            output = spec.handler(attempt_request, context)
         except _CooperativeStop as stop:
             return _failure(states, attempts, [stop.reason])
         except Exception as exc:
@@ -406,14 +467,14 @@ def execute_capability_request(
         except _CooperativeStop as stop:
             return _failure(states, attempts, [stop.reason])
 
-        output_errors = validate_output_schema(output, output_schema)
+        try:
+            result_output = _json_snapshot(output)
+        except ValueError as exc:
+            return _failure(states, attempts, [f"Handler output is not plain JSON: {exc}"])
+
+        output_errors = validate_output_schema(result_output, output_schema)
         if output_errors:
             return _failure(states, attempts, output_errors)
-
-        try:
-            result_output = copy.deepcopy(output)
-        except Exception:
-            result_output = output
 
         try:
             context.checkpoint()
@@ -451,10 +512,15 @@ def validate_capability_request(request: Dict[str, Any]) -> List[str]:
 
     Returns list of validation errors. Empty list means valid request.
     """
-    structural = _structural_errors(request)
+    try:
+        request_snapshot = _json_snapshot(request)
+    except ValueError as exc:
+        return [f"Request is not plain JSON: {exc}"]
+
+    structural = _structural_errors(request_snapshot)
     if structural:
         return structural
-    return _semantic_errors(request, datetime.now(timezone.utc))
+    return _semantic_errors(request_snapshot, datetime.now(timezone.utc))
 
 def validate_output_schema(output: Dict[str, Any], schema_name: str) -> List[str]:
     """
@@ -545,7 +611,7 @@ def get_supported_capabilities() -> Dict[str, List[str]]:
     """
     Get the registry of supported capabilities and their output schemas.
     """
-    return CAPABILITY_REGISTRY.copy()
+    return {capability: list(schemas) for capability, schemas in CAPABILITY_REGISTRY.items()}
 
 def get_supported_permissions() -> set:
     """

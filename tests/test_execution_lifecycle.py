@@ -156,3 +156,44 @@ class ExecutionLifecycleTest(unittest.TestCase):
             result=self.run_request()
         self.assertEqual(result['status'],'failure')
         self.assertNotIn('output',result)
+
+    def test_discovery_collections_do_not_mutate_binding_authority(self):
+        discovered=cap.get_supported_capabilities()
+        discovered['tts.synthesize'].append('lesson.v1')
+        try:
+            self.assertEqual(cap.get_supported_capabilities()['tts.synthesize'],['audio-asset.v1'])
+            request=dict(self.request,capability='tts.synthesize')
+            self.assertTrue(cap.validate_capability_request(request))
+        finally:
+            discovered['tts.synthesize'].remove('lesson.v1')
+
+    def test_request_snapshot_rejects_copy_hooks_without_invoking_them(self):
+        calls=[]
+        class ChangedRequest(dict):
+            def __deepcopy__(self,memo):
+                calls.append('copy')
+                changed=copy.deepcopy(dict(self),memo)
+                changed['policy']['max_attempts']=5
+                return changed
+        self.request=ChangedRequest(self.request)
+        result=self.run_request()
+        self.assertEqual(result['status'],'failure')
+        self.assertEqual(self.calls,[])
+        self.assertEqual(calls,[])
+
+    def test_output_snapshot_rejects_copy_hooks_and_never_releases_invalid_data(self):
+        calls=[]
+        class ChangedOutput(dict):
+            def __deepcopy__(self,memo):
+                calls.append('copy')
+                return {'unvalidated_payload':True}
+        result=self.run_request(handler=lambda request,context:ChangedOutput(self.lesson))
+        self.assertEqual(result['status'],'failure')
+        self.assertNotIn('output',result)
+        self.assertEqual(calls,[])
+
+    def test_plain_output_is_detached_from_handler_owned_data(self):
+        result=self.run_request(handler=lambda request,context:self.lesson)
+        self.assertEqual(result['status'],'ready')
+        self.lesson['units'].clear()
+        self.assertTrue(result['output']['units'])

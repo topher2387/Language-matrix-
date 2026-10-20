@@ -1,0 +1,9 @@
+# P03 registry and snapshot repair, 2026-10-20 UTC
+
+Controller review of3ef333e reproduced threeP2findings: discovery returned shared mutable binding lists; a custom request deepcopy could increase1attempt to5after schema validation; a valid lesson custom output deepcopy could produce invalid data returned ready. Python copy-hook cases require custom objects rather than ordinary decoded JSON.
+
+Controller added regressions before repair:51tests ran with3failures, confirming all three gaps. DeepSeek free repaired production code only, reported zero cost/complete usage, and left controller tests intact. The authoritative capability mapping is now read-only with tuple values; discovery returns independent lists. A strict builtin-only recursive JSON snapshot rejects custom objects/subclasses, cycles, nonfinite floats, depth over64 and over100000nodes without copy/serialization hooks. Actual request snapshots are validated before policy use. Output is snapshotted first, fail-closed, and the exact returned snapshot is schema-validated; shared-output fallback removed. Normal handler output remains detached.
+
+Independent controller offline checks: **51P03tests pass**, **95combined tests pass**, exit0; git diff --check passes. Direct local Qwen reviewed the production diff at source hash recorded in p03-snapshot-review-20261020.json and returned PASS with no findings. This is a focused patch review, not full-runtime/P03/audio acceptance. The earlier long OpenCode review iteration was stopped rather than represented as completed approval.
+
+No merge, schema expansion, reserved-audio acceptance, paid fallback or Lichen modification. Existing unknown-usage cloud-review reservations remain preserved. Next task is a mocked lesson.v1 execution example through the actual runtime; unsupported audio stays blocked.

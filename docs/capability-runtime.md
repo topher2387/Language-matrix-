@@ -57,16 +57,22 @@ A request cannot supply a handler, source, configuration, or authority of its ow
 Handler specs must be well formed: the handler must be callable and every
 required permission name must be in `PERMISSION_REGISTRY`.
 
-Before invocation the runtime validates the request schema first, then checks the
-injected UTC deadline, independently validates grants, enforces the permission
-relationships, resolves the fixed provider/capability handler, and captures a
-defensive copy of the request. It also snapshots the attempt limit, timeout,
-output binding, requested permissions, deadline, and handler specification so
-mutations by the handler cannot extend its authority or budget.
+The request/execution boundary accepts only plain JSON-compatible values: exact
+`dict` objects with exact string keys, `list`, `str`, `int`, finite `float`,
+`bool`, and `None`. Python subclasses and custom objects are rejected without
+invoking `__deepcopy__`, `copy`, or serialization hooks. Cyclic values, excessive
+nesting, and excessive node counts are rejected. The runtime first builds a
+detached snapshot with an explicit recursive copier, then validates the request
+schema against that snapshot before any semantic use, handler selection, or
+policy capture. Each attempt receives a fresh plain-JSON copy. It also snapshots
+the attempt limit, timeout, output binding, requested permissions, deadline, and
+handler specification so mutations by the handler cannot extend its authority or
+budget. Trusted clocks, handler specs, and supervisor grants remain separate from
+request JSON.
 
-The handler receives a fresh defensive copy of the request and a context with
-`checkpoint()`. The initial attempt produces a `pending` state; the result ends
-in either `ready` or `failure`. Results have the shape:
+The handler receives a fresh detached request and a context with `checkpoint()`.
+The initial attempt produces a `pending` state; the result ends in either `ready`
+or `failure`. Results have the shape:
 
 ```python
 {
@@ -92,8 +98,10 @@ Execution is synchronous and cooperative:
 - Cancellation, timeout, deadline expiry, and invalid output are never retried.
 - A dedicated internal stop signal is used for cooperative stops so ordinary
   handler error handling cannot turn a cancellation into a retry.
-- Output is validated against the original, fixed output schema captured before
-  invocation before a result can become `ready`.
+- Handler output is snapshotted as detached plain JSON before validation.
+  Snapshot failures return `failure`; the original shared object is never returned.
+- The exact detached output returned is validated against the original fixed
+  output contract before the final checkpoint can release it as `ready`.
 
 Default clocks use the real UTC wall clock and `time.monotonic()`; injected clocks
 allow deterministic tests. No threads or processes are created. The runtime does
