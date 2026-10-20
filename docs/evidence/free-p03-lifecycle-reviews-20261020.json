@@ -1,0 +1,25 @@
+{
+  "reviews": [
+    {
+      "returncode": 124,
+      "paid_cost": 0,
+      "usage_unknown": true,
+      "steps": 0,
+      "tokens": 0,
+      "timed_out": true,
+      "text": "Missing OpenCode step_finish evidence; {\"type\":\"step_start\",\"timestamp\":1792468457599,\"sessionID\":\"ses_ea88e1393ffe1HXlS6HWOO00Bw\",\"part\":{\"id\":\"prt_15772187d001pcKrN3WfE3Flgn\",\"messageID\":\"msg_15771eec2001DpKY0TmCTSlqMD\",\"sessionID\":\"ses_ea88e1393ffe1HXlS6HWOO00Bw\",\"type\":\"step-start\"}}\n",
+      "model": "opencode/big-pickle"
+    },
+    {
+      "returncode": 124,
+      "paid_cost": 0,
+      "usage_unknown": true,
+      "steps": 0,
+      "tokens": 0,
+      "timed_out": true,
+      "text": "Missing OpenCode step_finish evidence; {\"type\":\"step_start\",\"timestamp\":1792468729731,\"sessionID\":\"ses_ea889c934ffeQYB6qg0mxHc6gs\",\"part\":{\"id\":\"prt_157763f7f0017515YQqPebBnJu\",\"messageID\":\"msg_157763917001VDH28kJmdN4g1u\",\"sessionID\":\"ses_ea889c934ffeQYB6qg0mxHc6gs\",\"type\":\"step-start\"}}\n",
+      "model": "opencode/glm-5.3-flash-free"
+    }
+  ],
+  "assessment": "Neither review completed. Both reservations preserved; usage unknown, no independent model approval."
+}

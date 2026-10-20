@@ -1,0 +1,8 @@
+{
+  "returncode": 0,
+  "paid_cost": 0,
+  "usage_unknown": false,
+  "steps": 6,
+  "timed_out": false,
+  "text": "Owned file: `tests/test_runtime_worker_qa.py` \u2014 added 5 deterministic regressions covering malformed `HandlerSpec`/registry, malformed supervisor grants, retry-gap cancellation, late cancellation after valid output, and invalid UTC clocks.\n\nAssumptions: existing docs fixtures are valid; clocks fixed at `2030-01-01T00:00:00Z`; execution failures append `failure` to states; no production or existing tests modified. No defects reproduced by inspection. Tests were not executed (no bash available)."
+}
