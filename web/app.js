@@ -269,14 +269,37 @@
   }
 
   function buildWidgetView(lesson, widget) {
+    // Validate lesson structure early to prevent TypeError on malformed inputs
+    if (!isObject(lesson)) {
+      return { error: 'invalid lesson data' };
+    }
+    var validation = validateLesson(lesson);
+    if (!validation.ok) {
+      return { error: 'invalid lesson structure' };
+    }
     if (!isObject(widget) || WIDGET_TYPES.indexOf(widget.type) === -1) {
       return { error: 'unknown widget type' };
     }
     if (widget.type === 'exercise') {
       var exercise = findExercise(lesson, widget.ref_id);
       if (!exercise) { return { error: 'dangling exercise reference: ' + widget.ref_id }; }
+      // All listening_choice exercises are unavailable because no trusted store is connected
+      if (exercise.kind === 'listening_choice') {
+        return {
+          kind: 'exercise',
+          exercise_kind: exercise.kind,
+          exercise_id: exercise.exercise_id,
+          unit_id: exercise.unit_id,
+          prompt: exercise.prompt,
+          options: exercise.options.slice(),
+          correct_option: exercise.correct_option,
+          available: false,
+          reason: 'Audio unavailable: no trusted local asset store (P05) is connected, so referenced assets cannot be verified or played.'
+        };
+      }
       return {
         kind: 'exercise',
+        exercise_kind: exercise.kind,
         exercise_id: exercise.exercise_id,
         unit_id: exercise.unit_id,
         prompt: exercise.prompt,
@@ -347,7 +370,7 @@
   }
 
   function labeledSelect(doc, label, className, options, disabled, selected) {
-    var wrap = el(doc, 'span', 'lm-control');
+    var wrap = el(doc, 'label', 'lm-control');
     wrap.appendChild(el(doc, 'span', 'lm-control-label', label));
     var select = el(doc, 'select', className);
     if (disabled) { select.disabled = true; select.setAttribute('disabled', 'disabled'); }
@@ -412,6 +435,29 @@
     section.setAttribute('data-widget', 'exercise');
     section.appendChild(el(doc, 'h2', null, 'Exercise'));
     section.appendChild(el(doc, 'p', 'lm-prompt', view.prompt));
+    
+    // Handle unavailable listening exercises
+    if (view.available === false && view.exercise_kind === 'listening_choice') {
+      var feedback = el(doc, 'p', 'lm-feedback', 'Audio unavailable: ' + (view.reason || 'No audio available for this exercise.'));
+      feedback.setAttribute('role', 'status');
+      feedback.setAttribute('aria-live', 'polite');
+      feedback.setAttribute('data-correct', '');
+      section.appendChild(feedback);
+      
+      var list = el(doc, 'ul', 'lm-options');
+      view.options.forEach(function (option, index) {
+        var item = el(doc, 'li', null, null);
+        var button = el(doc, 'button', 'lm-option', option);
+        button.setAttribute('type', 'button');
+        button.disabled = true;
+        button.setAttribute('aria-disabled', 'true');
+        item.appendChild(button);
+        list.appendChild(item);
+      });
+      section.appendChild(list);
+      return section;
+    }
+    
     var feedback = el(doc, 'p', 'lm-feedback', 'Choose an answer.');
     feedback.setAttribute('role', 'status');
     feedback.setAttribute('aria-live', 'polite');

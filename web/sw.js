@@ -1,6 +1,6 @@
 'use strict';
 
-var CACHE_NAME = 'language-matrix-p02-v1';
+var CACHE_NAME = 'language-matrix-p02-v3';
 var PRECACHE_URLS = [
   './',
   './index.html',

@@ -96,3 +96,9 @@ and the static checks remain authoritative.
   a schema expansion is required, this packet stops and reports rather than expanding the schema.
 - Requires an HTTP origin for `fetch` and service-worker registration; `file://` is unsupported.
 - Manifest icons are omitted (they would require files outside the owned set).
+
+## Review repair (2026-10-20)
+
+Exercise view models retain `kind: exercise` for widget dispatch and expose `exercise_kind` separately. Listening exercises show an unavailable explanation and disabled answer choices until a trusted local audio store is connected; referenced asset metadata alone does not enable playback or answering. Direct `buildWidgetView` calls validate lesson structure and return an error for malformed data. Audio select controls have native labels; service-worker cache v3 distributes the changed renderer.
+
+Controller independently inspected Qwen's production patch and ran the offline snapshot: `node tests/browser-smoke.mjs` passed 59 checks; `python3 -B -m unittest discover -s tests -v` passed 44 tests. Qwen authored the listening/direct-input repair and rendered regressions; controller supplied native labels, additional nested-input/dispatch assertions and this documentation. These checks use a fake DOM; earlier live Chromium accessibility/offline evidence predates the listening repair and is not claimed as a fresh live-browser check. No Korean/audio quality or full-program acceptance is implied.

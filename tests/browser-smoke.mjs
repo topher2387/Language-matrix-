@@ -122,6 +122,20 @@ const listening = clone(lesson);
 listening.exercises[0].kind = 'listening_choice';
 ok(LM.validateLesson(listening).errors.some((e) => e.includes('listening exercise')), 'listening exercise without audio reference rejected');
 
+// Test case for the regression: listening exercises with audio references should still be unavailable
+// because there's no trusted local asset store connected (P05)
+const listeningWithAudio = clone(lesson);
+listeningWithAudio.units[0].audio_assets = [{ asset_id: 'test-asset', voice_id: 'test-voice', verification: clone(lesson.verification) }];
+listeningWithAudio.exercises[0].kind = 'listening_choice';
+ok(LM.validateLesson(listeningWithAudio).ok, 'listening test fixture is contract-valid');
+const listeningWithAudioResult = LM.buildWidgetView(listeningWithAudio, { type: 'exercise', ref_id: listeningWithAudio.exercises[0].exercise_id });
+ok(listeningWithAudioResult.available === false, 'listening exercise with audio reference is still unavailable without trusted store');
+
+// Test malformed inputs to buildWidgetView
+ok(LM.buildWidgetView(null, { type: 'exercise', ref_id: 'e1' }).error === 'invalid lesson data', 'buildWidgetView should reject null lesson');
+ok(LM.buildWidgetView({}, { type: 'exercise', ref_id: 'e1' }).error === 'invalid lesson structure', 'buildWidgetView should reject empty lesson');
+ok(LM.buildWidgetView(lesson, { type: 'exercise', ref_id: 'nonexistent' }).error.includes('dangling'), 'buildWidgetView should reject dangling reference');
+
 const nullUnits = clone(lesson);
 nullUnits.units = null;
 nullUnits.exercises[0].kind = 'listening_choice';
@@ -180,6 +194,12 @@ ok(audio.getAttribute('data-audio-state') === 'unavailable', 'audio state is hon
 ok(findByClass(renderRoot, 'lm-play')[0].disabled === true, 'play control is disabled while audio is unavailable');
 ok(findByClass(renderRoot, 'lm-voice')[0].disabled === true, 'voice control reflects unavailable audio');
 ok(findByClass(renderRoot, 'lm-speed').length === 1 && findByClass(renderRoot, 'lm-repeat').length === 1, 'speed and repeat controls are present');
+for (const [className, label] of [['lm-voice', 'Voice'], ['lm-speed', 'Speed'], ['lm-repeat', 'Repeat']]) {
+  const control = findByClass(renderRoot, className)[0];
+  const wrapper = collect(renderRoot).find((node) =>
+    node.tagName === 'label' && node.children.includes(control));
+  ok(wrapper && wrapper.textContent.startsWith(label), label + ' select has a native accessible label');
+}
 
 const rejectedRoot = new FakeNode('div');
 const rejectedResult = LM.renderLesson(unknownWidget, fakeDocument, rejectedRoot);
@@ -187,5 +207,50 @@ ok(!rejectedResult.ok && rejectedResult.widgets === 0 && rejectedRoot.textConten
 
 const check = LM.checkAnswer({ options: ['a', 'b'], correct_option: 0 }, 9);
 ok(check.feedback.includes('Choose one of the available answers'), 'out-of-range answer is handled locally');
+
+// Test that exercise_kind is properly retained in rendered views
+const listeningWithAudioTest = clone(lesson);
+listeningWithAudioTest.units[0].audio_assets = [{ asset_id: 'test-asset', voice_id: 'test-voice', verification: clone(lesson.verification) }];
+listeningWithAudioTest.exercises[0].kind = 'listening_choice';
+const listeningView = LM.buildWidgetView(listeningWithAudioTest, { type: 'exercise', ref_id: listeningWithAudioTest.exercises[0].exercise_id });
+ok(listeningView.exercise_kind === 'listening_choice', 'listening exercise view retains exercise_kind');
+ok(listeningView.kind === 'exercise', 'listening exercise view has kind "exercise"');
+
+// Test that reading_choice exercises also retain exercise_kind
+const readingExercise = clone(lesson);
+readingExercise.exercises[0].kind = 'reading_choice';
+const readingView = LM.buildWidgetView(readingExercise, { type: 'exercise', ref_id: readingExercise.exercises[0].exercise_id });
+ok(readingView.exercise_kind === 'reading_choice', 'reading exercise view retains exercise_kind');
+ok(readingView.kind === 'exercise', 'reading exercise view has kind "exercise"');
+
+// Test that renderExercise correctly checks exercise_kind for listening exercises
+const listeningWithAudioRender = clone(lesson);
+listeningWithAudioRender.units[0].audio_assets = [{ asset_id: 'test-asset', voice_id: 'test-voice', verification: clone(lesson.verification) }];
+listeningWithAudioRender.exercises[0].kind = 'listening_choice';
+const renderRootTest = new FakeNode('div');
+const listeningRenderResult = LM.renderLesson(listeningWithAudioRender, fakeDocument, renderRootTest);
+ok(listeningRenderResult.ok && listeningRenderResult.widgets === 4, 'all four widgets render (including listening exercise)');
+const exerciseWidgets = collect(renderRootTest).filter((node) => node.getAttribute('data-widget') === 'exercise');
+ok(exerciseWidgets.length === 1, 'one exercise widget rendered');
+// Check that the exercise widget has disabled buttons and correct unavailable reason
+const allButtons = collect(exerciseWidgets[0]).filter((node) => node.tagName === 'button' && node.getAttribute('class') === 'lm-option');
+ok(allButtons.length > 0, 'exercise widget contains option buttons');
+ok(allButtons.every((btn) => btn.disabled === true), 'all listening exercise buttons are disabled');
+const allText = collect(renderRootTest).map((node) => node.textContent).join(' ');
+ok(allText.includes('Audio unavailable'), 'unavailable reason is visible in rendered output');
+
+// Test malformed nested calls to buildWidgetView
+ok(LM.buildWidgetView(null, { type: 'exercise', ref_id: 'e1' }).error === 'invalid lesson data', 'buildWidgetView should reject null lesson');
+ok(LM.buildWidgetView({}, { type: 'exercise', ref_id: 'e1' }).error === 'invalid lesson structure', 'buildWidgetView should reject empty lesson');
+ok(LM.buildWidgetView(lesson, { type: 'exercise', ref_id: 'nonexistent' }).error.includes('dangling'), 'buildWidgetView should reject dangling reference');
+
+// Direct callers receive predictable errors for nested malformed structures.
+for (const malformed of [Object.assign(clone(lesson), {exercises: null}), Object.assign(clone(lesson), {units: [null]})]) {
+  ok(Boolean(LM.buildWidgetView(malformed, {type: 'exercise', ref_id: 'e1'}).error), 'nested malformed direct input fails without throwing');
+}
+const missingOptions = clone(lesson);
+missingOptions.exercises[0].options = null;
+ok(Boolean(LM.buildWidgetView(missingOptions, {type: 'exercise', ref_id: 'e1'}).error), 'missing options fails without throwing');
+ok(!renderRootTest.textContent.includes('Unsupported widget view'), 'listening dispatch reaches supported renderer');
 
 console.log('browser-smoke: ' + checks + ' checks passed (offline, no packages downloaded)');
