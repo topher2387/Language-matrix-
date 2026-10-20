@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:language-matrix:lesson:1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "lesson_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "source_language": {
+      "const": "en"
+    },
+    "target_language": {
+      "const": "ko"
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "unverified",
+            "reviewed",
+            "verified"
+          ]
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 200
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "status",
+        "reviewer",
+        "notes"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "reviewed",
+                  "verified"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reviewer": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "english": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "hangul": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "spoken_phonetics": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "phonology": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "structure": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "register": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "translation_note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "dialect_note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "audio_assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "asset_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "voice_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "verification": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "unverified",
+                        "reviewed",
+                        "verified"
+                      ]
+                    },
+                    "reviewer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 200
+                    },
+                    "notes": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reviewer",
+                    "notes"
+                  ],
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "reviewed",
+                              "verified"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "status"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "reviewer": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "asset_id",
+                "voice_id",
+                "verification"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 10
+          },
+          "literal_english": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "unit_id",
+          "english",
+          "hangul",
+          "spoken_phonetics",
+          "phonology",
+          "structure",
+          "register",
+          "translation_note",
+          "dialect_note",
+          "audio_assets",
+          "literal_english"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 50
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "exercise_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "kind": {
+            "enum": [
+              "reading_choice",
+              "listening_choice"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "unit_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 2,
+            "maxItems": 6
+          },
+          "correct_option": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "required": [
+          "exercise_id",
+          "kind",
+          "prompt",
+          "unit_id",
+          "options",
+          "correct_option"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 50
+    },
+    "widgets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "enum": [
+              "teaching_unit",
+              "comparison",
+              "exercise",
+              "audio"
+            ]
+          },
+          "ref_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          }
+        },
+        "required": [
+          "type",
+          "ref_id"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 200
+    }
+  },
+  "required": [
+    "schema_version",
+    "lesson_id",
+    "title",
+    "source_language",
+    "target_language",
+    "verification",
+    "units",
+    "exercises",
+    "widgets"
+  ]
+}

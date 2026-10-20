@@ -1,0 +1,27 @@
+{
+  "controller_verified": {
+    "tests": 110,
+    "exit_code": 0,
+    "isolation": "offline bubblewrap selected-source snapshot",
+    "report": "bridge-full-0503-tests.json",
+    "bridge_tests": 5
+  },
+  "runtime_source_commit": "398d56e01c348448cb43ef9451d2a9f8adc0bb06",
+  "acceptance": "integration checkpoint only; no full P03 acceptance or schema activation",
+  "workers": {
+    "bridge-qa": {
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 7,
+      "usage_unknown": false,
+      "request_ceiling": 12
+    },
+    "handoffs": {
+      "returncode": 0,
+      "paid_cost": 0,
+      "steps": 10,
+      "usage_unknown": false,
+      "request_ceiling": 12
+    }
+  }
+}

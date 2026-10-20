@@ -1,0 +1,16 @@
+{
+  "tests": 126,
+  "exit_code": 0,
+  "isolation": "offline bubblewrap snapshot",
+  "test_report": "export-final-full-0603-tests.json",
+  "controller_acceptance_tests": 5,
+  "review_scope": "single export adapter static source",
+  "review_steps": 3,
+  "paid_cost": 0,
+  "usage_unknown": false,
+  "limitations": [
+    "fixture-only unverified output",
+    "no audio or whole P03 acceptance",
+    "cooperative trusted handlers, not process sandbox"
+  ]
+}

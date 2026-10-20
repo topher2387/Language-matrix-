@@ -1,0 +1,20 @@
+{
+  "coding_worker": {
+    "provider": "ollama-local",
+    "model": "qwen3-coder-supervised:32k",
+    "base_model": "qwen3-coder:30b-a3b-q4_K_M",
+    "approval_required": true,
+    "automatic_packet_dispatch": false
+  },
+  "korean_adviser": {
+    "provider": "language-matrix",
+    "model": "kanana-2-30b-a3b",
+    "coding_eligible": false
+  },
+  "forge": {
+    "source_checkouts_modified": false,
+    "existing_dispatch_config_modified": false,
+    "supervisor_checks_and_quotas_preserved": true,
+    "local_provider_admission": "blocked pending native isolated catalogue/provider integration; no bypass authorized"
+  }
+}

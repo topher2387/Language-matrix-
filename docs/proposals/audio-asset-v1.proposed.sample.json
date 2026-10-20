@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "asset_id": "audio-example",
+  "voice_id": "voice-example",
+  "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "format": "wav",
+  "sample_rate_hz": 24000,
+  "channels": 1,
+  "duration_seconds": 1.0,
+  "provenance": {
+    "source_text_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "generator_id": "fixture-example",
+    "generated_at_utc": "2026-10-20T00:00:00Z"
+  },
+  "license_info": {
+    "status": "unknown",
+    "evidence_id": null
+  },
+  "verification": {
+    "status": "unverified",
+    "reviewer": null,
+    "notes": "Illustrative metadata only; no audio bytes, licence consent or teaching approval."
+  }
+}

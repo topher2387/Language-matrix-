@@ -1,0 +1,21 @@
+{
+  "source_commit": "19d0191",
+  "export": "python3 tools/export_runtime_lesson.py --lesson-id liaison-1",
+  "selected_lesson": "liaison-1",
+  "verification": "unverified",
+  "preview": "127.0.0.1:8766 separate web copy, bundled fixture unchanged",
+  "browser": "local Chromium via agent-browser",
+  "observed": [
+    "English/Hangul/phonetic/explanation rendered",
+    "first exercise button returned Correct. Well done.",
+    "390x844 viewport screenshot visually inspected",
+    "browser network offline enabled then reload rendered selected lesson",
+    "no browser page errors reported"
+  ],
+  "limits": [
+    "No verified audio/teaching approval",
+    "not full milestone/P03 acceptance",
+    "no inference performance benchmark"
+  ],
+  "late_worker_test": "Qwen added invalid mocked lesson after commit; controller replaced mock with wraps actual runtime; no production edits"
+}

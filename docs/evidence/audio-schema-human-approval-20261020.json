@@ -1,0 +1,9 @@
+{
+  "approved_draft_commit": "5740000e99a833ea484eb0fafb99691b99a450ac",
+  "human_evidence": "User said: I approve, in response to exact schema-registration approval question.",
+  "scope": "Register audio metadata contract for mocked local runtime tests only",
+  "excludes": ["real audio", "licensing or consent", "playback", "teaching content approval", "full P03 acceptance", "merge"],
+  "implementation": "Byte-identical approved draft copied to active contracts filename; existing registry already maps this schema name. Draft comment retained for provenance; this record establishes limited registration authority.",
+  "independent_verification": {"offline_tests": 155, "exit_code": 0, "report": "approved-audio-registration-tests.json"},
+  "checks": ["approved draft identity", "two mocked voices pending/ready", "missing grant before provider", "pre-cancel before provider", "malformed metadata fails without output"]
+}

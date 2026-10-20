@@ -1,0 +1,8 @@
+{
+  "returncode": 0,
+  "text": "[{\"flag\": null, \"exit\": 0, \"statuses\": [\"ready\", \"ready\"], \"calls\": [\"voice-one\", \"voice-two\"], \"states\": [[\"pending\", \"ready\"], [\"pending\", \"ready\"]]}, {\"flag\": \"--no-grants\", \"exit\": 1, \"statuses\": [\"failure\", \"failure\"], \"calls\": [], \"states\": [[\"failure\"], [\"failure\"]]}, {\"flag\": \"--cancelled\", \"exit\": 1, \"statuses\": [\"failure\", \"failure\"], \"calls\": [], \"states\": [[\"pending\", \"failure\"], [\"pending\", \"failure\"]]}, {\"flag\": \"--invalid-output\", \"exit\": 1, \"statuses\": [\"failure\", \"failure\"], \"calls\": [\"voice-one\", \"voice-two\"], \"states\": [[\"pending\", \"failure\"], [\"pending\", \"failure\"]]}]\n",
+  "timed_out": false,
+  "output_limit": false,
+  "group_exited": true,
+  "isolation": "bubblewrap-offline"
+}

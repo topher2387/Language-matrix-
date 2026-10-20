@@ -1,0 +1,12 @@
+{
+  "name": "Language Matrix - Korean tutor",
+  "short_name": "Language Matrix",
+  "description": "Offline-capable English to Korean lesson viewer with finite widget rendering and unverified sample content.",
+  "lang": "en",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f6fb",
+  "theme_color": "#1f2a44"
+}

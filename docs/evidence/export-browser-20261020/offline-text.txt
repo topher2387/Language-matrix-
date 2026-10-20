@@ -1,0 +1,185 @@
+Skip to lesson
+
+LANGUAGE MATRIX
+
+English to Korean tutor
+
+Finite widget rendering of a validated, unverified sample lesson. Works offline once cached.
+
+Liaison: finals move before vowels
+
+Verification: unverified content
+
+Teaching unit
+ENGLISH MEANING
+
+Music.
+
+LITERAL ENGLISH GLOSS
+
+Music.
+
+HANGUL
+
+음악
+
+SPOKEN PHONETICS (LEARNER AID)
+
+eu-mak
+
+PHONOLOGY EXPLANATION
+
+The final ㅁ of 음 moves to the empty initial position of 악, giving [으막].
+
+Verification: unverified content
+
+Teaching unit
+ENGLISH MEANING
+
+The Korean language.
+
+LITERAL ENGLISH GLOSS
+
+Korea language.
+
+HANGUL
+
+한국어
+
+SPOKEN PHONETICS (LEARNER AID)
+
+han-gu-geo
+
+PHONOLOGY EXPLANATION
+
+The final ㄱ of 국 moves before the vowel 어: [한구거]. It is no longer a final consonant.
+
+Verification: unverified content
+
+Teaching unit
+ENGLISH MEANING
+
+Clothes, with the subject particle.
+
+LITERAL ENGLISH GLOSS
+
+Clothes-subject.
+
+HANGUL
+
+옷이
+
+SPOKEN PHONETICS (LEARNER AID)
+
+o-si
+
+PHONOLOGY EXPLANATION
+
+The final ㅅ of 옷 moves to the vowel 이, producing [오시].
+
+Verification: unverified content
+
+Teaching unit
+ENGLISH MEANING
+
+A flower, with the object particle.
+
+LITERAL ENGLISH GLOSS
+
+Flower-object.
+
+HANGUL
+
+꽃을
+
+SPOKEN PHONETICS (LEARNER AID)
+
+kko-cheul
+
+PHONOLOGY EXPLANATION
+
+The final ㅊ of 꽃 moves before the vowel 을: [꼬츨].
+
+Verification: unverified content
+
+Teaching unit
+ENGLISH MEANING
+
+Rice or a meal, with the object particle.
+
+LITERAL ENGLISH GLOSS
+
+Rice-object.
+
+HANGUL
+
+밥을
+
+SPOKEN PHONETICS (LEARNER AID)
+
+ba-beul
+
+PHONOLOGY EXPLANATION
+
+The final ㅂ of 밥 moves before the vowel 을: [바블].
+
+Verification: unverified content
+
+Comparison notes
+Structure and particles
+옷 (clothes) plus 이, the subject marker used after a consonant.
+Register
+Neutral sentence fragment.
+Translation note
+English marks subjects by word order; Korean often marks them with a particle.
+Dialect note
+Standard particle form; no dialect claim.
+Exercise
+
+Which connected-speech reading matches 음악?
+
+eu-mak
+eum-ak
+
+Choose an answer.
+
+Exercise
+
+Which reading matches 한국어?
+
+han-gu-geo
+han-guk-eo
+
+Choose an answer.
+
+Exercise
+
+Which reading matches 옷이?
+
+o-si
+ot-i
+
+Choose an answer.
+
+Exercise
+
+Which reading matches 꽃을?
+
+kko-cheul
+kkot-eul
+
+Choose an answer.
+
+Exercise
+
+Which reading matches 밥을?
+
+ba-beul
+bap-eul
+
+Choose an answer.
+
+Limitations
+The bundled lesson is an unverified development fixture. It is not independently reviewed Korean content.
+No audio is available: there is no trusted local asset store, so playback is honestly shown as unavailable.
+The service worker caches the app shell and lesson for offline reload after the first successful load.

@@ -1,0 +1,2 @@
+# Reproducible contract validator available in the initial local environment.
+jsonschema==4.10.3

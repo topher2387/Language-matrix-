@@ -1,0 +1,4 @@
+python3 /home/topher/Language-matrix-/.dev-harness/test-added-snapshot.py p03-controller-mock-matrix-1323 python3 -B -c 'import json,subprocess,sys; results=[]
+for flag in (None,"--no-grants","--cancelled","--invalid-output"):
+ p=subprocess.run([sys.executable,"-B","tools/mock_audio_runtime.py"]+([flag] if flag else []),capture_output=True,text=True);d=json.loads(p.stdout);statuses=[x["status"] for x in d["executions"]];assert p.returncode==(1 if flag else 0);assert statuses==(["failure"]*2 if flag else ["ready"]*2);assert d["no_audio_bytes"] and d["fixture_only"];assert len(d["provider_calls"])==(0 if flag in ("--no-grants","--cancelled") else 2);assert flag is None or all("output" not in x for x in d["executions"]);results.append({"flag":flag,"exit":p.returncode,"statuses":statuses,"calls":d["provider_calls"],"states":[x["states"] for x in d["executions"]]})
+print(json.dumps(results))'
