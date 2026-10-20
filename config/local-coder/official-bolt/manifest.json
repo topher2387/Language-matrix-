@@ -1,0 +1,20 @@
+[
+  {
+    "repo": "nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-GGUF",
+    "revision": "e0fecb69cb3e5e4c5e8a056fa2aec98c78e91246",
+    "filename": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB.gguf",
+    "bytes": 22018326528,
+    "sha256": "91d63363e782c8a3d5f4be42816eba8e0d42dd2530bd07a7d0d2dc440599af75",
+    "path": "/home/topher/Language-matrix-coder/official-bolt-setup/models/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB.gguf",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-GGUF/resolve/e0fecb69cb3e5e4c5e8a056fa2aec98c78e91246/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB.gguf"
+  },
+  {
+    "repo": "nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr-GGUF",
+    "revision": "182d2987939e12f458298b5d5f6ef98912f4ad6c",
+    "filename": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr.gguf",
+    "bytes": 998242560,
+    "sha256": "080e1ea41c9562a7804dbf30c6fbd4d17e216c6b8ff666f88e6edb1816010194",
+    "path": "/media/topher/New Volume/models/local_models/official-bolt-draft/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr.gguf",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr-GGUF/resolve/182d2987939e12f458298b5d5f6ef98912f4ad6c/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr.gguf"
+  }
+]
