@@ -38,8 +38,8 @@ LiLiCorr metadata, --spec-draft-model, --spec-draft-n-max and --spec-draft-ngl.
 Actual inference compatibility and GPU/RAM fit remain unverified until loading.
 
 Prepared launch script: config/local-coder/official-bolt/start-official-bolt.sh.
-Modes baseline and speculative. Both refuse to start with any active GPU compute
-process and require both downloads verified. Defaults:64Kcontext,one slot,
+Four modes: baseline-no-cache, baseline-cache, speculative-no-cache, speculative-cache. Legacy baseline/speculative aliases retain cache enabled. Both refuse to start with any active GPU compute
+process and require both downloads verified. Defaults:125,000-token context,one slot,
 GPU attention/q8_0cache/Flash Attention/CUDA graphs,CPU expert weights,512MiBGPU
 expert cache,8CPUthreads,batch128/microbatch64. Draft initially on CPU for8GBVRAM
 headroom,6draft tokens. Placement/cache/draft length can be tuned after measuring.
@@ -60,3 +60,28 @@ Once the current assignment is safely saved and paused and compute VRAM cleared:
 
 Validation performed now: shell syntax, Python syntax, runtime flag/source support,
 and busy-GPU launch guard (expected refusal). Benchmark inference not started.
+
+User-expanded comparison:125,000tokens, all four combinations:
+
+| Mode | LiLiCorr | Selective GPU expert cache |
+| --- | --- | --- |
+| baseline-no-cache | Off | Off(0MiB) |
+| baseline-cache | Off | On(512MiB) |
+| speculative-no-cache | On | Off(0MiB) |
+| speculative-cache | On | On(512MiB) |
+
+GPU attention,q8_0KV,Flash Attention and CUDA graphs remain enabled for all four.
+All routed expert source weights remain in CPU RAM. Cache-off does not move
+attention to CPU or disable KV caching. Draft initially CPU-only in both draft
+cases; target placement, prompts,seed and output budget remain matched. Main
+runtime may pad125,000internally; record resolved context from /props/logs.
+
+Test both short and near-full-context workloads: target approximately108,000input
+tokens with16,384output headroom under125,000configured total. Loading with a
+large allocation alone is not proof of long-context recall or performance. Record
+OOM/fit failure truthfully, keep context/graphs fixed for comparison, and label any
+later fallback as a separate configuration. No125Kfit/speed result exists yet.
+
+Configuration verification: shell syntax PASS; all four --print-args cases assert
+125000context,expected cache0/512,and draft absent/present. No model launched.
+Matrix and metrics are saved in config/local-coder/official-bolt/benchmark-matrix.json.

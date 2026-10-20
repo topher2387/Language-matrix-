@@ -1,0 +1,50 @@
+{
+  "context_tokens": 125000,
+  "gpu_attention": true,
+  "gpu_kv_cache": "q8_0",
+  "cuda_graphs": true,
+  "draft_gpu_layers": 0,
+  "draft_tokens": 6,
+  "output_budget": 16384,
+  "expert_source": "CPU RAM in all configurations",
+  "cases": [
+    {
+      "name": "baseline-no-cache",
+      "draft": false,
+      "expert_cache_mib": 0
+    },
+    {
+      "name": "baseline-cache",
+      "draft": false,
+      "expert_cache_mib": 512
+    },
+    {
+      "name": "speculative-no-cache",
+      "draft": true,
+      "expert_cache_mib": 0
+    },
+    {
+      "name": "speculative-cache",
+      "draft": true,
+      "expert_cache_mib": 512
+    }
+  ],
+  "workload_plan": [
+    "identical code/tool smoke",
+    "matched cold/warm prompt sizes",
+    "near-full context recall ~108000input tokens leaving16Koutput headroom"
+  ],
+  "metrics": [
+    "correctness",
+    "tool roundtrip",
+    "cold/warm prefill tokens/s",
+    "generation tokens/s",
+    "wall seconds",
+    "draft acceptance",
+    "expert cache hit rate",
+    "peak VRAM",
+    "RAM/swap",
+    "crash or fit failure"
+  ],
+  "policy": "Keep placements fixed. Record any fit failure; do not silently lower context or disable graphs. Proposed configurations, not measured results."
+}
