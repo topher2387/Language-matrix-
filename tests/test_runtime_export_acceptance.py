@@ -54,3 +54,17 @@ class ExportAcceptanceTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     exporter.export_lesson(**kwargs)
                 generator.assert_not_called()
+
+    def test_distinct_request_ids_across_exports(self):
+        with patch.object(exporter, 'execute_capability_request', wraps=exporter.execute_capability_request) as execute:
+            exporter.export_lesson()
+            exporter.export_lesson()
+        ids = [call.args[0]['request_id'] for call in execute.call_args_list]
+        self.assertEqual(len(set(ids)), 2)
+        self.assertTrue(all(0 < len(value) <= 64 for value in ids))
+
+    def test_missing_default_refuses_before_generator(self):
+        with patch.object(exporter.lessons, '_fixtures', return_value=[{'lesson_id': 'liaison-1'}]), patch.object(exporter, 'generate_lesson') as generator:
+            with self.assertRaises(ValueError):
+                exporter.export_lesson()
+            generator.assert_not_called()

@@ -4,6 +4,7 @@
 import argparse
 import json
 import sys
+import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -27,10 +28,6 @@ def _lesson_handler(request, context):
     lesson_text = None
     if isinstance(request.get("input"), dict):
         lesson_text = request["input"].get("text")
-
-    # If no specific lesson_text, use default
-    if lesson_text is None:
-        lesson_text = "nasalisation-1"
 
     # Generate the lesson using the existing generate_lesson function
     lesson = generate_lesson(lesson_text)
@@ -63,6 +60,14 @@ def export_lesson(lesson_input=None, *, granted_permissions=("local.generate",),
 
         if lesson_input not in valid_ids:
             raise ValueError(f"Unknown lesson ID: {lesson_input}")
+    else:
+        # For default case, we must validate that "nasalisation-1" exists in fixtures
+        # to prevent silent fallbacks
+        fixtures = lessons._fixtures()
+        valid_ids = {lesson["lesson_id"] for lesson in fixtures}
+
+        if "nasalisation-1" not in valid_ids:
+            raise ValueError("Default lesson 'nasalisation-1' not found in fixtures")
 
     # Create the capability request for lesson generation
     handlers = {
@@ -71,10 +76,13 @@ def export_lesson(lesson_input=None, *, granted_permissions=("local.generate",),
         )
     }
 
-    # Build the request with UTC deadline NOW+5 minutes
+    # Build the request with UTC deadline NOW+5 minutes and UUID request_id
     now = datetime.now(timezone.utc)
     deadline = now.replace(microsecond=0) + timedelta(minutes=5)
     deadline_str = deadline.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Generate a unique request ID for each export
+    request_id = f"export-runtime-lesson-{uuid.uuid4()}"
 
     # If lesson_input is None, we'll use default behavior in the handler
     input_data = {}
@@ -88,7 +96,7 @@ def export_lesson(lesson_input=None, *, granted_permissions=("local.generate",),
 
     request = {
         "schema_version": "1.0",
-        "request_id": "export-runtime-lesson",
+        "request_id": request_id,
         "capability": "lesson.generate",
         "provider": "local",
         "input": input_data,

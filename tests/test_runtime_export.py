@@ -30,6 +30,17 @@ class TestRuntimeExport(unittest.TestCase):
         self.assertIn("lesson_id", result)
         self.assertEqual(result["lesson_id"], "nasalisation-1")
 
+    def test_export_lesson_default_selector_validation(self):
+        """Test that default selector fails if nasalisation-1 is not in fixtures."""
+        # This test will fail initially to demonstrate the issue
+        with patch('tools.export_runtime_lesson.lessons._fixtures') as mock_fixtures:
+            # Return empty fixtures list to simulate missing default
+            mock_fixtures.return_value = []
+
+            with self.assertRaises(ValueError) as context:
+                export_lesson()
+            self.assertIn("not found in fixtures", str(context.exception))
+
     def test_export_lesson_with_valid_selector(self):
         """Test lesson export with valid selector returns correct lesson."""
         result = export_lesson("liaison-1")
