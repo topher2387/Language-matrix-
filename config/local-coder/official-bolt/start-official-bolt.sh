@@ -18,14 +18,14 @@ for m in manifest:
  assert pathlib.Path(m['path']).stat().st_size==m['bytes']
 PY
 unset GGML_CUDA_DISABLE_GRAPHS
-args=(--model "$setup/models/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB.gguf"
+args=(--model '/media/topher/New Volume/models/local_models/official-bolt/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB.gguf'
  --alias official-bolt-local --host 127.0.0.1 --port 11439
  --ctx-size 65536 --parallel 1 --n-gpu-layers all --cpu-moe --moe-cache-mib "${BOLT_EXPERT_CACHE_MIB:-512}"
  --flash-attn on --cache-type-k q8_0 --cache-type-v q8_0
  --batch-size 128 --ubatch-size 64 --threads 8 --threads-batch 8
  --load-mode none --log-verbosity 4 --jinja --reasoning off --reasoning-format deepseek --temp 0 --no-ui --api-key local-only)
 if [[ "$mode" == speculative ]]; then
- args+=(--spec-type draft-dflash --spec-draft-model '/media/topher/New Volume/models/local_models/official-bolt-draft/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr.gguf'
+ args+=(--spec-type draft-dflash --spec-draft-model '/media/topher/New Volume/models/local_models/official-bolt/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-LiLiCorr.gguf'
  --spec-draft-n-max "${BOLT_DRAFT_TOKENS:-6}" --spec-draft-ngl "${BOLT_DRAFT_GPU_LAYERS:-0}")
 fi
 exec /home/topher/Language-matrix-coder/qwen80-cache-setup/runtime/build/bin/llama-server "${args[@]}"

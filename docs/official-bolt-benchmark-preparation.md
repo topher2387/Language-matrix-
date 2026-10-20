@@ -26,11 +26,12 @@ rename after verification. Download-status.json and download-completed.txt recor
 actual completion; committed preparation does not mean weights are downloaded.
 No model files are committed to GitHub. No new model has been loaded by this prep.
 
-Storage is split because neither drive can comfortably hold both files: target
-in /home/topher/Language-matrix-coder/official-bolt-setup/models; drafter in
-/media/topher/New Volume/models/local_models/official-bolt-draft. Preflight reserves
-at least4GiBfree on each destination filesystem after its planned file. Original
-measured free space:25.34GiBroot and20.21GiBmodel drive. No existing weights deleted.
+Storage: after the user freed space, both files are placed in
+/media/topher/New Volume/models/local_models/official-bolt. Existing partial
+target bytes were moved and resumed; verified drafter was moved on the same
+filesystem. Root-drive copy removed only after successful move. Download service
+is now language-matrix-official-bolt-download-resume.service. The preflight still
+reserves at least4GiBfree. No existing model weights deleted.
 
 Runtime4a45de4f2c68f3d144f6c2431ad7c1da7e53c99e supports draft-dflash,
 LiLiCorr metadata, --spec-draft-model, --spec-draft-n-max and --spec-draft-ngl.
