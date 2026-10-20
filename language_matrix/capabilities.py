@@ -4,11 +4,15 @@ Capability request validation and execution runtime for P03.
 This module implements structural validation, deadline checks,
 permission validation, and output schema validation for capability requests.
 """
+import copy
 import json
+import math
 import time
+from collections.abc import Mapping
+from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional
-from jsonschema import Draft202012Validator, ValidationError
+from typing import Any, Callable, Dict, List, Tuple
+from jsonschema import Draft202012Validator
 from pathlib import Path
 
 # Registry of supported capabilities and their output schemas
@@ -40,6 +44,392 @@ OUTPUT_SCHEMA_REGISTRY = {
 CAPABILITY_REQUEST_SCHEMA = None
 SCHEMA_ROOT = Path(__file__).resolve().parents[1] / 'docs' / 'contracts'
 
+
+@dataclass(frozen=True)
+class HandlerSpec:
+    """Supervisor-owned description of a trusted local handler."""
+
+    handler: Callable[..., Any]
+    required_permissions: Tuple[str, ...] = ()
+
+
+class _CooperativeStop(BaseException):
+    """Internal stop signal that ordinary ``except Exception`` cannot swallow."""
+
+    def __init__(self, reason: str):
+        super().__init__(reason)
+        self.reason = reason
+
+
+def _structural_errors(request: Any) -> List[str]:
+    """Return JSON Schema errors, before any semantic field is used."""
+    if request is None:
+        return ["Request cannot be null"]
+
+    try:
+        validator = _get_validator()
+        schema_errors = list(validator.iter_errors(request))
+    except Exception as exc:
+        return [f"Schema validation failed: {str(exc)}"]
+
+    return [f"Schema validation failed: {error.message}" for error in schema_errors]
+
+
+def _semantic_errors(request: Dict[str, Any], now: datetime) -> List[str]:
+    """Validate semantic fields of a structurally valid request."""
+    errors = []
+
+    # 1. Deadline validation (must be in the future)
+    if "deadline_utc" in request:
+        try:
+            deadline = datetime.strptime(request["deadline_utc"], "%Y-%m-%dT%H:%M:%SZ")
+            deadline = deadline.replace(tzinfo=timezone.utc)
+            if deadline <= now:
+                errors.append("Deadline has expired")
+        except (ValueError, TypeError):
+            errors.append("Invalid deadline format")
+
+    # 2. Capability validation (must be in registry)
+    if "capability" in request:
+        capability = request["capability"]
+        if not isinstance(capability, str):
+            errors.append("Capability must be a string")
+        elif capability not in CAPABILITY_REGISTRY:
+            errors.append(f"Unknown capability: {capability}")
+
+    # 3. Output schema validation
+    if "output_schema" in request:
+        output_schema = request["output_schema"]
+        if not isinstance(output_schema, str):
+            errors.append("Output schema must be a string")
+        elif output_schema not in OUTPUT_SCHEMA_REGISTRY:
+            errors.append(f"Unknown output schema: {output_schema}")
+
+    # 4. Permission validation (must be in registry)
+    if "permissions" in request:
+        permissions = request["permissions"]
+        if not isinstance(permissions, list):
+            errors.append("Permissions must be an array")
+        else:
+            for perm in permissions:
+                if not isinstance(perm, str) or perm not in PERMISSION_REGISTRY:
+                    errors.append(f"Unknown permission: {perm}")
+
+    # 5. Policy validation
+    if "policy" in request:
+        policy = request["policy"]
+        if not isinstance(policy, dict):
+            errors.append("Policy must be an object")
+        else:
+            if "max_cost_usd" in policy and policy["max_cost_usd"] != 0:
+                errors.append("Policy must have max_cost_usd = 0")
+            if "allow_network" in policy and policy["allow_network"] is not False:
+                errors.append("Policy must have allow_network = false")
+
+    # 6. Capability/output_schema binding validation
+    if "capability" in request and "output_schema" in request:
+        capability = request["capability"]
+        output_schema = request["output_schema"]
+        if capability in CAPABILITY_REGISTRY:
+            supported_schemas = CAPABILITY_REGISTRY[capability]
+            if output_schema not in supported_schemas:
+                errors.append(
+                    f"Capability {capability} does not support output schema {output_schema}"
+                )
+
+    # 7. Reserved contracts validation - check if actual schema files exist
+    if "output_schema" in request:
+        output_schema = request["output_schema"]
+        if output_schema in OUTPUT_SCHEMA_REGISTRY:
+            try:
+                schema_file = OUTPUT_SCHEMA_REGISTRY[output_schema]
+                schema_path = SCHEMA_ROOT / schema_file
+                if not schema_path.exists():
+                    errors.append(
+                        f"Output schema file not found for {output_schema}: {schema_file}"
+                    )
+            except Exception:
+                errors.append(f"Failed to validate schema file for {output_schema}")
+
+    return errors
+
+
+def _default_utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _default_monotonic() -> float:
+    return time.monotonic()
+
+
+def _aware_utc(value: Any) -> datetime:
+    if not isinstance(value, datetime):
+        raise ValueError("Clock must return a datetime")
+    if value.tzinfo is None or value.utcoffset() is None:
+        raise ValueError("Clock must return a timezone-aware datetime")
+    return value.astimezone(timezone.utc)
+
+
+def _monotonic_value(value: Any) -> float:
+    if type(value) not in (int, float) or not math.isfinite(value):
+        raise ValueError("Monotonic clock must return a finite number")
+    return value
+
+
+def _failure(states: List[str], attempts: int, errors: List[str]) -> Dict[str, Any]:
+    states.append("failure")
+    return {
+        "status": "failure",
+        "states": states,
+        "attempts": attempts,
+        "errors": errors,
+    }
+
+
+def _normalize_permission_names(value: Any) -> Tuple[str, ...]:
+    if isinstance(value, (str, bytes)) or not isinstance(
+        value, (list, tuple, set, frozenset)
+    ):
+        raise ValueError("Permissions must be a collection of permission names")
+    names = tuple(value)
+    if not all(isinstance(name, str) and name in PERMISSION_REGISTRY for name in names):
+        raise ValueError("Invalid permission names")
+    if len(set(names)) != len(names):
+        raise ValueError("Duplicate permission names")
+    return names
+
+
+class _ExecutionContext:
+    """Cooperative checkpointing context passed to a trusted handler."""
+
+    def __init__(
+        self,
+        *,
+        deadline: datetime,
+        started_monotonic: float,
+        timeout_seconds: float,
+        utc_now: Callable[[], datetime],
+        monotonic: Callable[[], float],
+        cancelled: Callable[[], bool],
+    ):
+        self._deadline = deadline
+        self._started_monotonic = started_monotonic
+        self._last_monotonic = started_monotonic
+        self._timeout_seconds = timeout_seconds
+        self._utc_now = utc_now
+        self._monotonic = monotonic
+        self._cancelled = cancelled
+
+    def _stop_reason(self) -> str:
+        try:
+            if bool(self._cancelled()):
+                return "Execution was cancelled"
+        except Exception as exc:
+            return f"Cancellation check failed: {exc}"
+
+        try:
+            if _aware_utc(self._utc_now()) >= self._deadline:
+                return "Deadline has expired"
+        except Exception as exc:
+            return f"Deadline check failed: {exc}"
+
+        try:
+            current = _monotonic_value(self._monotonic())
+            if current < self._last_monotonic:
+                return "Monotonic clock moved backwards"
+            self._last_monotonic = current
+            elapsed = current - self._started_monotonic
+            if elapsed >= self._timeout_seconds:
+                return "Execution time budget exhausted"
+        except Exception as exc:
+            return f"Time budget check failed: {exc}"
+
+        return ""
+
+    def checkpoint(self) -> None:
+        reason = self._stop_reason()
+        if reason:
+            raise _CooperativeStop(reason)
+
+
+def execute_capability_request(
+    request: Dict[str, Any],
+    *,
+    handlers: Mapping[Tuple[str, str], HandlerSpec],
+    granted_permissions: Tuple[str, ...] = (),
+    utc_now: Callable[[], datetime] = None,
+    monotonic: Callable[[], float] = None,
+    cancelled: Callable[[], bool] = None,
+) -> Dict[str, Any]:
+    """
+    Execute a validated capability request with a trusted local handler.
+
+    Execution is synchronous and cooperative. It does not create threads or
+    processes, and it cannot preempt or isolate handler code.
+    """
+    utc_now = _default_utc_now if utc_now is None else utc_now
+    monotonic = _default_monotonic if monotonic is None else monotonic
+    cancelled = (lambda: False) if cancelled is None else cancelled
+
+    states: List[str] = []
+
+    # Schema-first request validation. No request field selects a handler.
+    structural = _structural_errors(request)
+    if structural:
+        return _failure(states, 0, structural)
+
+    if not (
+        callable(utc_now) and callable(monotonic) and callable(cancelled)
+    ):
+        return _failure(states, 0, ["Invalid execution clock or cancellation callable"])
+
+    try:
+        request_snapshot = copy.deepcopy(request)
+    except Exception as exc:
+        return _failure(states, 0, [f"Request cannot be copied: {exc}"])
+
+    try:
+        grants = _normalize_permission_names(granted_permissions)
+    except ValueError as exc:
+        return _failure(states, 0, [str(exc)])
+
+    try:
+        now = _aware_utc(utc_now())
+    except Exception as exc:
+        return _failure(states, 0, [f"Invalid UTC clock: {exc}"])
+
+    semantic = _semantic_errors(request_snapshot, now)
+    if semantic:
+        return _failure(states, 0, semantic)
+
+    provider = request_snapshot["provider"]
+    capability = request_snapshot["capability"]
+    output_schema = request_snapshot["output_schema"]
+    requested = tuple(request_snapshot["permissions"])
+    deadline_text = request_snapshot["deadline_utc"]
+    max_attempts = request_snapshot["policy"]["max_attempts"]
+    timeout_seconds = request_snapshot["policy"]["timeout_seconds"]
+
+    if provider != "local":
+        return _failure(states, 0, [f"Provider is not allowed: {provider}"])
+
+    if not isinstance(handlers, Mapping):
+        return _failure(states, 0, ["Handler registry must be a mapping"])
+
+    try:
+        spec = handlers.get((provider, capability))
+    except Exception as exc:
+        return _failure(states, 0, [f"Handler lookup failed: {exc}"])
+
+    if not isinstance(spec, HandlerSpec):
+        return _failure(states, 0, [f"No trusted handler for {provider}/{capability}"])
+
+    if not callable(spec.handler):
+        return _failure(states, 0, ["Handler spec is not callable"])
+
+    try:
+        required = _normalize_permission_names(spec.required_permissions)
+    except ValueError as exc:
+        return _failure(states, 0, [f"Malformed handler spec: {exc}"])
+
+    granted_set = set(grants)
+    requested_set = set(requested)
+
+    missing_grants = [name for name in requested if name not in granted_set]
+    if missing_grants:
+        return _failure(
+            states,
+            0,
+            [f"Requested permission not granted: {name}" for name in missing_grants],
+        )
+
+    for name in required:
+        if name not in requested_set:
+            return _failure(
+                states, 0, [f"Handler-required permission not requested: {name}"]
+            )
+        if name not in granted_set:
+            return _failure(
+                states, 0, [f"Handler-required permission not granted: {name}"]
+            )
+
+    try:
+        deadline = datetime.strptime(deadline_text, "%Y-%m-%dT%H:%M:%SZ")
+        deadline = deadline.replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError):
+        return _failure(states, 0, ["Invalid deadline format"])
+
+    if now >= deadline:
+        return _failure(states, 0, ["Deadline has expired"])
+
+    try:
+        started_monotonic = _monotonic_value(monotonic())
+    except Exception as exc:
+        return _failure(states, 0, [f"Invalid monotonic clock: {exc}"])
+
+    context = _ExecutionContext(
+        deadline=deadline,
+        started_monotonic=started_monotonic,
+        timeout_seconds=timeout_seconds,
+        utc_now=utc_now,
+        monotonic=monotonic,
+        cancelled=cancelled,
+    )
+
+    states.append("pending")
+    attempts = 0
+    last_error = "Handler failed"
+
+    while attempts < max_attempts:
+        try:
+            context.checkpoint()
+        except _CooperativeStop as stop:
+            return _failure(states, attempts, [stop.reason])
+
+        attempts += 1
+        try:
+            output = spec.handler(copy.deepcopy(request_snapshot), context)
+        except _CooperativeStop as stop:
+            return _failure(states, attempts, [stop.reason])
+        except Exception as exc:
+            last_error = f"Handler failed: {exc}"
+            try:
+                context.checkpoint()
+            except _CooperativeStop as stop:
+                return _failure(states, attempts, [stop.reason])
+            if attempts >= max_attempts:
+                return _failure(states, attempts, [last_error])
+            continue
+
+        try:
+            context.checkpoint()
+        except _CooperativeStop as stop:
+            return _failure(states, attempts, [stop.reason])
+
+        output_errors = validate_output_schema(output, output_schema)
+        if output_errors:
+            return _failure(states, attempts, output_errors)
+
+        try:
+            result_output = copy.deepcopy(output)
+        except Exception:
+            result_output = output
+
+        try:
+            context.checkpoint()
+        except _CooperativeStop as stop:
+            return _failure(states, attempts, [stop.reason])
+
+        states.append("ready")
+        return {
+            "status": "ready",
+            "states": states,
+            "attempts": attempts,
+            "output": result_output,
+        }
+
+    return _failure(states, attempts, [last_error])
+
 def _load_schema(schema_file: str) -> Dict[str, Any]:
     """Load a JSON schema from the contracts directory."""
     schema_path = SCHEMA_ROOT / schema_file
@@ -61,104 +451,10 @@ def validate_capability_request(request: Dict[str, Any]) -> List[str]:
 
     Returns list of validation errors. Empty list means valid request.
     """
-    errors = []
-
-    # 1. Structural validation using JSON Schema - IMMEDIATE RETURN ON FAILURE
-    if request is None:
-        return ["Request cannot be null"]
-
-    try:
-        validator = _get_validator()
-        schema_errors = list(validator.iter_errors(request))
-
-        # If there are schema errors, we need to check if they're structural or semantic
-        # For now, we'll return all schema errors (which is what the tests expect)
-        if schema_errors:
-            for error in schema_errors:
-                errors.append(f"Schema validation failed: {error.message}")
-            return errors
-
-    except Exception as e:
-        # Handle any exception during schema validation
-        errors.append(f"Schema validation failed: {str(e)}")
-        return errors
-
-    # 2. Deadline validation (must be in the future)
-    if "deadline_utc" in request:
-        try:
-            deadline = datetime.strptime(request["deadline_utc"], "%Y-%m-%dT%H:%M:%SZ")
-            # Make the deadline timezone-aware to match current_time
-            deadline = deadline.replace(tzinfo=timezone.utc)
-            current_time = datetime.now(timezone.utc)
-            if deadline <= current_time:
-                errors.append("Deadline has expired")
-        except (ValueError, TypeError):
-            errors.append("Invalid deadline format")
-
-    # 3. Capability validation (must be in registry)
-    if "capability" in request:
-        capability = request["capability"]
-        if not isinstance(capability, str):
-            errors.append("Capability must be a string")
-        elif capability not in CAPABILITY_REGISTRY:
-            errors.append(f"Unknown capability: {capability}")
-
-    # 4. Output schema validation
-    if "output_schema" in request:
-        output_schema = request["output_schema"]
-        if not isinstance(output_schema, str):
-            errors.append("Output schema must be a string")
-        elif output_schema not in OUTPUT_SCHEMA_REGISTRY:
-            errors.append(f"Unknown output schema: {output_schema}")
-
-    # 5. Permission validation (must be in registry)
-    if "permissions" in request:
-        permissions = request["permissions"]
-        if not isinstance(permissions, list):
-            errors.append("Permissions must be an array")
-        else:
-            for perm in permissions:
-                if perm not in PERMISSION_REGISTRY:
-                    errors.append(f"Unknown permission: {perm}")
-
-    # 6. Policy validation
-    if "policy" in request:
-        policy = request["policy"]
-        if not isinstance(policy, dict):
-            errors.append("Policy must be an object")
-        else:
-            # Validate max_cost_usd is 0
-            if "max_cost_usd" in policy and policy["max_cost_usd"] != 0:
-                errors.append("Policy must have max_cost_usd = 0")
-
-            # Validate allow_network is false
-            if "allow_network" in policy and policy["allow_network"] is not False:
-                errors.append("Policy must have allow_network = false")
-
-    # 7. Capability/output_schema binding validation
-    if "capability" in request and "output_schema" in request:
-        capability = request["capability"]
-        output_schema = request["output_schema"]
-
-        # Check if the capability supports this output schema
-        if capability in CAPABILITY_REGISTRY:
-            supported_schemas = CAPABILITY_REGISTRY[capability]
-            if output_schema not in supported_schemas:
-                errors.append(f"Capability {capability} does not support output schema {output_schema}")
-
-    # 8. Reserved contracts validation - check if actual schema files exist
-    if "output_schema" in request:
-        output_schema = request["output_schema"]
-        if output_schema in OUTPUT_SCHEMA_REGISTRY:
-            try:
-                schema_file = OUTPUT_SCHEMA_REGISTRY[output_schema]
-                schema_path = SCHEMA_ROOT / schema_file
-                if not schema_path.exists():
-                    errors.append(f"Output schema file not found for {output_schema}: {schema_file}")
-            except Exception:
-                errors.append(f"Failed to validate schema file for {output_schema}")
-
-    return errors
+    structural = _structural_errors(request)
+    if structural:
+        return structural
+    return _semantic_errors(request, datetime.now(timezone.utc))
 
 def validate_output_schema(output: Dict[str, Any], schema_name: str) -> List[str]:
     """
@@ -235,11 +531,10 @@ def get_granted_permissions(request: Dict[str, Any], *, granted_permissions: Lis
         raise ValueError("Malformed permissions field: must be a list")
 
     # Check for invalid permission names in request
-    valid_permissions = {"cache.read", "cache.write", "local.generate"}
     requested_perms = request["permissions"]
 
     # Validate that all requested permissions are valid
-    if not all(isinstance(p, str) and p in valid_permissions for p in requested_perms):
+    if not all(isinstance(p, str) and p in PERMISSION_REGISTRY for p in requested_perms):
         raise ValueError("Malformed permissions field: contains invalid permission names")
 
     # Return intersection of requested and granted permissions, preserving order from request

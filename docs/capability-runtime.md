@@ -1,50 +1,123 @@
-# Capability Runtime Validation
+# Capability Runtime Validation and Cooperative Execution
 
-This module implements structural validation, deadline checks, 
-permission validation, and output schema validation for capability requests.
+This module validates capability requests and can execute them through trusted,
+supervisor-owned local handlers. Execution is deliberately narrow: synchronous,
+cooperative, and limited to the fixed local capability registry.
 
-## Key Features
+## Validation
 
-1. **Immediate Structural Schema Validation**: All capability requests are validated against the JSON schema immediately before any semantic field validation occurs.
+`validate_capability_request(request)` keeps the earlier public validation API:
 
-2. **Malformed Request Handling**: Requests with malformed structures (arrays, numbers, etc.) return non-empty error lists without exceptions.
+1. **Structural validation** using the fixed request JSON Schema - returns immediately on failure.
+2. **Deadline validation** against the current UTC time (must be in the future).
+3. **Capability validation** (must be in `CAPABILITY_REGISTRY`).
+4. **Output schema validation** (must be in `OUTPUT_SCHEMA_REGISTRY`).
+5. **Permission validation** (must be in `PERMISSION_REGISTRY`).
+6. **Policy validation** (`max_cost_usd = 0`, `allow_network = false`).
+7. **Capability/output_schema binding validation**.
+8. **Reserved contracts validation** - the referenced output schema file must exist.
 
-3. **Capability/Output Schema Binding**: Validates that capabilities support their specified output schemas.
-
-4. **Reserved Contract Validation**: Checks that reserved contracts have actual schema files available.
-
-5. **Zero-Cost Policy Enforcement**: Ensures all policies have `max_cost_usd = 0` and `allow_network = false`.
+Malformed requests return non-empty error lists without raising exceptions.
+`validate_output_schema(output, schema_name)` validates a handler result against
+the fixed output contract and returns a list of errors.
 
 ## Permission Handling
 
-The `get_granted_permissions()` function implements a secure permission model:
+`get_granted_permissions()` implements an independent supervisor grant model:
 
-- **No Implicit Granting**: Permissions are never automatically granted based on request content
-- **Explicit Supervisor Grants**: Only permissions explicitly granted by supervisor are returned
-- **Request Field Isolation**: No request field can establish authority or override supervisor grants
-- **Input Validation**: Malformed permissions fields raise `ValueError`
-- **Intersection Logic**: Returns only permissions that are both requested and explicitly granted
+- **No implicit granting**: request content never establishes authority.
+- **Explicit supervisor grants**: only names in `granted_permissions` are considered.
+- **Shared allowlist**: both requests and grants use `PERMISSION_REGISTRY`.
+- **Input validation**: malformed permissions or grants raise `ValueError`.
+- **Intersection logic**: returns only permissions that are both requested and granted.
 
-## Validation Order
+Execution additionally requires every requested permission to be granted. A
+`HandlerSpec(handler, required_permissions=...)` may declare handler-required
+permissions; each of those must also be both requested by the request and granted
+by the supervisor.
 
-1. **Structural validation** using JSON Schema - returns immediately on failure
-2. **Deadline validation** (must be in the future)
-3. **Capability validation** (must be in registry)
-4. **Output schema validation**
-5. **Permission validation** (must be in registry and explicitly granted)
-6. **Policy validation** (zero-cost, no network access)
-7. **Capability/output_schema binding validation**
-8. **Reserved contracts validation** - check if actual schema files exist
+## Execution API
 
-## Error Handling
+```python
+HandlerSpec(handler, required_permissions=("local.generate",))
 
-- All validation errors are returned as a list of strings
-- Empty list indicates valid request
-- Malformed requests return non-empty error lists without exceptions
-- Structural schema errors are returned immediately before semantic field use
+execute_capability_request(
+    request,
+    handlers={("local", "lesson.generate"): spec},
+    granted_permissions=("local.generate",),
+    utc_now=...,        # optional aware-UTC clock
+    monotonic=...,      # optional elapsed-time clock
+    cancelled=...,      # optional cooperative cancellation predicate
+)
+```
 
-## Current limitations
+`handlers` is keyed by `(provider, capability)` and contains trusted,
+supervisor-owned `HandlerSpec` objects. Only the `local` provider is allowed.
+A request cannot supply a handler, source, configuration, or authority of its own.
+Handler specs must be well formed: the handler must be callable and every
+required permission name must be in `PERMISSION_REGISTRY`.
 
-This module validates requests; it is not an execution runtime. Checking policy fields does not itself isolate network access or enforce spending during execution. `get_granted_permissions` defaults to no authority and intersects requested permissions with an independently supplied supervisor collection; malformed grants raise ValueError. Validation itself does not require those grants or execute anything. Handler execution, cancellation, bounded retries/timeouts and validation of actual handler results remain unfinished. Integration examples are validation-only previews: reserved contracts return blocked, executed=false and errors, with no fabricated result. P03 is not accepted; dependent packets remain gated.
+Before invocation the runtime validates the request schema first, then checks the
+injected UTC deadline, independently validates grants, enforces the permission
+relationships, resolves the fixed provider/capability handler, and captures a
+defensive copy of the request. It also snapshots the attempt limit, timeout,
+output binding, requested permissions, deadline, and handler specification so
+mutations by the handler cannot extend its authority or budget.
 
-Qwen authored the request validation and independent-grants changes. Controller added malformed-authority/deadline regressions, hardened those helpers and corrected the misleading integration examples.
+The handler receives a fresh defensive copy of the request and a context with
+`checkpoint()`. The initial attempt produces a `pending` state; the result ends
+in either `ready` or `failure`. Results have the shape:
+
+```python
+{
+    "status": "ready",              # or "failure"
+    "states": ["pending", "ready"], # terminal is "ready" or "failure"
+    "attempts": 1,
+    "output": {...},                # present only when ready
+}
+```
+
+Failure results include an `errors` list and never include `output`.
+
+## Cooperative Execution Lifecycle
+
+Execution is synchronous and cooperative:
+
+- `context.checkpoint()` checks the absolute injected UTC deadline, the monotonic
+  duration budget (`policy.timeout_seconds`), and cancellation.
+- The runtime checks before every attempt and again after the handler returns.
+- Late, timed-out, cancelled, or invalid output is discarded.
+- Ordinary handler `Exception` failures may be retried up to `policy.max_attempts`,
+  but only while the total time budget and deadline still permit it.
+- Cancellation, timeout, deadline expiry, and invalid output are never retried.
+- A dedicated internal stop signal is used for cooperative stops so ordinary
+  handler error handling cannot turn a cancellation into a retry.
+- Output is validated against the original, fixed output schema captured before
+  invocation before a result can become `ready`.
+
+Default clocks use the real UTC wall clock and `time.monotonic()`; injected clocks
+allow deterministic tests. No threads or processes are created. The runtime does
+not execute shell commands, access the network, download dependencies, or invoke
+arbitrary code beyond the trusted handler callable supplied by the supervisor.
+
+## Trust and Current Limitations
+
+Schema validity is only structural conformance. A `ready` result does **not**
+establish teaching trust, reviewer verification, or independent correctness; the
+handler's output metadata remains whatever the handler supplied.
+
+Execution is non-preemptive and cooperative. The runtime cannot kill untrusted,
+stuck, or non-cooperating code, cannot interrupt a handler that never returns or
+never calls `checkpoint()`, and cannot isolate network or filesystem access by
+itself. It is not a sandbox. Handler code must be trusted, finite, and local.
+Timeouts and deadlines are observed at checkpoints, not enforced by the operating
+system.
+
+Only capabilities with available fixed output contracts can produce `ready`
+results; reserved contracts whose schema files are absent fail validation.
+This runtime does not claim full P03 acceptance, process isolation, or network
+sandboxing. Dependent packets remain gated.
+
+Controller clock hardening: injected monotonic values must be finite numbers and must not move backwards; invalid clocks refuse execution. This is covered by fail-before-handler regressions.
+
+A final checkpoint before `ready` includes output validation and result copying in the elapsed/deadline/cancellation budget.
