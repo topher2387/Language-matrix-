@@ -1,0 +1,18 @@
+{
+  "model": "opencode/mimo-v2.6-flash-free",
+  "review": {
+    "verdict": "approve",
+    "findings": [],
+    "summary": "Reviewed draft Audio Asset v1 schema and fixture sample for metadata/schema preparation only. The draft 2020-12 schema declares all 11 required top-level fields, enforces additionalProperties:false at every object level (root, provenance, license_info, verification), and bounds IDs as stated (asset_id/voice_id ^[a-z][a-z0-9_-]{0,127}$ with maxLength 128; generator_id/evidence_id/reviewer 64-char cap). content_hash and source_text_sha256 require 64 lowercase hex chars; format is const wav; sample_rate_hz is integer 8000\u201396000; channels 1\u20132; duration_seconds >0 and <=600. Conditionals behave as specified: license status unknown forces evidence_id null while evidenced requires a pattern-conforming nonempty string (pattern ^[a-z]... rejects empty; pattern does not apply to null), and verification unverified forces reviewer null while reviewed/verified require reviewer to be present and a nonempty pattern-conforming string. The sample satisfies every required field, bound, pattern and conditional branch (unknown+null evidence_id, unverified+null reviewer, valid 20-char UTC Z timestamp, no extra properties), so it conforms. Remaining uncertainty: schema validity establishes nothing about media bytes, license evidence or reviewer authority (no media or real credentials were provided); calendar validity of dates (e.g., Feb 31/leap years, format is annotation-only), hash-to-bytes binding, decoded WAV metadata, and store binding remain future semantic obligations; placeholder 64-zero hash lengths were assessed by inspection rather than tooling since no tools were permitted."
+  },
+  "paid_cost": 0,
+  "steps": 1,
+  "usage_unknown": false,
+  "independent_tests": {
+    "count": 150,
+    "exit_code": 0,
+    "isolation": "offline bubblewrap snapshot",
+    "report": "audio-proposal-final-0813-tests.json"
+  },
+  "status": "DRAFT UNREGISTERED, no human schema approval or teaching/media acceptance"
+}
