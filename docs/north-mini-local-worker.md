@@ -9,3 +9,8 @@ Requested context250000; runtime pads slot to250112. Flash Attention enabled; K/
 The model card documents up to256K context. Configuring/loading capacity and passing short smoke tests do not demonstrate reliable250K retrieval or performance. Full-window quality benchmarking remains to be performed. Initial128-token smoke budget cut off reasoning/tool arguments; corrected to1024. That truncation was a test configuration issue, not a model coding failure.
 
 Start with config/local-coder/north/start-north.sh. The local OpenCode profile selects north-local/north-mini-code-supervised:250k. config/local-coder/north/open-north.sh attaches the prepared, empty supervised session. Existing Qwen sessions and tutor configuration are preserved. No development packet, merge or deployment starts automatically.
+
+
+## CUDA graph OOM recovery
+
+The initial43-CPU-expert placement later crashed during cudaGraphInstantiate while processing the saved P04 context. Revised placement keeps45expert layers in RAM, retaining CUDA graphs, GPU attention,250Kcontext andq4_0KV. Short generation/tool roundtrip PASS with about6286MiB VRAM used and1546MiBfree; full saved-context stability is pending. The graph-disable diagnostic was reversed at user request. A systemd drop-in limits restart attempts and avoids large core dumps.
