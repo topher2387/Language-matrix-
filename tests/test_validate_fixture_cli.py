@@ -15,11 +15,12 @@ class ValidateFixtureCLITest(unittest.TestCase):
         self.sample_lesson_path = Path(__file__).resolve().parents[1] / 'docs' / 'contracts' / 'sample-lesson.json'
         self.sample_capability_path = Path(__file__).resolve().parents[1] / 'docs' / 'contracts' / 'sample-capability-request.json'
         
-    def run_cli(self, schema_name, file_path):
+    def run_cli(self, schema_name, file_path, *, cwd=None):
         """Run the CLI with given arguments and return exit code."""
         result = subprocess.run([
             sys.executable, str(self.script_path), schema_name, str(file_path)
-        ], capture_output=True, text=True, cwd=str(Path(__file__).resolve().parents[1]))
+        ], capture_output=True, text=True,
+           cwd=str(Path(__file__).resolve().parents[1]) if cwd is None else cwd)
         return result.returncode, result.stdout, result.stderr
     
     def test_valid_lesson(self):
@@ -107,14 +108,54 @@ class ValidateFixtureCLITest(unittest.TestCase):
     
     def test_invocation_from_different_directory(self):
         """Test that CLI works when invoked from a different working directory."""
-        # Change to a different directory and run the CLI
-        original_cwd = os.getcwd()
-        try:
-            os.chdir('/tmp')
-            exit_code, stdout, stderr = self.run_cli('lesson', self.sample_lesson_path)
+        with tempfile.TemporaryDirectory() as directory:
+            exit_code, stdout, stderr = self.run_cli(
+                'lesson', self.sample_lesson_path, cwd=directory)
             self.assertEqual(exit_code, 0, f"CLI should work from different directory but failed with: {stderr}")
-        finally:
-            os.chdir(original_cwd)
+
+    def test_working_directory_cannot_replace_registry_schema(self):
+        """An unrelated cwd cannot supply a permissive replacement schema."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            schemas = root / 'docs' / 'contracts'
+            schemas.mkdir(parents=True)
+            (schemas / 'lesson-v1.schema.json').write_text('{}')
+            fixture = root / 'invalid.json'
+            fixture.write_text('{}')
+            exit_code, stdout, stderr = self.run_cli('lesson', fixture, cwd=directory)
+            self.assertEqual(exit_code, 1, stderr)
+            self.assertNotIn('Traceback', stderr)
+
+    def test_library_rejects_unknown_schema_before_file_access(self):
+        from tools.validate_fixture import validate_fixture
+        from unittest.mock import patch
+        with patch('builtins.open', side_effect=AssertionError('must not access files')):
+            for name in ('invalid-schema', '../lesson', '/tmp/lesson'):
+                with self.subTest(name=name):
+                    self.assertEqual(validate_fixture(name, '/unused'), 2)
+
+    def test_library_rejects_all_non_fragment_refs_before_validation(self):
+        from tools.validate_fixture import validate_fixture
+        from unittest.mock import patch, mock_open
+        for ref in ('http://example.invalid/a', 'https://example.invalid/a',
+                    'file:///tmp/schema.json', 'other.json', '//example.invalid/a#x'):
+            schema = {'type': 'object', 'properties': {'x': {'$ref': ref}}}
+            with self.subTest(ref=ref), patch('builtins.open', mock_open(read_data='{}')), \
+                    patch('tools.validate_fixture.json.load', return_value=schema), \
+                    patch('tools.validate_fixture.Draft202012Validator') as validator:
+                self.assertEqual(validate_fixture('lesson', '/unused'), 2)
+                validator.assert_not_called()
+                validator.check_schema.assert_not_called()
+
+    def test_library_allows_internal_refs_and_still_validates(self):
+        from tools.validate_fixture import validate_fixture
+        from unittest.mock import patch, mock_open
+        schema = {'$defs': {'word': {'type': 'string'}},
+                  'type': 'object', 'properties': {'x': {'$ref': '#/$defs/word'}}}
+        for data, expected in (({'x': 'valid'}, 0), ({'x': 7}, 1)):
+            with self.subTest(data=data), patch('builtins.open', mock_open(read_data='{}')), \
+                    patch('tools.validate_fixture.json.load', side_effect=[schema, data]):
+                self.assertEqual(validate_fixture('lesson', '/unused'), expected)
 
 if __name__ == '__main__':
     unittest.main()

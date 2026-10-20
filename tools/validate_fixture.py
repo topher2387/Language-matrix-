@@ -10,6 +10,11 @@ from jsonschema import Draft202012Validator
 def validate_fixture(schema_name, file_path):
     """Validate a fixture against the specified schema."""
     
+    # Enforce whitelist at library boundary - only allow known schemas
+    if schema_name not in ('lesson', 'capability-request'):
+        print(f"Error: Unknown schema '{schema_name}'. Must be 'lesson' or 'capability-request'", file=sys.stderr)
+        return 2
+    
     # Resolve schema path relative to repository root
     repo_root = Path(__file__).resolve().parents[1]
     schema_path = repo_root / 'docs' / 'contracts' / f'{schema_name}-v1.schema.json'
@@ -26,8 +31,29 @@ def validate_fixture(schema_name, file_path):
         print(f"Error reading schema: {e}", file=sys.stderr)
         return 2
     
-    # Validate schema structure
+    # Validate that schema doesn't contain external $ref references (only fragment refs allowed)
+    def check_refs(obj, path=""):
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                if key == "$ref" and isinstance(value, str):
+                    # Reject any $ref that doesn't start with '#'
+                    if not value.startswith('#'):
+                        print(f"Error: External $ref reference found at {path}: {value}", file=sys.stderr)
+                        return False
+                else:
+                    # Recursively check nested objects
+                    if not check_refs(value, f"{path}.{key}" if path else key):
+                        return False
+        elif isinstance(obj, list):
+            for i, item in enumerate(obj):
+                if not check_refs(item, f"{path}[{i}]"):
+                    return False
+        return True
+    
+    # Validate schema structure and check for external references
     try:
+        if not check_refs(schema):
+            return 2
         Draft202012Validator.check_schema(schema)
     except Exception as e:
         print(f"Error in schema definition: {e}", file=sys.stderr)
