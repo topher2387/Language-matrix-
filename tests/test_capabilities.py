@@ -311,10 +311,10 @@ class CapabilitiesTest(unittest.TestCase):
 
     def test_reserved_contract_unavailable_validation(self):
         """Test that reserved contracts with no actual schema file fail validation."""
-        # Test with reserved tts capability that has no schema file
+        # Test with reserved phonology capability that has no schema file
         invalid_request = copy.deepcopy(self.sample_request)
-        invalid_request["capability"] = "tts.synthesize"
-        invalid_request["output_schema"] = "audio-asset.v1"  # This is a valid schema but let's test the binding
+        invalid_request["capability"] = "phonology.check"
+        invalid_request["output_schema"] = "phonology-report.v1"  # This is a valid schema but let's test the binding
 
         # Actually, let's test with a non-existent schema file
         # First, we need to check what schemas are actually available vs reserved
