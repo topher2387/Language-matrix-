@@ -1,0 +1,10 @@
+{
+  "returncode": 1,
+  "paid_cost": 0,
+  "usage_unknown": false,
+  "steps": 9,
+  "tokens": 130476,
+  "text": "OpenCode exceeded configured request/cost envelope; stop for inspection",
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "controller_assessment": "Harness rejected9steps against8stepenvelope and applied no source. Controller inspected the two completed write proposals preserved in events, accounted actual9steps in ledger, manually applied only integration_example.py and tests/test_integration.py, reviewed and independently tested. Worker result is not acceptance."
+}

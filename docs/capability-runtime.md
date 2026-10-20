@@ -129,3 +129,7 @@ sandboxing. Dependent packets remain gated.
 Controller clock hardening: injected monotonic values must be finite numbers and must not move backwards; invalid clocks refuse execution. This is covered by fail-before-handler regressions.
 
 A final checkpoint before `ready` includes output validation and result copying in the elapsed/deadline/cancellation budget.
+
+## Offline fixture demonstration
+
+Run `python3 integration_example.py` from the repository root, or use the absolute script path from another directory. The JSON report labels itself fixture-only and includes a real `lesson.v1` runtime execution plus explicitly blocked reserved-contract previews. Library callers can use `example_lesson_execution(granted_permissions=())` or `cancelled=lambda: True` to observe refusal before any attempt. The sample remains unverified teaching content; this generates no audio and loads no model/provider.
