@@ -15,7 +15,9 @@ from capabilities import (
     is_request_expired,
     get_granted_permissions,
     get_supported_capabilities,
-    get_supported_permissions
+    get_supported_permissions,
+    HandlerSpec,
+    execute_capability_request
 )
 
 class CapabilitiesTest(unittest.TestCase):
@@ -129,8 +131,8 @@ class CapabilitiesTest(unittest.TestCase):
         self.assertTrue(len(errors) > 0)
         self.assertIn("Schema validation failed", errors[0])
 
-    def test_valid_output_validation(self):
-        """Test that valid outputs pass schema validation."""
+    def test_unapproved_phonology_output_fails_closed(self):
+        """Plausible phonology data cannot bypass an unavailable contract."""
         # This is a minimal phonology report
         output = {
             "schema_version": "1.0",
@@ -145,9 +147,8 @@ class CapabilitiesTest(unittest.TestCase):
         }
 
         errors = validate_output_schema(output, "phonology-report.v1")
-        # This should pass validation (we're not validating the full schema here)
-        # but we can at least make sure it doesn't crash
-        self.assertIsInstance(errors, list)
+        self.assertTrue(errors)
+        self.assertTrue(any("not found" in error for error in errors))
 
     def test_invalid_output_schema_fails_validation(self):
         """Test that invalid output schemas fail validation."""
@@ -311,15 +312,26 @@ class CapabilitiesTest(unittest.TestCase):
 
     def test_reserved_contract_unavailable_validation(self):
         """Test that reserved contracts with no actual schema file fail validation."""
-        # Test with reserved phonology capability that has no schema file
-        invalid_request = copy.deepcopy(self.sample_request)
-        invalid_request["capability"] = "phonology.check"
-        invalid_request["output_schema"] = "phonology-report.v1"  # This is a valid schema but let's test the binding
-
-        # Actually, let's test with a non-existent schema file
-        # First, we need to check what schemas are actually available vs reserved
-        errors = validate_capability_request(invalid_request)
-        self.assertTrue(any("schema file not found" in error for error in errors))
+        for capability, schema in (
+            ("phonology.check", "phonology-report.v1"),
+            ("asr.transcribe", "transcript.v1"),
+            ("image.generate", "image-asset.v1"),
+        ):
+            with self.subTest(capability=capability):
+                request = copy.deepcopy(self.sample_request)
+                request.update(capability=capability, output_schema=schema)
+                errors = validate_capability_request(request)
+                self.assertTrue(any("schema file not found" in error for error in errors))
+                calls = []
+                result = execute_capability_request(
+                    request,
+                    handlers={("local", capability): HandlerSpec(lambda *_: calls.append(True))},
+                    granted_permissions=("cache.read", "local.generate"),
+                )
+                self.assertEqual(result["status"], "failure")
+                self.assertEqual(result["attempts"], 0)
+                self.assertNotIn("output", result)
+                self.assertEqual(calls, [])
 
 class ControllerBoundaryTest(unittest.TestCase):
     def test_expiration_helper_fails_closed_for_malformed_inputs(self):
