@@ -61,3 +61,12 @@ Whole-layer offload left most attention and KV cache on CPU. An actual coding tu
 The installed Ollama 0.30.7 backend documents `LLAMA_ARG_CPU_MOE` and inherits the parent environment ([upstream runner source](https://github.com/ollama/ollama/blob/v0.30.7/llm/llama_server.go)). The dedicated service now exports this flag; `num_gpu 99` puts all 49 layers eligible on GPU while expert FFN weights are overridden to CPU. Logs verify 784 MiB GPU model buffers, 1632 MiB GPU KV cache and CPU expert tensors. Context remains 32768 and all tools remain enabled. Ollama model size/processor percentages do not describe CPU expert placement accurately with tensor overrides; use actual backend buffer logs.
 
 Observed after-change probe: 16035 prompt tokens processed in 81.77 seconds (about 196 tokens/sec), followed by 96 generated tokens at 14.16 tokens/sec; short generation 16.40 tokens/sec. The earlier coding turn and synthetic probe use different text, so this is comparable-context operational evidence, not a controlled identical-prompt speedup. A large uncached prompt still delays first output; prefix cache reuse helps subsequent turns. No model weight, quantization, tutor, existing RWKV service, quota or Lichen file changed.
+
+
+## Qwen80 context upgrade (2026-10-20)
+
+The current dedicated local worker uses Qwen3-Coder-Next 80B-A3B, Unsloth UD-Q3_K_S, via `qwen3-coder-next-supervised:64k`. Create the alias with `ollama create qwen3-coder-next-supervised:64k -f config/local-coder/Modelfile.qwen80-64k`. Earlier model aliases and tutor configuration are retained. This replaces the earlier 30B deployment instructions for the current coding assignment.
+
+Context is 65,536 tokens, output allowance 4,096, single parallel sequence. Flash Attention and q8_0 KV cache stay on CUDA. Granular expert placement uses `LLAMA_ARG_N_CPU_MOE=43`: first 43 expert layers in CPU RAM, remaining five expert layers on GPU, while shared attention stays on GPU. The runtime reports all 49 layers offloaded because the expert overrides are separate; that log does not mean all weights fit in VRAM.
+
+User requested a pause before this upgrade. Both automation loops and the existing P03 assignment remain paused. Session and test artifacts are saved locally; issue #24 contains the checkpoint. Tools and GitHub permissions remain enabled, agent cap is 24, and no new packet, merge, deployment, paid fallback, or Lichen change is authorized by this configuration. Long-context validation is recorded separately in evidence.

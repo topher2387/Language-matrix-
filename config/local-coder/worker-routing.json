@@ -1,8 +1,8 @@
 {
   "coding_worker": {
     "provider": "ollama-local",
-    "model": "qwen3-coder-supervised:32k",
-    "base_model": "qwen3-coder:30b-a3b-q4_K_M",
+    "model": "qwen3-coder-next-supervised:64k",
+    "base_model": "hf.co/unsloth/Qwen3-Coder-Next-GGUF:UD-Q3_K_S",
     "approval_required": true,
     "automatic_packet_dispatch": false
   },
