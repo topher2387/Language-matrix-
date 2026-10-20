@@ -109,3 +109,18 @@ Harness verification: syntax/CLI PASS. Mocked streaming/tokenization test exerci
 all7trials and checked identical prompt,4full-prefill cache-off phases,3cache-on
 phases,marker/timing/resource parsing. This is harness verification only; official
 large-prompt model measurements remain pending download completion and safe switch.
+
+Matrix execution authorized after checksum verification. Local runner `run-matrix.py`
+starts cases sequentially and owns/stops only its own server processes. It saves
+load time, resolved context, per-case server logs, long-prompt and code/tool logs,
+exit codes, raw results and status.json. Each server starts after clearing the
+prior case; inference begins with the large-prompt test, preserving first-request
+measurement. Each large-prompt phase has a2hHTTPtimeout and each case's large-test
+process is bounded to15,000s; code/tools bounded1,800s. A timeout/failure is recorded,
+not retried indefinitely. `finished_requires_review` is not acceptance/PASS.
+
+The matrix runs in its own systemd user cgroup withMemoryHigh34G,MemoryMax36G,
+MemorySwapMax1G and core dumps disabled to protect desktop/OS headroom after the
+prior reported crash. Limits are identical across all configurations. This may
+constrain actual model performance and is part of the recorded benchmark setup.
+No Codex heartbeat/polling automation is enabled. No P04 resumes automatically.
