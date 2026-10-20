@@ -1,0 +1,471 @@
+{
+  "source": {
+    "repo": "anik-jha/Nemotron-3.5-Bolt-74B-A9B-16GB-GGUF",
+    "revision": "e24fd75e50990f625772f9ab0884dacaefd18d3d",
+    "file": {
+      "rfilename": "Nemotron-3.5-Bolt-74B-A9B-16GB-REAP50-IQ2_XXS.gguf",
+      "blobId": "962641105887a7cd4974074a9bdec872aef7e79b",
+      "size": 13378655232,
+      "lfs": {
+        "sha256": "09fec94203ef6e88b20b90bd1eb3a2f183927fb36839d61710c89bfe3abeac7a",
+        "size": 13378655232,
+        "pointerSize": 136
+      }
+    }
+  },
+  "metadata": {
+    "general.architecture": "nemotron_h_moe",
+    "general.type": "model",
+    "general.sampling.top_p": 0.949999988079071,
+    "general.sampling.temp": 1.0,
+    "general.name": "Hf Packed 6226",
+    "general.version": "6226",
+    "general.basename": "hf-packed",
+    "general.size_label": "345x8.1B",
+    "nemotron_h_moe.block_count": 88,
+    "nemotron_h_moe.context_length": 262144,
+    "nemotron_h_moe.attention.head_count": 32,
+    "nemotron_h_moe.attention.head_count_kv": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "nemotron_h_moe.expert_count": 248,
+    "general.file_type": 19,
+    "nemotron_h_moe.expert_used_count": [
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9,
+      0,
+      9
+    ],
+    "general.quantization_version": 2
+  },
+  "checksum": "09fec94203ef6e88b20b90bd1eb3a2f183927fb36839d61710c89bfe3abeac7a",
+  "runs": {
+    "2048": {
+      "label": "bolt-cache2048",
+      "results": {
+        "coding": {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "```python\ndef merge_ranges(ranges):\n    intervals = [tuple(r) for r in ranges]\n    for start, end in intervals:\n        if start > end:\n            raise ValueError(\"Reversed interval detected\")\n    intervals.sort(key=lambda x: x[0])\n    merged = []\n    for start, end in intervals:\n        if not merged:\n            merged.append((start, end))\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                merged[-1] = (last_start, max(last_end, end))\n            else:\n                merged.append((start, end))\n    return merged\n```"
+              }
+            }
+          ],
+          "created": 1792522163,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 139,
+            "prompt_tokens": 70,
+            "total_tokens": 209,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "id": "chatcmpl-AYeLXWB2MYhma0PKYCWlp1axqMJLcFZa",
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 70,
+            "prompt_ms": 1030.438,
+            "prompt_per_token_ms": 14.720542857142858,
+            "prompt_per_second": 67.9322773422564,
+            "predicted_n": 139,
+            "predicted_ms": 4429.727,
+            "predicted_per_token_ms": 32.09947101449275,
+            "predicted_per_second": 31.153161357347756
+          },
+          "wall_seconds": 5.466
+        },
+        "tool_call": {
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                  {
+                    "type": "function",
+                    "function": {
+                      "name": "add",
+                      "arguments": "{\"a\":17,\"b\":25}"
+                    },
+                    "id": "CPY4ufN6AQF9dybwmdOsoA3vOu9iPJhy"
+                  }
+                ]
+              }
+            }
+          ],
+          "created": 1792522167,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 34,
+            "prompt_tokens": 306,
+            "total_tokens": 340,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "id": "chatcmpl-Ok6LrJxgLmyHciE8dw021spgGNKGwZAb",
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 306,
+            "prompt_ms": 2363.132,
+            "prompt_per_token_ms": 7.722653594771242,
+            "prompt_per_second": 129.48916945815978,
+            "predicted_n": 34,
+            "predicted_ms": 1066.414,
+            "predicted_per_token_ms": 32.31557575757576,
+            "predicted_per_second": 30.94483005661966
+          },
+          "wall_seconds": 3.602
+        },
+        "tool_result": {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "The result of adding 17 and 25 is **42**."
+              }
+            }
+          ],
+          "created": 1792522167,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 17,
+            "prompt_tokens": 359,
+            "total_tokens": 376,
+            "prompt_tokens_details": {
+              "cached_tokens": 339
+            }
+          },
+          "id": "chatcmpl-X6TCpKuXLAIWDCyjM2bncLmaf33CPMY4",
+          "timings": {
+            "cache_n": 339,
+            "prompt_n": 20,
+            "prompt_ms": 432.163,
+            "prompt_per_token_ms": 21.608150000000002,
+            "prompt_per_second": 46.27883460638694,
+            "predicted_n": 17,
+            "predicted_ms": 495.894,
+            "predicted_per_token_ms": 30.993375,
+            "predicted_per_second": 32.26495985029059
+          },
+          "wall_seconds": 0.933
+        }
+      },
+      "coding_pass": true,
+      "tool_pass": true
+    },
+    "1024": {
+      "label": "bolt-cache1024",
+      "results": {
+        "coding": {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "```python\ndef merge_ranges(ranges):\n    intervals = [tuple(r) for r in ranges]\n    for start, end in intervals:\n        if start > end:\n            raise ValueError(\"Reversed interval detected\")\n    intervals.sort(key=lambda x: x[0])\n    merged = []\n    for start, end in intervals:\n        if not merged:\n            merged.append((start, end))\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                merged[-1] = (last_start, max(last_end, end))\n            else:\n                merged.append((start, end))\n    return merged\n```"
+              }
+            }
+          ],
+          "created": 1792522204,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 139,
+            "prompt_tokens": 70,
+            "total_tokens": 209,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "id": "chatcmpl-Q6qBy2d9W8E4m7qbdnWAUT9Kwwq8GPpf",
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 70,
+            "prompt_ms": 1096.949,
+            "prompt_per_token_ms": 15.670700000000002,
+            "prompt_per_second": 63.813358688507854,
+            "predicted_n": 139,
+            "predicted_ms": 5384.663,
+            "predicted_per_token_ms": 39.019297101449276,
+            "predicted_per_second": 25.62834480077955
+          },
+          "wall_seconds": 6.488
+        },
+        "tool_call": {
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                  {
+                    "type": "function",
+                    "function": {
+                      "name": "add",
+                      "arguments": "{\"a\":17,\"b\":25}"
+                    },
+                    "id": "O9iKRG4zDzazHjRmkA3PS50v5YbYxjlM"
+                  }
+                ]
+              }
+            }
+          ],
+          "created": 1792522208,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 34,
+            "prompt_tokens": 306,
+            "total_tokens": 340,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "id": "chatcmpl-XiKUF1ICYEY4jEyPtLwNDSrcQHNNwP49",
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 306,
+            "prompt_ms": 2730.163,
+            "prompt_per_token_ms": 8.922101307189543,
+            "prompt_per_second": 112.08122005902212,
+            "predicted_n": 34,
+            "predicted_ms": 1296.558,
+            "predicted_per_token_ms": 39.28963636363636,
+            "predicted_per_second": 25.452004461042236
+          },
+          "wall_seconds": 4.202
+        },
+        "tool_result": {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "The result of adding 17 and 25 is **42**."
+              }
+            }
+          ],
+          "created": 1792522209,
+          "model": "nemotron-bolt-reap50-local",
+          "system_fingerprint": "b1-4a45de4",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 17,
+            "prompt_tokens": 359,
+            "total_tokens": 376,
+            "prompt_tokens_details": {
+              "cached_tokens": 339
+            }
+          },
+          "id": "chatcmpl-J7JrIO202BuJoEDFk8Z8QBdEFrKEOCK0",
+          "timings": {
+            "cache_n": 339,
+            "prompt_n": 20,
+            "prompt_ms": 536.677,
+            "prompt_per_token_ms": 26.83385,
+            "prompt_per_second": 37.26636319424905,
+            "predicted_n": 17,
+            "predicted_ms": 603.101,
+            "predicted_per_token_ms": 37.6938125,
+            "predicted_per_second": 26.529553093097178
+          },
+          "wall_seconds": 1.144
+        }
+      },
+      "coding_pass": true,
+      "tool_pass": true
+    }
+  }
+}
