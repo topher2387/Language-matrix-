@@ -39,7 +39,17 @@ class TestRuntimeExport(unittest.TestCase):
 
             with self.assertRaises(ValueError) as context:
                 export_lesson()
-            self.assertIn("not found in fixtures", str(context.exception))
+            self.assertIn("Default lesson 'nasalisation-1' not found in fixtures", str(context.exception))
+
+    def test_export_lesson_unique_request_ids(self):
+        """Exercise real runtime while capturing distinct audit identifiers."""
+        from tools.export_runtime_lesson import execute_capability_request
+        with patch('tools.export_runtime_lesson.execute_capability_request', wraps=execute_capability_request) as execute:
+            export_lesson()
+            export_lesson()
+        ids = [call.args[0]['request_id'] for call in execute.call_args_list]
+        self.assertEqual(len(set(ids)), 2)
+        self.assertTrue(all(value.startswith('export-runtime-lesson-') for value in ids))
 
     def test_export_lesson_with_valid_selector(self):
         """Test lesson export with valid selector returns correct lesson."""
