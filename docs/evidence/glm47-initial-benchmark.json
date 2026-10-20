@@ -1,0 +1,264 @@
+{
+  "cpu40-64k": {
+    "label": "cpu40-64k",
+    "results": {
+      "coding": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "```python\ndef merge_ranges(ranges):\n    \"\"\"\n    Merge overlapping and adjacent intervals.\n\n    Args:\n        ranges: List of tuples (start, end) inclusive.\n\n    Returns:\n        List of merged tuples sorted by start.\n\n    Raises:\n        ValueError: If any interval has start > end.\n    \"\"\"\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n\n    # Sort intervals by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge with previous interval\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n\n    # Convert to tuples\n    return [tuple(interval) for interval in merged]\n```",
+              "reasoning_content": "We need to write a Python function merge_ranges(ranges) that takes a list of integer (start, end) inclusive intervals. It should reject reversed intervals (i.e., start > end) with ValueError. Then return sorted merged tuples; merge overlaps and adjacent intervals. Do not mutate input.\n\nWe need to output only a fenced python block with the function.\n\nWe must ensure that the function does not mutate the input list. So we can copy or just work on a sorted copy.\n\nWe need to merge overlapping and adjacent intervals. Adjacent means if end+1 == next start, they should be merged? The problem says \"merge overlaps and adjacent intervals\". Typically adjacent intervals are those that touch (end+1 == start). So we should merge them as well. For example, [1,2] and [3,4] are adjacent and should become [1,4] if we merge adjacent. But careful: inclusive intervals: if one ends at 2 and next starts at 3, they are adjacent (touching) and can be merged into [1,4]. So yes.\n\nWe need to return sorted merged tuples. The merged intervals should be sorted by start.\n\nEdge cases: empty list -> return empty list.\n\nWe need to raise ValueError if any interval is reversed (start > end). Possibly also if start or end are not integers? The input says list of integer (start,end) inclusive intervals, so we assume they are integers. But we can check type? Not required.\n\nImplementation steps:\n\n1. Validate: for each (s, e) in ranges: if s > e: raise ValueError(\"Invalid interval: start > end\")\n2. Sort the intervals by start (and maybe end) to make merging easier. Since we cannot mutate input, we can create a sorted copy: sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n3. Initialize an empty list merged = []\n4. Iterate through sorted_ranges:\n   - If merged is empty, add current interval.\n   - Else, compare current interval with the last merged interval: if current[0] <= last[1] + 1? Actually for merging adjacent, we need to merge if current[0] <= last[1] + 1? Wait: if intervals are inclusive, and we want to merge adjacent, then if current[0] <= last[1] + 1, they can be merged. But careful: if last[1] = 2, current[0] = 3, then they are adjacent (touching) and we want to merge. So condition: current[0] <= last[1] + 1. However, if we merge adjacent, the new end becomes max(last[1], current[1]). So we can merge if current[0] <= last[1] + 1. But is that correct? Let's test: last = (1,2), current = (3,4): 3 <= 2+1 = 3, so merge -> (1,4). Good. If last = (1,2), current = (4,5): 4 <= 2+1 = 3? false, so no merge. That's correct because they are not adjacent (gap of 1). So condition works.\n\n   - If merge, update last merged interval: last[1] = max(last[1], current[1]).\n   - Else, append current interval.\n\n5. Return merged.\n\nWe must ensure that we do not mutate input. We are not modifying the original list; we are creating a sorted copy and then building a new list.\n\nWe should also consider that intervals might be identical or overlapping.\n\nNow, write the function with docstring? Not required but can include.\n\nWe need to output only the fenced python block. So we will output:\n\n```python\ndef merge_ranges(ranges):\n    # Validate and sort\n    if not ranges:\n        return []\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n    # Sort by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n    # Convert to tuples\n    return tuple(tuple(interval) for interval in merged)\n```\n\nBut note: The problem says \"Return sorted merged tuples\". So we should return a list of tuples? It says \"Return sorted merged tuples\". Could be a list of tuples. Usually they'd expect a list of tuples. We'll return a list of tuples. The above returns a list of tuples. Good.\n\nWe used list of lists for mutability during merging, then convert to tuples. That's fine.\n\nAlternatively, we could use tuples directly but then we'd need to create new tuple each time. That's okay too.\n\nWe need to ensure that we don't mutate input. We are not.\n\nEdge case: empty input returns empty list.\n\nNow, check for reversed intervals: raise ValueError with appropriate message? The problem says \"Reject reversed intervals with ValueError.\" So we raise ValueError. We can raise with a generic message.\n\nNow, test with examples:\n\nExample 1: ranges = [(1,3), (2,6), (8,10), (15,18)] -> after merging: (1,6), (8,10), (15,18). Our algorithm: sorted same. Merge (1,3) and (2,6) because 2 <= 3+1? Actually 2 <= 3+1=4, yes, merge -> (1,6). Then (8,10) separate, (15,18) separate. Good.\n\nExample 2: ranges = [(1,4), (2,3), (5,7)] -> sorted: (1,4), (2,3), (5,7). Merge (1,4) and (2,3) -> (1,4). Then (5,7) separate. Good.\n\nExample 3: adjacent: ranges = [(1,2), (3,4)] -> merge because 3 <= 2+1=3 -> (1,4). Good.\n\nExample 4: reversed: ranges = [(3,2)] -> raise ValueError.\n\nNow, check if we need to handle negative numbers? Yes, integers can be negative. Works.\n\nNow, output only the fenced block.\n\nWe'll produce the code.\n\nBut we need to be careful: The problem says \"Write only a Python function merge_ranges(ranges) in one fenced python block.\" So we should output exactly that.\n\nWe'll include the function definition and maybe a docstring. Not required but okay.\n\nWe'll ensure that the code is correct.\n\nPotential pitfalls: The condition for merging adjacent: start <= last_end + 1. But what about intervals that are exactly overlapping? start <= last_end + 1 includes overlapping as well because if start <= last_end, then start <= last_end+1 obviously. So it's fine.\n\nBut consider if last_end is 5, start is 6: 6 <= 5+1 = 6, so merge -> (1,6) if last was (1,5). That's adjacent. Good.\n\nNow, what about intervals that are like (1,5) and (6,7): 6 <= 5+1 = 6, merge -> (1,7). That's adjacent. Good.\n\nNow, what about intervals that are like (1,5) and (7,8): 7 <= 5+1 = 6? false, so no merge. Good.\n\nNow, check if we need to merge intervals that are exactly the same? Already covered.\n\nNow, check if we need to handle intervals that are not sorted initially. We sort them.\n\nNow, check if we need to handle intervals that are not integers? Not needed.\n\nNow, check if we need to raise ValueError if any interval is reversed. We do.\n\nNow, check if we need to raise ValueError if input is not a list? Not needed.\n\nNow, check if we need to handle None? Not needed.\n\nNow, final code.\n\nWe'll output:\n\n```python\ndef merge_ranges(ranges):\n    \"\"\"\n    Merge overlapping and adjacent intervals.\n\n    Args:\n        ranges: List of tuples (start, end) inclusive.\n\n    Returns:\n        List of merged tuples sorted by start.\n\n    Raises:\n        ValueError: If any interval has start > end.\n    \"\"\"\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n\n    # Sort intervals by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge with previous interval\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n\n    # Convert to tuples\n    return [tuple(interval) for interval in merged]\n```\n\nBut the problem says \"Return sorted merged tuples\". It might expect a list of tuples. That's fine.\n\nWe could also return a list of tuples directly.\n\nNow, ensure that we don't mutate input: we are not.\n\nNow, final answer.\n\nWe'll output the fenced block."
+            }
+          }
+        ],
+        "created": 1792511326,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2276,
+          "prompt_tokens": 54,
+          "total_tokens": 2330,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-PZYmtd6ruCAy4HxRMXQujzSSoj7SW5Ul",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 54,
+          "prompt_ms": 1273.842,
+          "prompt_per_token_ms": 23.58966666666667,
+          "prompt_per_second": 42.39144258079102,
+          "predicted_n": 2276,
+          "predicted_ms": 101963.869,
+          "predicted_per_token_ms": 44.799590949033394,
+          "predicted_per_second": 22.321632381368342
+        },
+        "wall_seconds": 103.269
+      },
+      "tool_call": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "I'll use the add tool to calculate 17 + 25.",
+              "reasoning_content": "The user wants me to use the add tool to add 17 and 25, then report the result. I need to call the add function with a=17 and b=25.",
+              "tool_calls": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "add",
+                    "arguments": "{\"a\":17,\"b\":25}"
+                  },
+                  "id": "YuOCjDi9lKBQmm6TR6TnUyFQMGbpfYA1"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1792511332,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 69,
+          "prompt_tokens": 184,
+          "total_tokens": 253,
+          "prompt_tokens_details": {
+            "cached_tokens": 2
+          }
+        },
+        "id": "chatcmpl-DPGzxIRrMaXU9bRLsXH70xGlWrqa3Hvp",
+        "timings": {
+          "cache_n": 2,
+          "prompt_n": 182,
+          "prompt_ms": 2595.498,
+          "prompt_per_token_ms": 14.260978021978023,
+          "prompt_per_second": 70.12141793212709,
+          "predicted_n": 69,
+          "predicted_ms": 3334.143,
+          "predicted_per_token_ms": 48.320913043478264,
+          "predicted_per_second": 20.694973191011904
+        },
+        "wall_seconds": 5.975
+      },
+      "tool_result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The result of adding 17 and 25 is **42**.",
+              "reasoning_content": "The add function returned 42, which is the result of 17 + 25. I should report this result to the user."
+            }
+          }
+        ],
+        "created": 1792511334,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 43,
+          "prompt_tokens": 258,
+          "total_tokens": 301,
+          "prompt_tokens_details": {
+            "cached_tokens": 252
+          }
+        },
+        "id": "chatcmpl-30byUNiJ9FK2WYhuYPyOzfW9RUwgEtdq",
+        "timings": {
+          "cache_n": 252,
+          "prompt_n": 6,
+          "prompt_ms": 166.69,
+          "prompt_per_token_ms": 27.781666666666666,
+          "prompt_per_second": 35.99496070550123,
+          "predicted_n": 43,
+          "predicted_ms": 2053.412,
+          "predicted_per_token_ms": 47.75376744186046,
+          "predicted_per_second": 20.940756165835207
+        },
+        "wall_seconds": 2.243
+      }
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  },
+  "cpu40-64k-no-mmap": {
+    "label": "cpu40-64k-no-mmap",
+    "results": {
+      "coding": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "```python\ndef merge_ranges(ranges):\n    \"\"\"\n    Merge overlapping and adjacent intervals.\n\n    Args:\n        ranges: List of tuples (start, end) inclusive.\n\n    Returns:\n        List of merged tuples sorted by start.\n\n    Raises:\n        ValueError: If any interval has start > end.\n    \"\"\"\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n\n    # Sort intervals by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge with previous interval\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n\n    # Convert to tuples\n    return [tuple(interval) for interval in merged]\n```",
+              "reasoning_content": "We need to write a Python function merge_ranges(ranges) that takes a list of integer (start, end) inclusive intervals. It should reject reversed intervals (i.e., start > end) with ValueError. Then return sorted merged tuples; merge overlaps and adjacent intervals. Do not mutate input.\n\nWe need to output only a fenced python block with the function.\n\nWe must ensure that the function does not mutate the input list. So we can copy or just work on a sorted copy.\n\nWe need to merge overlapping and adjacent intervals. Adjacent means if end+1 == next start, they should be merged? The problem says \"merge overlaps and adjacent intervals\". Typically adjacent intervals are those that touch (end+1 == start). So we should merge them as well. For example, [1,2] and [3,4] are adjacent and should become [1,4] if we merge adjacent. But careful: inclusive intervals: if one ends at 2 and next starts at 3, they are adjacent (touching) and can be merged into [1,4]. So yes.\n\nWe need to return sorted merged tuples. The merged intervals should be sorted by start.\n\nEdge cases: empty list -> return empty list.\n\nWe need to raise ValueError if any interval is reversed (start > end). Possibly also if start or end are not integers? The input says list of integer (start,end) inclusive intervals, so we assume they are integers. But we can check type? Not required.\n\nImplementation steps:\n\n1. Validate: for each (s, e) in ranges: if s > e: raise ValueError(\"Invalid interval: start > end\")\n2. Sort the intervals by start (and maybe end) to make merging easier. Since we cannot mutate input, we can create a sorted copy: sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n3. Initialize an empty list merged = []\n4. Iterate through sorted_ranges:\n   - If merged is empty, add current interval.\n   - Else, compare current interval with the last merged interval: if current[0] <= last[1] + 1? Actually for merging adjacent, we need to merge if current[0] <= last[1] + 1? Wait: if intervals are inclusive, and we want to merge adjacent, then if current[0] <= last[1] + 1, they can be merged. But careful: if last[1] = 2, current[0] = 3, then they are adjacent (touching) and we want to merge. So condition: current[0] <= last[1] + 1. However, if we merge adjacent, the new end becomes max(last[1], current[1]). So we can merge if current[0] <= last[1] + 1. But is that correct? Let's test: last = (1,2), current = (3,4): 3 <= 2+1 = 3, so merge -> (1,4). Good. If last = (1,2), current = (4,5): 4 <= 2+1 = 3? false, so no merge. That's correct because they are not adjacent (gap of 1). So condition works.\n\n   - If merge, update last merged interval: last[1] = max(last[1], current[1]).\n   - Else, append current interval.\n\n5. Return merged.\n\nWe must ensure that we do not mutate input. We are not modifying the original list; we are creating a sorted copy and then building a new list.\n\nWe should also consider that intervals might be identical or overlapping.\n\nNow, write the function with docstring? Not required but can include.\n\nWe need to output only the fenced python block. So we will output:\n\n```python\ndef merge_ranges(ranges):\n    # Validate and sort\n    if not ranges:\n        return []\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n    # Sort by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n    # Convert to tuples\n    return tuple(tuple(interval) for interval in merged)\n```\n\nBut note: The problem says \"Return sorted merged tuples\". So we should return a list of tuples? It says \"Return sorted merged tuples\". Could be a list of tuples. Usually they'd expect a list of tuples. We'll return a list of tuples. The above returns a list of tuples. Good.\n\nWe used list of lists for mutability during merging, then convert to tuples. That's fine.\n\nAlternatively, we could use tuples directly but then we'd need to create new tuple each time. That's okay too.\n\nWe need to ensure that we don't mutate input. We are not.\n\nEdge case: empty input returns empty list.\n\nNow, check for reversed intervals: raise ValueError with appropriate message? The problem says \"Reject reversed intervals with ValueError.\" So we raise ValueError. We can raise with a generic message.\n\nNow, test with examples:\n\nExample 1: ranges = [(1,3), (2,6), (8,10), (15,18)] -> after merging: (1,6), (8,10), (15,18). Our algorithm: sorted same. Merge (1,3) and (2,6) because 2 <= 3+1? Actually 2 <= 3+1=4, yes, merge -> (1,6). Then (8,10) separate, (15,18) separate. Good.\n\nExample 2: ranges = [(1,4), (2,3), (5,7)] -> sorted: (1,4), (2,3), (5,7). Merge (1,4) and (2,3) -> (1,4). Then (5,7) separate. Good.\n\nExample 3: adjacent: ranges = [(1,2), (3,4)] -> merge because 3 <= 2+1=3 -> (1,4). Good.\n\nExample 4: reversed: ranges = [(3,2)] -> raise ValueError.\n\nNow, check if we need to handle negative numbers? Yes, integers can be negative. Works.\n\nNow, output only the fenced block.\n\nWe'll produce the code.\n\nBut we need to be careful: The problem says \"Write only a Python function merge_ranges(ranges) in one fenced python block.\" So we should output exactly that.\n\nWe'll include the function definition and maybe a docstring. Not required but okay.\n\nWe'll ensure that the code is correct.\n\nPotential pitfalls: The condition for merging adjacent: start <= last_end + 1. But what about intervals that are exactly overlapping? start <= last_end + 1 includes overlapping as well because if start <= last_end, then start <= last_end+1 obviously. So it's fine.\n\nBut consider if last_end is 5, start is 6: 6 <= 5+1 = 6, so merge -> (1,6) if last was (1,5). That's adjacent. Good.\n\nNow, what about intervals that are like (1,5) and (6,7): 6 <= 5+1 = 6, merge -> (1,7). That's adjacent. Good.\n\nNow, what about intervals that are like (1,5) and (7,8): 7 <= 5+1 = 6? false, so no merge. Good.\n\nNow, check if we need to merge intervals that are exactly the same? Already covered.\n\nNow, check if we need to handle intervals that are not sorted initially. We sort them.\n\nNow, check if we need to handle intervals that are not integers? Not needed.\n\nNow, check if we need to raise ValueError if any interval is reversed. We do.\n\nNow, check if we need to raise ValueError if input is not a list? Not needed.\n\nNow, check if we need to handle None? Not needed.\n\nNow, final code.\n\nWe'll output:\n\n```python\ndef merge_ranges(ranges):\n    \"\"\"\n    Merge overlapping and adjacent intervals.\n\n    Args:\n        ranges: List of tuples (start, end) inclusive.\n\n    Returns:\n        List of merged tuples sorted by start.\n\n    Raises:\n        ValueError: If any interval has start > end.\n    \"\"\"\n    # Validate reversed intervals\n    for start, end in ranges:\n        if start > end:\n            raise ValueError(\"Invalid interval: start > end\")\n\n    # Sort intervals by start, then end\n    sorted_ranges = sorted(ranges, key=lambda x: (x[0], x[1]))\n\n    merged = []\n    for start, end in sorted_ranges:\n        if not merged:\n            merged.append([start, end])\n        else:\n            last_start, last_end = merged[-1]\n            if start <= last_end + 1:\n                # Merge with previous interval\n                merged[-1][1] = max(last_end, end)\n            else:\n                merged.append([start, end])\n\n    # Convert to tuples\n    return [tuple(interval) for interval in merged]\n```\n\nBut the problem says \"Return sorted merged tuples\". It might expect a list of tuples. That's fine.\n\nWe could also return a list of tuples directly.\n\nNow, ensure that we don't mutate input: we are not.\n\nNow, final answer.\n\nWe'll output the fenced block."
+            }
+          }
+        ],
+        "created": 1792514773,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2276,
+          "prompt_tokens": 54,
+          "total_tokens": 2330,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-fYUvv1dm0cFfHJhKH9m3akGQchlZvqpx",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 54,
+          "prompt_ms": 1041.697,
+          "prompt_per_token_ms": 19.290685185185183,
+          "prompt_per_second": 51.83849046315772,
+          "predicted_n": 2276,
+          "predicted_ms": 103333.382,
+          "predicted_per_token_ms": 45.40131019332161,
+          "predicted_per_second": 22.02579607817346
+        },
+        "wall_seconds": 104.417
+      },
+      "tool_call": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "I'll use the add tool to calculate 17 + 25.",
+              "reasoning_content": "The user wants me to use the add tool to add 17 and 25, then report the result. I need to call the add function with a=17 and b=25.",
+              "tool_calls": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "add",
+                    "arguments": "{\"a\":17,\"b\":25}"
+                  },
+                  "id": "IGH2RLAy08rY7swssmxH2nqdRxXp2EfB"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1792514778,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 69,
+          "prompt_tokens": 184,
+          "total_tokens": 253,
+          "prompt_tokens_details": {
+            "cached_tokens": 2
+          }
+        },
+        "id": "chatcmpl-iJtnjcZWeNZPqcrRBuOqXUoi86JGEllh",
+        "timings": {
+          "cache_n": 2,
+          "prompt_n": 182,
+          "prompt_ms": 1963.071,
+          "prompt_per_token_ms": 10.786104395604395,
+          "prompt_per_second": 92.71187848019761,
+          "predicted_n": 69,
+          "predicted_ms": 2936.114,
+          "predicted_per_token_ms": 42.5523768115942,
+          "predicted_per_second": 23.50044991441068
+        },
+        "wall_seconds": 4.947
+      },
+      "tool_result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "The result of adding 17 and 25 is **42**.",
+              "reasoning_content": "The add function returned 42, which is the result of 17 + 25. I should report this result to the user."
+            }
+          }
+        ],
+        "created": 1792514780,
+        "model": "glm-4.7-flash-local",
+        "system_fingerprint": "b10075-76f46ad29",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 43,
+          "prompt_tokens": 258,
+          "total_tokens": 301,
+          "prompt_tokens_details": {
+            "cached_tokens": 252
+          }
+        },
+        "id": "chatcmpl-ngP79NOqvSSDHNOtLxm8sJSZu2qSOZPV",
+        "timings": {
+          "cache_n": 252,
+          "prompt_n": 6,
+          "prompt_ms": 146.242,
+          "prompt_per_token_ms": 24.373666666666665,
+          "prompt_per_second": 41.02788528603274,
+          "predicted_n": 43,
+          "predicted_ms": 1839.17,
+          "predicted_per_token_ms": 42.77139534883721,
+          "predicted_per_second": 23.380111680812536
+        },
+        "wall_seconds": 2.0
+      }
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  }
+}
