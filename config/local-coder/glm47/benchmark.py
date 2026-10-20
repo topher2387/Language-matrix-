@@ -1,5 +1,6 @@
 import json,time,urllib.request,sys,pathlib,subprocess
 D=pathlib.Path(__file__).parent
+(D/'results').mkdir(exist_ok=True)
 label=sys.argv[1]
 def call(messages,**kw):
  body=dict(model='glm-4.7-flash-local',messages=messages,max_tokens=16384,temperature=0,seed=42,**kw)
