@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "session": "ses_eaa0adf58ffeBiFYpcQUkrlRXP",
+  "abort_accepted": true,
+  "abort_seconds": 0.8606699830270372,
+  "status_after_abort": {},
+  "reply": "RECOVERY_OK",
+  "response_seconds": 60.977451018989086,
+  "health": {
+    "healthy": true,
+    "version": "1.19.3"
+  }
+}

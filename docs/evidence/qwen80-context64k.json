@@ -1,0 +1,87 @@
+{
+  "model": "qwen3-coder-next-supervised:64k",
+  "base_model": "hf.co/unsloth/Qwen3-Coder-Next-GGUF:UD-Q3_K_S",
+  "digest": "3b3fae3836bd957a8d8906eb18cfec077d750c8bec9aa80a092942b919e31221",
+  "context": 65536,
+  "output": 4096,
+  "expert_cpu_layers": 43,
+  "expert_gpu_layers": 5,
+  "attention": "CUDA",
+  "kv": "CUDA q8_0",
+  "vram_observed_MiB": 7181,
+  "gpu_model_buffer_MiB": 5211.54,
+  "gpu_kv_buffer_MiB": 816,
+  "flash_attention": true,
+  "assignment_paused": true,
+  "idle_automation_paused": true,
+  "test_commands": [
+    "python3 config/local-coder/test-context64k.py",
+    "python3 config/local-coder/test-tools64k.py",
+    "bash -n config/local-coder/start-ollama.sh"
+  ],
+  "long_context": {
+    "model": "qwen3-coder-next-supervised:64k",
+    "created_at": "2026-10-20T12:11:34.384024142Z",
+    "message": {
+      "role": "assistant",
+      "content": "ORCHID_7391  \nCEDAR_2846"
+    },
+    "done": true,
+    "done_reason": "stop",
+    "total_duration": 466521412851,
+    "load_duration": 128304409,
+    "prompt_eval_count": 52790,
+    "prompt_eval_duration": 465200790000,
+    "eval_count": 17,
+    "eval_duration": 973417000,
+    "wall_seconds": 466.5223922809819
+  },
+  "tool_roundtrip": {
+    "result": "PASS",
+    "call": {
+      "model": "qwen3-coder-next-supervised:64k",
+      "created_at": "2026-10-20T12:11:47.51868438Z",
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [
+          {
+            "id": "3sCPBWDvXW87sKxsgDdjMpexucK98QZv",
+            "function": {
+              "index": 0,
+              "name": "add",
+              "arguments": {
+                "a": 17,
+                "b": 25
+              }
+            }
+          }
+        ]
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 7132984066,
+      "load_duration": 153908257,
+      "prompt_eval_count": 314,
+      "prompt_eval_duration": 4989343000,
+      "eval_count": 31,
+      "eval_duration": 1614472000
+    },
+    "response": {
+      "model": "qwen3-coder-next-supervised:64k",
+      "created_at": "2026-10-20T12:11:49.204935491Z",
+      "message": {
+        "role": "assistant",
+        "content": "The sum of 17 and 25 is 42."
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1685494809,
+      "load_duration": 132772578,
+      "prompt_eval_count": 360,
+      "prompt_eval_duration": 562565000,
+      "eval_count": 16,
+      "eval_duration": 935164000
+    }
+  }
+}

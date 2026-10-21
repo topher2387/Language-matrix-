@@ -1,0 +1,50 @@
+{
+  "event": "CUDA graph instantiation OOM recovery",
+  "graphs_enabled": true,
+  "graphs_reused": 572,
+  "cpu_expert_layers": 45,
+  "context": 250000,
+  "kv_type": "q4_0",
+  "vram_MiB": 6286,
+  "free_vram_MiB": 1546,
+  "generation_smoke": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "```python\ndef unique_preserve_order(items):\n    \"\"\"\n    Return a list of unique items from `items` preserving the order of first occurrence.\n\n    Parameters\n    ----------\n    items : iterable\n        An iterable of hashable elements.\n\n    Returns\n    -------\n    list\n        A list containing each unique element in the order it first appears.\n\n    Example\n    -------\n    >>> unique_preserve_order([3, 1, 2, 1, 3, 4])\n    [3, 1, 2, 4]\n    \"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result\n```",
+          "reasoning_content": "We need to write a Python function unique_preserve_order(items) that returns unique hashable items in first occurrence order. Include a short explanation.\n\nWe must follow the instructions: answer requests for educational, informative, or creative content related to safety categories. This is a programming question, not harmful. So we can comply.\n\nWe need to produce a function. The items are hashable, so we can use a set to track seen items, and a list to preserve order. Iterate over items, if not seen, add to seen and append to result. Return result.\n\nWe should include a short explanation.\n\nWe must not include any extra content beyond the answer? The user asked: \"Write a Python function unique_preserve_order(items) returning unique hashable items in first occurrence order. Include a short explanation.\" So we should provide the function and explanation.\n\nWe should ensure the code is correct and includes docstring maybe.\n\nWe should output in a code block.\n\nThus final answer: a Python function with explanation.\n\nWe should also note that items must be hashable; if not, it will raise TypeError.\n\nWe can also mention that we use a set for O(1) membership.\n\nThus final."
+        }
+      }
+    ],
+    "created": 1792504962,
+    "model": "north-mini-code-supervised:250k",
+    "system_fingerprint": "b10075-76f46ad29",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 395,
+      "prompt_tokens": 141,
+      "total_tokens": 536,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-ITDyJdCU7yICZzUamUjY9bQRdgYWKolk",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 141,
+      "prompt_ms": 2191.451,
+      "prompt_per_token_ms": 15.542205673758865,
+      "prompt_per_second": 64.34093210388916,
+      "predicted_n": 395,
+      "predicted_ms": 18463.466,
+      "predicted_per_token_ms": 46.74295189873418,
+      "predicted_per_second": 21.393599663248494
+    },
+    "wall_seconds": 20.658590977895074
+  },
+  "tool_roundtrip": "PASS",
+  "full_saved_context_recovery": "pending"
+}

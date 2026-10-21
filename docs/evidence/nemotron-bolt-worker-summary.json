@@ -1,0 +1,53 @@
+{
+  "assistant_turns": 8,
+  "tool_calls": 9,
+  "edits": 2,
+  "bash_runs": [
+    {
+      "input": {
+        "command": "python3 -B -m unittest -v",
+        "workdir": "/home/topher/Language-matrix-coder/nemotron-bolt-setup/worker-benchmark"
+      },
+      "metadata": {
+        "output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... FAIL\n\n======================================================================\nFAIL: test_sorted_merged (test_ranges.RangesTests.test_sorted_merged)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/topher/Language-matrix-coder/nemotron-bolt-setup/worker-benchmark/test_ranges.py\", line 5, in test_sorted_merged\n    def test_sorted_merged(self): self.assertEqual(merge_ranges([(5,7),(1,2),(3,4),(10,10)]),[(1,7),(10,10)])\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [(5, 7), (10, 10)] != [(1, 7), (10, 10)]\n\nFirst differing element 0:\n(5, 7)\n(1, 7)\n\n- [(5, 7), (10, 10)]\n?   ^\n\n+ [(1, 7), (10, 10)]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=1)\n",
+        "exit": 1,
+        "truncated": false
+      },
+      "output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... FAIL\n\n======================================================================\nFAIL: test_sorted_merged (test_ranges.RangesTests.test_sorted_merged)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/topher/Language-matrix-coder/nemotron-bolt-setup/worker-benchmark/test_ranges.py\", line 5, in test_sorted_merged\n    def test_sorted_merged(self): self.assertEqual(merge_ranges([(5,7),(1,2),(3,4),(10,10)]),[(1,7),(10,10)])\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [(5, 7), (10, 10)] != [(1, 7), (10, 10)]\n\nFirst differing element 0:\n(5, 7)\n(1, 7)\n\n- [(5, 7), (10, 10)]\n?   ^\n\n+ [(1, 7), (10, 10)]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "input": {
+        "command": "python3 -B -m unittest -v",
+        "workdir": "/home/topher/Language-matrix-coder/nemotron-bolt-setup/worker-benchmark"
+      },
+      "metadata": {
+        "output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "exit": 0,
+        "truncated": false
+      },
+      "output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "input": {
+        "command": "git status && git diff --stat",
+        "workdir": "/home/topher/Language-matrix-coder/nemotron-bolt-setup/worker-benchmark"
+      },
+      "metadata": {
+        "output": "On branch master\n\nNo commits yet\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\t../../24-hour-directive.txt\n\t../../Modelfile\n\t../../assignment.txt\n\t../../benchmark-placement.log\n\t../../benchmark-placement.py\n\t../../browser-export-0623/\n\t../../check-recovery.py\n\t../../checkpoint-24hour.md\n\t../../checkpoint-controller-review.md\n\t../../checkpoint-frequency.md\n\t../../checkpoint-heartbeat.md\n\t../../checkpoint-keep-working.md\n\t../../checkpoint-next-jobs.md\n\t../../checkpoint-test-commit.md\n\t../../cli-0213.log\n\t../../cli-0223.log\n\t../../cli-final.log\n\t../../combined-0453.log\n\t../../config-pr.md\n\t../../config/\n\t../../continuation-state.json\n\t../../continuous-current-assignment.txt\n\t../../continuous-messages.json\n\t../../continuous-session.json\n\t../../current-session.json\n\t../../data/\n\t../../effective-config.json\n\t../../execution-tracker-issue.md\n\t../../export-current-messages.json\n\t../../free-catalogue-current.json\n\t../../full-0103.log\n\t../../full-browser-final.log\n\t../../glm47-setup/\n\t../../integration-pr.md\n\t../../job-01.jsonl\n\t../../job-32k.jsonl\n\t../../lifecycle-0353.log\n\t../../lifecycle-0403.log\n\t../../lifecycle-0413.log\n\t../../model-catalogue.txt\n\t../../models/\n\t../\n\t../../north-mini-setup/\n\t../../ollama.log\n\t../../open-coder.sh\n\t../../opencode-api.json\n\t../../opencode-server.log\n\t../../p03-0253.log\n\t../../p03-assignment.txt\n\t../../p03-current-messages.json\n\t../../p03-focused-0303.log\n\t../../p03-focused-0313.log\n\t../../p03-focused-0323.log\n\t../../p03-focused-0333.log\n\t../../p03-full-0303.log\n\t../../p03-full-0343.log\n\t../../p03-grants-0343.log\n\t../../p03-review-blockers.md\n\t../../p03-session.json\n\t../../p03-validation-final.log\n\t../../p03-validation-full.log\n\t../../partial-fixture-cli-recovery-copy.py\n\t../../performance-after.json\n\t../../performance-before.json\n\t../../qwen-demo-review-0443.txt\n\t../../qwen80-cache-setup/\n\t../../qwen80-setup/\n\t../../recovery-evidence.json\n\t../../recovery-test.log\n\t../../resume-after-tuning.json\n\t../../runtime-qa-final.log\n\t../../saved-64k-20261020T120255Z/\n\t../../saved-stop-20261020T092533Z/\n\t../../shared-session-proof.json\n\t../../smoke-evidence.json\n\t../../smoke.log\n\t../../smoke.py\n\t../../start-ollama.sh\n\t../../start-opencode.sh\n\t../../state/\n\t../../terminal-launch-error.log\n\nnothing added to commit but untracked files present (use \"git add\" to track)\n",
+        "exit": 0,
+        "truncated": false
+      },
+      "output": "On branch master\n\nNo commits yet\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\t../../24-hour-directive.txt\n\t../../Modelfile\n\t../../assignment.txt\n\t../../benchmark-placement.log\n\t../../benchmark-placement.py\n\t../../browser-export-0623/\n\t../../check-recovery.py\n\t../../checkpoint-24hour.md\n\t../../checkpoint-controller-review.md\n\t../../checkpoint-frequency.md\n\t../../checkpoint-heartbeat.md\n\t../../checkpoint-keep-working.md\n\t../../checkpoint-next-jobs.md\n\t../../checkpoint-test-commit.md\n\t../../cli-0213.log\n\t../../cli-0223.log\n\t../../cli-final.log\n\t../../combined-0453.log\n\t../../config-pr.md\n\t../../config/\n\t../../continuation-state.json\n\t../../continuous-current-assignment.txt\n\t../../continuous-messages.json\n\t../../continuous-session.json\n\t../../current-session.json\n\t../../data/\n\t../../effective-config.json\n\t../../execution-tracker-issue.md\n\t../../export-current-messages.json\n\t../../free-catalogue-current.json\n\t../../full-0103.log\n\t../../full-browser-final.log\n\t../../glm47-setup/\n\t../../integration-pr.md\n\t../../job-01.jsonl\n\t../../job-32k.jsonl\n\t../../lifecycle-0353.log\n\t../../lifecycle-0403.log\n\t../../lifecycle-0413.log\n\t../../model-catalogue.txt\n\t../../models/\n\t../\n\t../../north-mini-setup/\n\t../../ollama.log\n\t../../open-coder.sh\n\t../../opencode-api.json\n\t../../opencode-server.log\n\t../../p03-0253.log\n\t../../p03-assignment.txt\n\t../../p03-current-messages.json\n\t../../p03-focused-0303.log\n\t../../p03-focused-0313.log\n\t../../p03-focused-0323.log\n\t../../p03-focused-0333.log\n\t../../p03-full-0303.log\n\t../../p03-full-0343.log\n\t../../p03-grants-0343.log\n\t../../p03-review-blockers.md\n\t../../p03-session.json\n\t../../p03-validation-final.log\n\t../../p03-validation-full.log\n\t../../partial-fixture-cli-recovery-copy.py\n\t../../performance-after.json\n\t../../performance-before.json\n\t../../qwen-demo-review-0443.txt\n\t../../qwen80-cache-setup/\n\t../../qwen80-setup/\n\t../../recovery-evidence.json\n\t../../recovery-test.log\n\t../../resume-after-tuning.json\n\t../../runtime-qa-final.log\n\t../../saved-64k-20261020T120255Z/\n\t../../saved-stop-20261020T092533Z/\n\t../../shared-session-proof.json\n\t../../smoke-evidence.json\n\t../../smoke.log\n\t../../smoke.py\n\t../../start-ollama.sh\n\t../../start-opencode.sh\n\t../../state/\n\t../../terminal-launch-error.log\n\nnothing added to commit but untracked files present (use \"git add\" to track)\n"
+    }
+  ],
+  "wall_seconds": 87.127,
+  "confirmed_self_corrections": 1,
+  "confirmed_failure_loops": 0,
+  "controller_resume_interventions": 0,
+  "verification": {
+    "unit_exit_code": 0,
+    "unit_output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+    "independent_random_cases": 500,
+    "pass": true
+  }
+}

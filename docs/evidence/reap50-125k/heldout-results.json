@@ -1,0 +1,492 @@
+{
+  "created": "2026-10-21T05:50:15.660829+00:00",
+  "status": "complete_requires_independent_review",
+  "cases": [
+    {
+      "placement": "A_default_no_expert_cache",
+      "started": "2026-10-21T07:24:30.755232+00:00",
+      "trials": [
+        {
+          "task": "python",
+          "wall_seconds": 1.3694616360007785,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": [3, 1, 2]}"
+                }
+              }
+            ],
+            "created": 1792567486,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 13,
+              "prompt_tokens": 44,
+              "total_tokens": 57,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-j20lHzlI10DOndT5OgoaZIGJzcUfOaxo",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 44,
+              "prompt_ms": 890.361,
+              "prompt_per_token_ms": 20.235477272727273,
+              "prompt_per_second": 49.41815735415185,
+              "predicted_n": 13,
+              "predicted_ms": 476.893,
+              "predicted_per_token_ms": 39.74108333333333,
+              "predicted_per_second": 25.162877207256138
+            }
+          }
+        },
+        {
+          "task": "debugging",
+          "wall_seconds": 5.268384593997325,
+          "correct": false,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "The bug is that `list.reverse()` is an in-place operation that returns `None`, not the reversed list. Therefore, `sorted(xs).reverse()` returns `None`.\n\nFor `f([2, 1])`:\n1. `sorted([2, 1])` returns `[1, 2]`.\n2. `.reverse()` is called on that list, which reverses it to `[2, 1]` but returns `None`.\n3. The function returns `None`.\n\n{\"answer\": null}"
+                }
+              }
+            ],
+            "created": 1792567492,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 107,
+              "prompt_tokens": 57,
+              "total_tokens": 164,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-5fxrDNGJBHuhXwWqNlL4VPmchN0TtbGo",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 57,
+              "prompt_ms": 927.148,
+              "prompt_per_token_ms": 16.26575438596491,
+              "prompt_per_second": 61.47885774439464,
+              "predicted_n": 107,
+              "predicted_ms": 4161.457,
+              "predicted_per_token_ms": 39.259028301886794,
+              "predicted_per_second": 25.471847960942522
+            }
+          }
+        },
+        {
+          "task": "navigation",
+          "wall_seconds": 1.502280475004227,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": \"core/parser.py\"}"
+                }
+              }
+            ],
+            "created": 1792567493,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 10,
+              "prompt_tokens": 62,
+              "total_tokens": 72,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-ZW14pdNuz30feJUBPohrrq8gs7HOYvtl",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 62,
+              "prompt_ms": 956.212,
+              "prompt_per_token_ms": 15.422774193548387,
+              "prompt_per_second": 64.83917792288739,
+              "predicted_n": 10,
+              "predicted_ms": 367.394,
+              "predicted_per_token_ms": 40.821555555555555,
+              "predicted_per_second": 24.49686167983146
+            }
+          }
+        },
+        {
+          "task": "tool",
+          "wall_seconds": 4.399696619002498,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "",
+                  "tool_calls": [
+                    {
+                      "type": "function",
+                      "function": {
+                        "name": "lookup_symbol",
+                        "arguments": "{\"name\":\"parse\"}"
+                      },
+                      "id": "3AdDG8b8OJy9xfw8P9LMd1DFcVIbCYQP"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1792567497,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 25,
+              "prompt_tokens": 277,
+              "total_tokens": 302,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-uKFoMg17gxbHliyl2HSusMkOyETc0Sam",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 277,
+              "prompt_ms": 3254.243,
+              "prompt_per_token_ms": 11.748169675090253,
+              "prompt_per_second": 85.11964226396124,
+              "predicted_n": 25,
+              "predicted_ms": 958.987,
+              "predicted_per_token_ms": 39.957791666666665,
+              "predicted_per_second": 25.026408074353455
+            }
+          }
+        }
+      ],
+      "load_seconds": 14.626142809000157,
+      "resources": [
+        {
+          "monotonic": 46798.433226625,
+          "gpu_used_free_util": "5582, 2250, 0",
+          "cpu_ticks": 741,
+          "process_memory": {
+            "VmRSS": "9330328 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46800.449803005,
+          "gpu_used_free_util": "5610, 2222, 41",
+          "cpu_ticks": 1554,
+          "process_memory": {
+            "VmRSS": "10097900 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46802.46984201,
+          "gpu_used_free_util": "5610, 2222, 41",
+          "cpu_ticks": 2931,
+          "process_memory": {
+            "VmRSS": "10268104 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46804.490837519,
+          "gpu_used_free_util": "5610, 2222, 40",
+          "cpu_ticks": 4548,
+          "process_memory": {
+            "VmRSS": "10268108 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46806.51093363,
+          "gpu_used_free_util": "5614, 2218, 100",
+          "cpu_ticks": 5550,
+          "process_memory": {
+            "VmRSS": "10774920 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46808.530508834,
+          "gpu_used_free_util": "5640, 2192, 100",
+          "cpu_ticks": 5819,
+          "process_memory": {
+            "VmRSS": "10963100 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46810.550480708,
+          "gpu_used_free_util": "5640, 2192, 10",
+          "cpu_ticks": 6933,
+          "process_memory": {
+            "VmRSS": "11472560 kB",
+            "VmSwap": "0 kB"
+          }
+        }
+      ],
+      "finished": "2026-10-21T07:24:59.288634+00:00"
+    },
+    {
+      "placement": "D_existing_adaptive_SLRU_512MiB",
+      "started": "2026-10-21T07:24:59.289038+00:00",
+      "trials": [
+        {
+          "task": "python",
+          "wall_seconds": 1.4621894739975687,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": [3, 1, 2]}"
+                }
+              }
+            ],
+            "created": 1792567509,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 13,
+              "prompt_tokens": 44,
+              "total_tokens": 57,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-iO8aVwso4OWlbqU1zk2AlgP884QWullm",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 44,
+              "prompt_ms": 881.359,
+              "prompt_per_token_ms": 20.030886363636366,
+              "prompt_per_second": 49.92290315297172,
+              "predicted_n": 13,
+              "predicted_ms": 578.728,
+              "predicted_per_token_ms": 48.22733333333333,
+              "predicted_per_second": 20.735129456324906
+            }
+          }
+        },
+        {
+          "task": "debugging",
+          "wall_seconds": 3.7691353620029986,
+          "correct": false,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "The bug is that `list.reverse()` is an in-place operation that returns `None`, not the reversed list. Therefore, `sorted(xs).reverse()` returns `None`.\n\nThe result of `f([2, 1])` is `None`.\n\n{\"answer\": null}"
+                }
+              }
+            ],
+            "created": 1792567513,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 58,
+              "prompt_tokens": 57,
+              "total_tokens": 115,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-FOYzQp2e1jnMjxSSykFPhxC8et2kWk69",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 57,
+              "prompt_ms": 927.209,
+              "prompt_per_token_ms": 16.266824561403507,
+              "prompt_per_second": 61.474813121960636,
+              "predicted_n": 58,
+              "predicted_ms": 2669.671,
+              "predicted_per_token_ms": 46.83633333333333,
+              "predicted_per_second": 21.35094549103616
+            }
+          }
+        },
+        {
+          "task": "navigation",
+          "wall_seconds": 1.5558810840011574,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": \"core/parser.py\"}"
+                }
+              }
+            ],
+            "created": 1792567514,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 10,
+              "prompt_tokens": 62,
+              "total_tokens": 72,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-ysECG896iUiC4lBgdM39FnwAj93BEl2t",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 62,
+              "prompt_ms": 957.012,
+              "prompt_per_token_ms": 15.435677419354837,
+              "prompt_per_second": 64.78497657291655,
+              "predicted_n": 10,
+              "predicted_ms": 430.251,
+              "predicted_per_token_ms": 47.80566666666667,
+              "predicted_per_second": 20.918022270721046
+            }
+          }
+        },
+        {
+          "task": "tool",
+          "wall_seconds": 4.589525032999518,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "",
+                  "tool_calls": [
+                    {
+                      "type": "function",
+                      "function": {
+                        "name": "lookup_symbol",
+                        "arguments": "{\"name\":\"parse\"}"
+                      },
+                      "id": "ar8aUCSUpSlEpIBS6EHUj9807M9wqm6v"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1792567519,
+            "model": "nemotron-bolt-reap50-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 25,
+              "prompt_tokens": 277,
+              "total_tokens": 302,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-30jwckcXuU7kNRRC1aBYOcPrxnZESrmu",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 277,
+              "prompt_ms": 3184.692,
+              "prompt_per_token_ms": 11.497083032490975,
+              "prompt_per_second": 86.97858380025447,
+              "predicted_n": 25,
+              "predicted_ms": 1232.355,
+              "predicted_per_token_ms": 51.348125,
+              "predicted_per_second": 19.47490779848339
+            }
+          }
+        }
+      ],
+      "load_seconds": 8.683509703005257,
+      "resources": [
+        {
+          "monotonic": 46821.024883227,
+          "gpu_used_free_util": "6072, 1760, 3",
+          "cpu_ticks": 533,
+          "process_memory": {
+            "VmRSS": "9329932 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46823.041676564,
+          "gpu_used_free_util": "6120, 1712, 11",
+          "cpu_ticks": 1167,
+          "process_memory": {
+            "VmRSS": "10121392 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46825.058726385,
+          "gpu_used_free_util": "6120, 1712, 95",
+          "cpu_ticks": 1928,
+          "process_memory": {
+            "VmRSS": "10291676 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46827.075583774,
+          "gpu_used_free_util": "6124, 1708, 46",
+          "cpu_ticks": 2595,
+          "process_memory": {
+            "VmRSS": "10629636 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46829.092832737,
+          "gpu_used_free_util": "6144, 1688, 99",
+          "cpu_ticks": 3008,
+          "process_memory": {
+            "VmRSS": "10981972 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 46831.111227793,
+          "gpu_used_free_util": "6164, 1668, 67",
+          "cpu_ticks": 3731,
+          "process_memory": {
+            "VmRSS": "11517944 kB",
+            "VmSwap": "0 kB"
+          }
+        }
+      ],
+      "finished": "2026-10-21T07:25:20.418728+00:00"
+    }
+  ],
+  "original_run": "/home/topher/Language-matrix-coder/reap50-125k-setup/runs/20261021T055015Z"
+}

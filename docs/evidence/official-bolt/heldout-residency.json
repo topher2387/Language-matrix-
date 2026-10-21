@@ -1,0 +1,501 @@
+{
+  "created": "2026-10-21T00:09:23.233677+00:00",
+  "status": "complete_requires_independent_review",
+  "cases": [
+    {
+      "placement": "A_default_no_expert_cache",
+      "started": "2026-10-21T00:25:08.254420+00:00",
+      "trials": [
+        {
+          "task": "python",
+          "wall_seconds": 1.679683891001332,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": [3, 1, 2]}"
+                }
+              }
+            ],
+            "created": 1792542418,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 13,
+              "prompt_tokens": 44,
+              "total_tokens": 57,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-1bGXEiHiLhke4hY41IE8uIa2zBUbC880",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 44,
+              "prompt_ms": 1172.55,
+              "prompt_per_token_ms": 26.648863636363636,
+              "prompt_per_second": 37.5250522365784,
+              "predicted_n": 13,
+              "predicted_ms": 503.187,
+              "predicted_per_token_ms": 41.93225,
+              "predicted_per_second": 23.84799289329812
+            }
+          }
+        },
+        {
+          "task": "debugging",
+          "wall_seconds": 3.5829101179988356,
+          "correct": false,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "The bug is that `list.reverse()` modifies the list in place and returns `None`. Therefore, `sorted(xs).reverse()` returns `None` instead of the reversed list.\n\nThe result of `f([2, 1])` is `None`.\n\n{\"answer\": null}"
+                }
+              }
+            ],
+            "created": 1792542422,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 59,
+              "prompt_tokens": 57,
+              "total_tokens": 116,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-aw0LF8MD8OnkZYhBKidH3yzXcJdWDMw1",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 57,
+              "prompt_ms": 1133.68,
+              "prompt_per_token_ms": 19.889122807017547,
+              "prompt_per_second": 50.278738268294404,
+              "predicted_n": 59,
+              "predicted_ms": 2247.687,
+              "predicted_per_token_ms": 38.753224137931035,
+              "predicted_per_second": 25.80430460290957
+            }
+          }
+        },
+        {
+          "task": "navigation",
+          "wall_seconds": 1.6963951910001924,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\":\"core/parser.py\"}"
+                }
+              }
+            ],
+            "created": 1792542423,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 9,
+              "prompt_tokens": 62,
+              "total_tokens": 71,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-SRzwTMiKbVBGc6WvQwIGnpYlajycJd3o",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 62,
+              "prompt_ms": 1168.993,
+              "prompt_per_token_ms": 18.85472580645161,
+              "prompt_per_second": 53.03710116313785,
+              "predicted_n": 9,
+              "predicted_ms": 326.381,
+              "predicted_per_token_ms": 40.797625,
+              "predicted_per_second": 24.511230739534472
+            }
+          }
+        },
+        {
+          "task": "tool",
+          "wall_seconds": 5.450972187998559,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "",
+                  "tool_calls": [
+                    {
+                      "type": "function",
+                      "function": {
+                        "name": "lookup_symbol",
+                        "arguments": "{\"name\":\"parse\"}"
+                      },
+                      "id": "zOdv4JmAZyYfRE3l0EjHsu1qVQsSOpcZ"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1792542429,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 25,
+              "prompt_tokens": 277,
+              "total_tokens": 302,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-LpSsMbVLz59rUemDcXBVR8s7wFflZsU3",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 277,
+              "prompt_ms": 4292.979,
+              "prompt_per_token_ms": 15.498119133574008,
+              "prompt_per_second": 64.52395877082091,
+              "predicted_n": 25,
+              "predicted_ms": 953.981,
+              "predicted_per_token_ms": 39.749208333333335,
+              "predicted_per_second": 25.157733749414298
+            }
+          }
+        }
+      ],
+      "load_seconds": 108.64999269499822,
+      "resources": [
+        {
+          "monotonic": 21729.95730525,
+          "gpu_used_free_util": "5908, 1924, 17",
+          "cpu_ticks": 1213,
+          "process_memory": {
+            "VmRSS": "17644388 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21731.975241318,
+          "gpu_used_free_util": "5964, 1868, 43",
+          "cpu_ticks": 2040,
+          "process_memory": {
+            "VmRSS": "18274268 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21733.996143773,
+          "gpu_used_free_util": "5964, 1868, 41",
+          "cpu_ticks": 3045,
+          "process_memory": {
+            "VmRSS": "18584488 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21736.01254144,
+          "gpu_used_free_util": "5986, 1846, 16",
+          "cpu_ticks": 4204,
+          "process_memory": {
+            "VmRSS": "18933900 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21738.029826694,
+          "gpu_used_free_util": "5988, 1844, 100",
+          "cpu_ticks": 4713,
+          "process_memory": {
+            "VmRSS": "19273572 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21740.046456282,
+          "gpu_used_free_util": "6010, 1822, 100",
+          "cpu_ticks": 5169,
+          "process_memory": {
+            "VmRSS": "19464332 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21742.066830393,
+          "gpu_used_free_util": "6010, 1822, 37",
+          "cpu_ticks": 6137,
+          "process_memory": {
+            "VmRSS": "19804052 kB",
+            "VmSwap": "0 kB"
+          }
+        }
+      ],
+      "finished": "2026-10-21T00:27:11.333484+00:00"
+    },
+    {
+      "placement": "D_existing_adaptive_SLRU_512MiB",
+      "started": "2026-10-21T00:27:11.333872+00:00",
+      "trials": [
+        {
+          "task": "python",
+          "wall_seconds": 1.6802497550015687,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\": [3, 1, 2]}"
+                }
+              }
+            ],
+            "created": 1792542489,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 13,
+              "prompt_tokens": 44,
+              "total_tokens": 57,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-XF3CBBOSqyD7ogmM5dvIdYk94CR6kXtO",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 44,
+              "prompt_ms": 1063.967,
+              "prompt_per_token_ms": 24.181068181818183,
+              "prompt_per_second": 41.354666075169625,
+              "predicted_n": 13,
+              "predicted_ms": 614.362,
+              "predicted_per_token_ms": 51.19683333333333,
+              "predicted_per_second": 19.532458062184837
+            }
+          }
+        },
+        {
+          "task": "debugging",
+          "wall_seconds": 4.3201778790025855,
+          "correct": false,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "The bug is that `list.reverse()` modifies the list in place and returns `None`. Therefore, `sorted(xs).reverse()` returns `None` instead of the reversed list.\n\nThe result of `f([2, 1])` is `None`.\n\n{\"answer\": null}"
+                }
+              }
+            ],
+            "created": 1792542494,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 59,
+              "prompt_tokens": 57,
+              "total_tokens": 116,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-4mcOzyPUhVkYPTFdOc4RRblUbsLcBbdu",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 57,
+              "prompt_ms": 1158.329,
+              "prompt_per_token_ms": 20.32156140350877,
+              "prompt_per_second": 49.20881718406429,
+              "predicted_n": 59,
+              "predicted_ms": 2965.324,
+              "predicted_per_token_ms": 51.126275862068965,
+              "predicted_per_second": 19.559414080889642
+            }
+          }
+        },
+        {
+          "task": "navigation",
+          "wall_seconds": 1.8106320170008985,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "{\"answer\":\"core/parser.py\"}"
+                }
+              }
+            ],
+            "created": 1792542495,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 9,
+              "prompt_tokens": 62,
+              "total_tokens": 71,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-u1P9UiqLCawkdyoLq0YgtnrskAzbmQGy",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 62,
+              "prompt_ms": 1189.813,
+              "prompt_per_token_ms": 19.19053225806452,
+              "prompt_per_second": 52.10902889781839,
+              "predicted_n": 9,
+              "predicted_ms": 422.333,
+              "predicted_per_token_ms": 52.791625,
+              "predicted_per_second": 18.942398533858352
+            }
+          }
+        },
+        {
+          "task": "tool",
+          "wall_seconds": 5.743127999998251,
+          "correct": true,
+          "response": {
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "message": {
+                  "role": "assistant",
+                  "content": "",
+                  "tool_calls": [
+                    {
+                      "type": "function",
+                      "function": {
+                        "name": "lookup_symbol",
+                        "arguments": "{\"name\":\"parse\"}"
+                      },
+                      "id": "ngrAOygSjId9kHJDAG3O0JlL5oF249nE"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1792542501,
+            "model": "official-bolt-local",
+            "system_fingerprint": "b1-4a45de4",
+            "object": "chat.completion",
+            "usage": {
+              "completion_tokens": 25,
+              "prompt_tokens": 277,
+              "total_tokens": 302,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              }
+            },
+            "id": "chatcmpl-CuvQBWnI6vueE3QxI9dkTOewLs4icPPh",
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 277,
+              "prompt_ms": 4241.078,
+              "prompt_per_token_ms": 15.310750902527078,
+              "prompt_per_second": 65.31358300884821,
+              "predicted_n": 25,
+              "predicted_ms": 1302.438,
+              "predicted_per_token_ms": 54.26825,
+              "predicted_per_second": 18.426980785265783
+            }
+          }
+        }
+      ],
+      "load_seconds": 56.71299250199809,
+      "resources": [
+        {
+          "monotonic": 21801.099901119,
+          "gpu_used_free_util": "6405, 1427, 0",
+          "cpu_ticks": 1183,
+          "process_memory": {
+            "VmRSS": "17659844 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21803.116656016,
+          "gpu_used_free_util": "6481, 1351, 96",
+          "cpu_ticks": 1819,
+          "process_memory": {
+            "VmRSS": "18273056 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21805.1346736,
+          "gpu_used_free_util": "6495, 1337, 95",
+          "cpu_ticks": 2407,
+          "process_memory": {
+            "VmRSS": "18624792 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21807.151812115,
+          "gpu_used_free_util": "6495, 1337, 95",
+          "cpu_ticks": 3193,
+          "process_memory": {
+            "VmRSS": "18831004 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21809.168601421,
+          "gpu_used_free_util": "6519, 1313, 84",
+          "cpu_ticks": 3685,
+          "process_memory": {
+            "VmRSS": "19317748 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21811.185371841,
+          "gpu_used_free_util": "6537, 1295, 99",
+          "cpu_ticks": 3886,
+          "process_memory": {
+            "VmRSS": "19330164 kB",
+            "VmSwap": "0 kB"
+          }
+        },
+        {
+          "monotonic": 21813.204327255,
+          "gpu_used_free_util": "6543, 1289, 99",
+          "cpu_ticks": 4565,
+          "process_memory": {
+            "VmRSS": "19853204 kB",
+            "VmSwap": "0 kB"
+          }
+        }
+      ],
+      "finished": "2026-10-21T00:28:23.369933+00:00"
+    }
+  ],
+  "original_run": "/home/topher/Language-matrix-coder/official-bolt-setup/runs/20261020T200010Z"
+}

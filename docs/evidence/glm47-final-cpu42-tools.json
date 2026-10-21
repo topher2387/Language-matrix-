@@ -1,0 +1,91 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "choices": [
+        {
+          "finish_reason": "tool_calls",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "I'll use the add tool to calculate 17 + 25.",
+            "reasoning_content": "The user wants me to use the add tool to add 17 and 25, then report the result. I need to call the add function with a=17 and b=25.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "add",
+                  "arguments": "{\"a\":17,\"b\":25}"
+                },
+                "id": "e4wdvBAE3YReuE1wvR84WOVZKhk3ajiu"
+              }
+            ]
+          }
+        }
+      ],
+      "created": 1792515374,
+      "model": "glm-4.7-flash-local",
+      "system_fingerprint": "b10075-76f46ad29",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 69,
+        "prompt_tokens": 184,
+        "total_tokens": 253,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "id": "chatcmpl-4njW3t9SATjPdvUYXQCrq2ORaRNOGPxO",
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 184,
+        "prompt_ms": 2222.796,
+        "prompt_per_token_ms": 12.08041304347826,
+        "prompt_per_second": 82.77862655862258,
+        "predicted_n": 69,
+        "predicted_ms": 3626.466,
+        "predicted_per_token_ms": 52.557478260869566,
+        "predicted_per_second": 19.02678806308952
+      },
+      "wall_seconds": 5.869990217033774
+    },
+    {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "The result of adding 17 and 25 is **42**.",
+            "reasoning_content": "The add function returned 42, which is the result of 17 + 25. I should report this result to the user."
+          }
+        }
+      ],
+      "created": 1792515376,
+      "model": "glm-4.7-flash-local",
+      "system_fingerprint": "b10075-76f46ad29",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 43,
+        "prompt_tokens": 258,
+        "total_tokens": 301,
+        "prompt_tokens_details": {
+          "cached_tokens": 252
+        }
+      },
+      "id": "chatcmpl-chHXAxiZLs94zbjlikQQNcK27BHcqylx",
+      "timings": {
+        "cache_n": 252,
+        "prompt_n": 6,
+        "prompt_ms": 146.212,
+        "prompt_per_token_ms": 24.368666666666666,
+        "prompt_per_second": 41.036303449785244,
+        "predicted_n": 43,
+        "predicted_ms": 2254.949,
+        "predicted_per_token_ms": 52.44067441860465,
+        "predicted_per_second": 19.06916741797708
+      },
+      "wall_seconds": 2.415136454976164
+    }
+  ]
+}

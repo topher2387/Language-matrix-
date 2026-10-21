@@ -1,0 +1,11 @@
+[Unit]
+Description=Local Qwen80 with selective GPU expert caching
+StartLimitIntervalSec=300
+StartLimitBurst=2
+[Service]
+Type=simple
+ExecStart=/home/topher/Language-matrix-coder/qwen80-cache-setup/start-qwen-cache.sh
+Restart=on-failure
+RestartSec=5
+LimitCORE=0
+TimeoutStopSec=30

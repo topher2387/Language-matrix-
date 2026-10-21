@@ -1,0 +1,18 @@
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.206 I impl:      CUDA0 MoE cache size =  2041.36 MiB for 8131.41 MiB of host experts
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.209 I impl:  7 layers, iq2_xxs:   210 slots (25.0%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.209 I impl:  1 layers, iq2_xxs:    29 slots (24.2%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.210 I impl:  3 layers, iq2_xxs:   113 slots (24.8%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.210 I impl:  4 layers, iq2_xxs:   119 slots (24.8%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.211 I impl:  2 layers, iq2_xxs:    75 slots (24.7%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.212 I impl:  6 layers, iq2_xxs:   325 slots (25.1%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.212 I impl:  4 layers, iq2_xxs:   216 slots (25.0%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.213 I impl:  1 layers, iq2_xxs:    37 slots (24.3%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.213 I impl:  4 layers, iq2_xxs:   184 slots (25.0%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.214 I impl:  2 layers, iq2_xxs:    91 slots (24.7%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.214 I impl:  3 layers, iq2_xxs:   138 slots (25.0%)
+Oct 20 13:49:17 topher-G5-5000 start-bolt.sh[30035]: 0.06.739.215 I impl:  3 layers, iq2_xxs:   186 slots (25.0%)
+Oct 20 13:49:23 topher-G5-5000 start-bolt.sh[30035]: 0.13.125.440 I slot print_timing: id  0 | task 0 |    graphs reused =        138
+Oct 20 13:49:27 topher-G5-5000 start-bolt.sh[30035]: 0.16.731.665 I slot print_timing: id  0 | task 142 |    graphs reused =        170
+Oct 20 13:49:27 topher-G5-5000 start-bolt.sh[30035]: 0.17.664.594 I slot print_timing: id  0 | task 180 |    graphs reused =        185
+Oct 20 13:49:44 topher-G5-5000 start-bolt.sh[30035]: 0.33.796.342 I llama_moe_cache: ubatch <= 8: hits = 46927, misses = 25390, hit rate = 64.89%, uploaded = 28732.82 MiB
+Oct 20 13:49:44 topher-G5-5000 start-bolt.sh[30035]: 0.33.796.345 I llama_moe_cache: ubatch  > 8: hits = 836, misses = 1885, hit rate = 30.72%, uploaded = 2159.31 MiB

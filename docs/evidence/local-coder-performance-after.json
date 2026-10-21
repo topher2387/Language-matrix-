@@ -1,0 +1,58 @@
+{
+  "model": "qwen3-coder-supervised:32k",
+  "placement": "all attention GPU, expert weights CPU",
+  "results": [
+    {
+      "name": "short",
+      "prompt_tokens": 24,
+      "prompt_seconds": 0.473236,
+      "output_tokens": 96,
+      "generation_seconds": 5.855246,
+      "tokens_per_second": 16.39555366247635,
+      "load_seconds": 2.467742317,
+      "wall_seconds": 8.818212244019378,
+      "response": {
+        "role": "assistant",
+        "content": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35"
+      }
+    },
+    {
+      "name": "long",
+      "prompt_tokens": 16035,
+      "prompt_seconds": 81.773462,
+      "output_tokens": 96,
+      "generation_seconds": 6.778214,
+      "tokens_per_second": 14.163022884789415,
+      "load_seconds": 0.1482061,
+      "wall_seconds": 88.77959891897626,
+      "response": {
+        "role": "assistant",
+        "content": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35"
+      }
+    }
+  ],
+  "placement_metadata": {
+    "models": [
+      {
+        "name": "qwen3-coder-supervised:32k",
+        "model": "qwen3-coder-supervised:32k",
+        "size": 2723151871,
+        "digest": "069689d838f4e6dfef26c56453c48aeff6a1d20e3e29af8a5509ef7d3a396a26",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3moe",
+          "families": [
+            "qwen3moe"
+          ],
+          "parameter_size": "30.5B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-10-19T16:38:52.998534237-05:00",
+        "size_vram": 2723151871,
+        "context_length": 32768
+      }
+    ]
+  },
+  "passed": true
+}

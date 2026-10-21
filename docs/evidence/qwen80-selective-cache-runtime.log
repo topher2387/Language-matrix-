@@ -1,0 +1,9 @@
+Oct 20 12:16:11 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.31.839.709 I llama_memory_recurrent: size =   75.38 MiB (     1 cells,  48 layers,  1 seqs  0 rs_seq), R (f32):    3.38 MiB, S (f32):   72.00 MiB, P (f32):    0.00 MiB
+Oct 20 12:16:11 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.31.845.727 I impl:      CUDA0 MoE cache size =  2047.57 MiB for 29376.00 MiB of host experts
+Oct 20 12:16:11 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.31.845.730 I impl: 48 layers, iq3_s:  1712 slots (7.0%)
+Oct 20 12:16:20 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.40.694.530 I slot print_timing: id  0 | task 0 |    graphs reused =        183
+Oct 20 12:16:20 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.40.694.530 I slot print_timing: id  0 | task 0 |   graph reallocs =          0    /     0        (same size) / (changed size)
+Oct 20 12:16:25 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.45.779.004 I slot print_timing: id  0 | task 186 |    graphs reused =        212
+Oct 20 12:16:25 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.45.779.005 I slot print_timing: id  0 | task 186 |   graph reallocs =          1    /     0        (same size) / (changed size)
+Oct 20 12:16:26 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.46.917.731 I slot print_timing: id  0 | task 221 |    graphs reused =        227
+Oct 20 12:16:26 topher-G5-5000 start-qwen-cache.sh[1905918]: 1.46.917.731 I slot print_timing: id  0 | task 221 |   graph reallocs =          1    /     0        (same size) / (changed size)

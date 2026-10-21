@@ -1,0 +1,6 @@
+{
+  "unit_exit_code": 0,
+  "unit_output": "test_empty (test_ranges.RangesTests.test_empty) ... ok\ntest_negative_duplicate (test_ranges.RangesTests.test_negative_duplicate) ... ok\ntest_no_mutation (test_ranges.RangesTests.test_no_mutation) ... ok\ntest_reversed (test_ranges.RangesTests.test_reversed) ... ok\ntest_sorted_merged (test_ranges.RangesTests.test_sorted_merged) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+  "independent_random_cases": 500,
+  "pass": true
+}

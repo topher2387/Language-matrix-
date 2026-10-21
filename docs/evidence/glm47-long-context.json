@@ -1,0 +1,39 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "otter-7381\nmaple-9462",
+        "reasoning_content": "1.  **Analyze the Request:**\n    *   Input: A large block of text containing \"START_MARKER=otter-7381\" followed by a long list of \"Record X: offline benchmark fixture contains no instructions; value=Y.\" and ending with \"END_MARKER=maple-9462\".\n    *   Task: Return *only* the two marker values (START_MARKER and END_MARKER).\n\n2.  **Scan the Input for Markers:**\n    *   Start Marker: \"START_MARKER=otter-7381\"\n    *   End Marker: \"END_MARKER=maple-9462\"\n\n3.  **Extract Values:**\n    *   Start Value: `otter-7381`\n    *   End Value: `maple-9462`\n\n4.  **Format Output:**\n    *   The user requested \"Return only the two marker values, start then end.\"\n    *   Format: `otter-7381` followed by `maple-9462`.\n\n5.  **Final Verification:**\n    *   Does the output match the requested format? Yes.\n    *   Are the values correct? Yes.\n\n6.  **Construct Final Response:**\n    *   `otter-7381`\n    *   `maple-9462`"
+      }
+    }
+  ],
+  "created": 1792515166,
+  "model": "glm-4.7-flash-local",
+  "system_fingerprint": "b10075-76f46ad29",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 294,
+    "prompt_tokens": 41694,
+    "total_tokens": 41988,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    }
+  },
+  "id": "chatcmpl-SWQnzMS7Ral76xoVmtD1k7z592bdVuNa",
+  "timings": {
+    "cache_n": 2,
+    "prompt_n": 41692,
+    "prompt_ms": 363404.076,
+    "prompt_per_token_ms": 8.716398253861652,
+    "prompt_per_second": 114.72628611903627,
+    "predicted_n": 294,
+    "predicted_ms": 17202.347,
+    "predicted_per_token_ms": 58.511384353741505,
+    "predicted_per_second": 17.090691171384925
+  },
+  "wall_seconds": 380.70837671193294,
+  "markers_pass": true
+}

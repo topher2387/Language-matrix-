@@ -1,0 +1,61 @@
+{
+  "context_tokens": 125000,
+  "gpu_attention": true,
+  "gpu_kv_cache": "q8_0",
+  "cuda_graphs": true,
+  "draft_gpu_layers": 0,
+  "draft_tokens": 6,
+  "output_budget": 16384,
+  "expert_source": "CPU RAM in all configurations",
+  "cases": [
+    {
+      "name": "baseline-no-cache",
+      "draft": false,
+      "expert_cache_mib": 0
+    },
+    {
+      "name": "baseline-cache",
+      "draft": false,
+      "expert_cache_mib": 512
+    }
+  ],
+  "workload_plan": [
+    "identical code/tool smoke",
+    "matched cold/warm prompt sizes",
+    "near-full context recall ~108000input tokens leaving16Koutput headroom"
+  ],
+  "metrics": [
+    "correctness",
+    "tool roundtrip",
+    "cold/warm prefill tokens/s",
+    "generation tokens/s",
+    "wall seconds",
+    "draft acceptance",
+    "expert cache hit rate",
+    "peak VRAM",
+    "RAM/swap",
+    "crash or fit failure"
+  ],
+  "policy": "Keep placements fixed. Record any fit failure; do not silently lower context or disable graphs. Proposed configurations, not measured results.",
+  "large_prompt_trials": {
+    "target_content_tokens": 108000,
+    "first_full_prefill": 1,
+    "warm_full_prefill_repeats": 3,
+    "warm_prefix_reuse_repeats": 3,
+    "full_prefill_cache_prompt": false,
+    "prefix_reuse_cache_prompt": true,
+    "streamed_time_to_first_content": true,
+    "resource_sample_interval_seconds": 2,
+    "first_trial_requires_fresh_model_process": true,
+    "os_page_cache_flushing": false
+  },
+  "followup_tuning": {
+    "requested": "Use observed spare VRAM after retaining original four-case measurements",
+    "approach": "Compare larger expert cache and/or GPU drafter placement as separately labelled follow-ups, using measured peaks and display headroom. Never change an active measured trial.",
+    "baseline_observation": "About1.8GiBfree during no-cache108Kprefill; first and2warm full-prefill runs ~112tokens/s;16-token answers ~19tokens/s."
+  },
+  "excluded_cases": {
+    "speculative-no-cache": "Incompatible official drafter paired with unpruned target",
+    "speculative-cache": "Incompatible official drafter paired with unpruned target"
+  }
+}
