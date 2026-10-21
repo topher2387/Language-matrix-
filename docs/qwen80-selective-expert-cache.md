@@ -53,3 +53,11 @@ hit-rate counters are emitted on model destruction; they were not sampled live.
 OpenCode has a new blank interactive session for the cache-backed model,
 with no repository job dispatched. Launch using the local
 `qwen80-cache-setup/open-qwen-cache.sh` script.
+
+## User-requested 125K context update (2026-10-21)
+
+Context raised from65536 to125000 to postpone compaction. The same Qwen3-Coder-Next80B-A3B UD-Q3_K_S weights, runtime,2GiB expert cache, GPU attention, q8_0 KV cache, CUDA graphs,8threads, batch256/micro128 and tools/GitHub access are retained. Runtime alias is now `qwen3-coder-next-cache:125k`; OpenCode default and qwen-cache-coder agent use that alias with context125000 and output allowance16384. Legacy64K entry remains for saved history; it is not the current default.
+
+Idle chat/config were backed up before reload. Server `/slots` resolves context125184 (runtime alignment); OpenCode resolves125000. Health is OK and a bounded short inference returned READY. GPU use after that inference:7191MiB, free641MiB. Its two-token decode timing was19.62tokens/sec; this tiny readiness check is not a performance comparison. Full125K prompt occupancy, long-run speed and coding reliability have not been tested here. Earlier64K benchmark results above remain historical evidence and do not establish125K performance.
+
+The existing direct-chat session is preserved. No development job was resumed and no Lichen configuration changed.
