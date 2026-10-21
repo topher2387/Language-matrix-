@@ -10,12 +10,22 @@ while time.monotonic()<deadline:
 else:status['status']='BLOCKED: preceding tests did not finish within bounded wait';save();raise SystemExit()
 try:
  # Refuse to interrupt newly started interactive work. /slots is a read-only owner check.
- req=urllib.request.Request('http://127.0.0.1:11438/slots',headers={'Authorization':'Bearer local-only'})
- try:
-  with urllib.request.urlopen(req,timeout=5) as r:slots=json.load(r)
-  if any(s.get('is_processing',False) for s in slots):raise RuntimeError('interactive model is busy; no interruption')
- except urllib.error.URLError as e:
-  if isinstance(e,urllib.error.HTTPError):raise RuntimeError('cannot verify interactive idle boundary') from e
+ idle_verified=False
+ for _ in range(90):
+  req=urllib.request.Request('http://127.0.0.1:11438/slots',headers={'Authorization':'Bearer local-only'})
+  try:
+   with urllib.request.urlopen(req,timeout=5) as r:slots=json.load(r)
+   if any(slot.get('is_processing',False) for slot in slots):raise RuntimeError('interactive model is busy; no interruption')
+   idle_verified=True;break
+  except urllib.error.HTTPError as e:
+   if e.code!=503:raise
+   time.sleep(2)
+  except urllib.error.URLError:
+   # A stopped server has no interactive requests to interrupt.
+   service=subprocess.run(['systemctl','--user','is-active','language-matrix-bolt-final.service'],capture_output=True,text=True).stdout.strip()
+   if service not in ('active','activating'):idle_verified=True;break
+   time.sleep(2)
+ if not idle_verified:raise RuntimeError('cannot verify readiness/idle within180seconds')
  subprocess.run(['systemctl','--user','stop','language-matrix-bolt-final.service'],check=True)
  status['status']='running_experimental_draft_matrix';save()
  code=subprocess.run(['/usr/bin/python3',str(D/'run-matrix.py')],timeout=31000).returncode

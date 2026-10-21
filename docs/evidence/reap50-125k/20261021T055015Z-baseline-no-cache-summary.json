@@ -1,0 +1,10 @@
+{
+  "first_full_seconds": 696.8389595970002,
+  "warm_full_median_seconds": 695.989884224,
+  "warm_prefix_median_seconds": 1.032695256995794,
+  "peak_gpu_used_mib": 5670,
+  "minimum_mem_available_kib": 28642972,
+  "all_markers_pass": true,
+  "all_unreused_prefills_confirmed": true,
+  "note": "Cache reuse must be confirmed by timings; recurrent/SSM models may reprocess prefixes. Do not label missing telemetry or failed recall as a pass."
+}
