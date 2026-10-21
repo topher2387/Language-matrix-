@@ -55,3 +55,13 @@ expert-residency/followup.py queues a maximum two-hour passive wait, then A and 
 For a ten-minute profiling cost, break-even requires saved inference time >600 seconds: 16.67% over one hour of baseline inference, 4.17% over four hours, 2.08% over eight hours. If only fraction f of a wall-clock session is inference, required reduction is 600/(session_seconds*f). Net saving = baseline inference seconds * measured reduction -600. A 0.82% reduction, even if independently confirmed, would take about 20.3 hours of continuous inference to repay profiling; the present comparison is not profile-guided and cannot establish that benefit.
 
 Minimal next experiment: inspect held-out A/D evidence and complete the current matrix. If adaptive caching still fails to yield material gains, stop here. Obtaining a real frequency-ranked B/C comparison requires a separately authorized complete routing-trace collector or an existing compatible runtime feature; rewriting the cache is not justified by current evidence.
+
+## Completed follow-up evidence
+
+All four original cases finished; all 28 recall trials and four coding/tool smoke pairs passed. Final draft/cache warm full median: 979.920 seconds, prefix reuse 1.135 seconds, peak GPU 7608 MiB.
+
+Held-out A/D finished without runtime errors and both test servers unloaded. A total request wall time 12.410 seconds versus D 13.554 seconds: adaptive caching was 9.22% slower on this tiny four-question diagnostic. Decode was 23.85–25.80 tokens/s without caching versus 18.43–19.56 with caching. This is one sequential comparison, not a statistically controlled session benchmark. The debugging answers were substantively correct and identical, but included prose around JSON: strict format score 3/4 in both configurations. The request said to find the bug and give JSON, so this is also a prompt-format ambiguity; do not equate it with a coding logic failure. The Python and navigation questions are lightweight semantic probes, not substantial software implementation tasks.
+
+A/D diagnostic execution: PASS; strict output adherence: FAIL in both debugging responses; static workload-guided ranking and B/C simulation remain BLOCKED. No measured session benefit repays profiling cost. Further custom caching implementation is not justified by these samples. Smallest useful next experiment would be longer matched decode workloads with randomized A/D ordering and repeated trials, separately authorized; none launched.
+
+Raw evidence: docs/evidence/official-bolt/heldout-residency.json and four-case-summary.json. No production configuration adopted.

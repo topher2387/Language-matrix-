@@ -1,0 +1,58 @@
+{
+  "20261020T200010Z-baseline-cache": {
+    "large_prompt": {
+      "first_full_seconds": 961.1776146400007,
+      "warm_full_median_seconds": 957.4442316000004,
+      "warm_prefix_median_seconds": 1.1567158790003305,
+      "peak_gpu_used_mib": 6530,
+      "minimum_mem_available_kib": 20256064,
+      "all_markers_pass": true,
+      "all_unreused_prefills_confirmed": true,
+      "note": "Cache reuse must be confirmed by timings; recurrent/SSM models may reprocess prefixes. Do not label missing telemetry or failed recall as a pass."
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  },
+  "20261020T200010Z-baseline-no-cache": {
+    "large_prompt": {
+      "first_full_seconds": 963.1646778060003,
+      "warm_full_median_seconds": 965.3625071340002,
+      "warm_prefix_median_seconds": 1.0326758930004871,
+      "peak_gpu_used_mib": 6206,
+      "minimum_mem_available_kib": 18807900,
+      "all_markers_pass": true,
+      "all_unreused_prefills_confirmed": true,
+      "note": "Cache reuse must be confirmed by timings; recurrent/SSM models may reprocess prefixes. Do not label missing telemetry or failed recall as a pass."
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  },
+  "20261020T200010Z-speculative-cache": {
+    "large_prompt": {
+      "first_full_seconds": 980.4543331679997,
+      "warm_full_median_seconds": 979.9197822550013,
+      "warm_prefix_median_seconds": 1.1349108850008633,
+      "peak_gpu_used_mib": 7608,
+      "minimum_mem_available_kib": 19072696,
+      "all_markers_pass": true,
+      "all_unreused_prefills_confirmed": true,
+      "note": "Cache reuse must be confirmed by timings; recurrent/SSM models may reprocess prefixes. Do not label missing telemetry or failed recall as a pass."
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  },
+  "20261020T200010Z-speculative-no-cache": {
+    "large_prompt": {
+      "first_full_seconds": 986.707042217,
+      "warm_full_median_seconds": 987.2742900089997,
+      "warm_prefix_median_seconds": 1.1332608989978326,
+      "peak_gpu_used_mib": 7095,
+      "minimum_mem_available_kib": 19029984,
+      "all_markers_pass": true,
+      "all_unreused_prefills_confirmed": true,
+      "note": "Cache reuse must be confirmed by timings; recurrent/SSM models may reprocess prefixes. Do not label missing telemetry or failed recall as a pass."
+    },
+    "coding_pass": true,
+    "tool_pass": true
+  }
+}
