@@ -1,0 +1,20 @@
+# Enhanced Language Matrix Requirements
+
+# Core dependencies
+# (same as original requirements)
+
+# Enhanced features dependencies
+# (none - all modules are pure Python)
+
+# Development dependencies
+# (none - all modules are pure Python)
+
+# Testing dependencies
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+
+# Documentation dependencies
+# (none - all documentation is markdown)
+
+# Additional dependencies
+# (none - all modules are pure Python)
