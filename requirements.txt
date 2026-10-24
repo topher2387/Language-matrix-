@@ -1,0 +1,15 @@
+# Language Matrix Requirements
+# Standalone Korean language tutor
+
+# Core dependencies
+# No external dependencies required for basic functionality
+# All features work with Python standard library
+
+# Optional dependencies for enhanced functionality:
+# - pytest>=7.0.0 for more advanced testing
+# - black>=22.0.0 for code formatting
+# - mypy>=0.950 for type checking
+# - pre-commit>=2.20.0 for pre-commit hooks
+
+# Note: This project is designed to be standalone and local-first
+# No cloud APIs, no paid services, no external dependencies required

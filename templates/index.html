@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Matrix - Korean Tutor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .lesson-info {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .lesson-info p {
+            margin: 5px 0;
+        }
+
+        .content {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .hangul {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .english {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .romanization {
+            font-size: 1.2em;
+            color: #95a5a6;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4f8;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+
+        .explanation strong {
+            color: #2980b9;
+        }
+
+        .exercise {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .exercise h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+
+        .option:hover {
+            background-color: #f8f9fa;
+            border-color: #3498db;
+        }
+
+        .option.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #229954;
+        }
+
+        .progress {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .answer-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .answer-feedback.correct {
+            background-color: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+
+        .answer-feedback.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .hangul {
+                font-size: 1.8em;
+            }
+
+            .english {
+                font-size: 1.1em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Language Matrix</h1>
+        <p class="subtitle">Korean Language Tutor</p>
+
+        <div class="lesson-info">
+            <p><strong>Lesson:</strong> <span id="lesson-title">Loading...</span></p>
+            <p><strong>Type:</strong> <span id="lesson-type">Loading...</span></p>
+            <p><strong>Duration:</strong> <span id="lesson-duration">Loading...</span> minutes</p>
+            <p><strong>Progress:</strong> <span id="content-progress">0</span> / <span id="content-total">0</span></p>
+        </div>
+
+        <div class="content" id="content-display">
+            <div class="hangul" id="hangul">Loading...</div>
+            <div class="english" id="english">Loading...</div>
+            <div class="romanization" id="romanization">Loading...</div>
+            <div class="explanation" id="explanation"></div>
+        </div>
+
+        <div class="exercise" id="exercise-display">
+            <h2>Exercise</h2>
+            <p id="exercise-question">Loading...</p>
+            <div id="exercise-options"></div>
+            <div class="answer-feedback" id="answer-feedback"></div>
+        </div>
+
+        <div class="progress">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span>Content Progress</span>
+                <span id="exercise-progress">0 / 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="content-progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-secondary" onclick="previousContent()">Previous</button>
+            <button class="btn-primary" onclick="nextContent()">Next</button>
+        </div>
+
+        <div class="footer">
+            Language Matrix - Local Korean Language Tutor
+        </div>
+    </div>
+
+    <script>
+        let currentContentIndex = 0;
+        let currentExerciseIndex = 0;
+        let selectedAnswer = '';
+
+        // This would be populated with actual lesson data from the Python backend
+        const lessonData = {
+            title: "Formal Korean Lesson",
+            type: "bilingual",
+            duration: 10,
+            content: [
+                {
+                    english: "I eat apples",
+                    hangul: "저는 사과를 먹습니다",
+                    romanization: "jeo-neun sa-gwa-reul meok-seum-ni-da",
+                    explanation: "The verb ending -습니다 is a formal-polite form used in standard Korean. The object marker -를 is attached to the noun 사과 (apple) when it follows a consonant.",
+                    changes: [],
+                    rules_applied: ["formal-polite ending", "object marking"]
+                }
+            ],
+            exercises: [
+                {
+                    type: "multiple_choice",
+                    question: "What does '사과' mean?",
+                    options: ["Apple", "Car", "Book"],
+                    correct_answer: "Apple",
+                    explanation: "사과 means apple in Korean."
+                }
+            ]
+        };
+
+        function loadContent(index) {
+            if (index >= lessonData.content.length) return;
+
+            const content = lessonData.content[index];
+            document.getElementById('hangul').textContent = content.hangul;
+            document.getElementById('english').textContent = content.english;
+            document.getElementById('romanization').textContent = content.romanization;
+            document.getElementById('explanation').innerHTML = `
+                <strong>Explanation:</strong> ${content.explanation}
+                ${content.changes.length > 0 ? `<br><strong>Changes:</strong> ${content.changes.join(', ')}` : ''}
+                ${content.rules_applied.length > 0 ? `<br><strong>Rules Applied:</strong> ${content.rules_applied.join(', ')}` : ''}
+            `;
+
+            document.getElementById('content-progress').textContent = index + 1;
+            document.getElementById('content-total').textContent = lessonData.content.length;
+            document.getElementById('content-progress-bar').style.width = ((index + 1) / lessonData.content.length * 100) + '%';
+        }
+
+        function loadExercise(index) {
+            if (index >= lessonData.exercises.length) return;
+
+            const exercise = lessonData.exercises[index];
+            document.getElementById('exercise-question').textContent = exercise.question;
+            document.getElementById('exercise-options').innerHTML = exercise.options.map(option =>
+                `<div class="option" onclick="selectOption(this, '${option}')">${option}</div>`
+            ).join('');
+
+            document.getElementById('answer-feedback').className = 'answer-feedback';
+            document.getElementById('answer-feedback').textContent = '';
+            selectedAnswer = '';
+        }
+
+        function selectOption(element, answer) {
+            selectedAnswer = answer;
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function submitAnswer() {
+            if (!selectedAnswer) {
+                alert('Please select an answer');
+                return;
+            }
+
+            const exercise = lessonData.exercises[currentExerciseIndex];
+            const feedback = document.getElementById('answer-feedback');
+
+            if (selectedAnswer === exercise.correct_answer) {
+                feedback.className = 'answer-feedback correct';
+                feedback.textContent = 'Correct! ' + (exercise.explanation || '');
+            } else {
+                feedback.className = 'answer-feedback incorrect';
+                feedback.textContent = 'Incorrect. The correct answer is: ' + exercise.correct_answer + '. ' + (exercise.explanation || '');
+            }
+        }
+
+        function nextContent() {
+            if (currentContentIndex < lessonData.content.length - 1) {
+                currentContentIndex++;
+                loadContent(currentContentIndex);
+            }
+        }
+
+        function previousContent() {
+            if (currentContentIndex > 0) {
+                currentContentIndex--;
+                loadContent(currentContentIndex);
+            }
+        }
+
+        function nextExercise() {
+            if (currentExerciseIndex < lessonData.exercises.length - 1) {
+                currentExerciseIndex++;
+                loadExercise(currentExerciseIndex);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('lesson-title').textContent = lessonData.title;
+            document.getElementById('lesson-type').textContent = lessonData.type;
+            document.getElementById('lesson-duration').textContent = lessonData.duration;
+
+            loadContent(currentContentIndex);
+            loadExercise(currentExerciseIndex);
+        });
+    </script>
+</body>
+</html>
