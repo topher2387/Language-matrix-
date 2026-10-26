@@ -1,5 +1,5 @@
 # Language Matrix — implementation charter
-Status: planned; code not yet implemented. 2026-10-19.
+Status: charter dated 2026-10-19; prototype and other work are on review branches/PRs as of 2026-10-26. Status must be verified per component before claiming implementation.
 
 ## Goal
 Standalone, local-first English→Korean interactive tutor. Launch a *usable* lesson engine plus GUI before tracking or adaptive instruction. Preserve a language-neutral architecture for later experiments in two or three languages. Do not couple to Lichen until validated.
@@ -19,10 +19,21 @@ Each teaching unit co-displays: (1) English meaning and natural translation, (2)
 - Security: capability requests are data and require permissioned tool registry; no agent-run code or arbitrary network endpoints. No unattended changes to upstream Lichen. Human approval for financial/credential/repo-permission changes; PR review gates for architectural changes.
 
 ## Delivery order
-P00 inspection + contracts → P01 bilingual Korean lesson generator + validators → P02 minimal browser GUI → P03 capability request protocol & safe runtime → P04 worker quota adapter → P05 asset library → P06 synthetic Korean voices + multi-speaker exercises → P07 illustrative images/other media → P08 full offline demonstration and benchmarks. P01/P02 start the usable path; P03–P07 are incremental upgrades. Deferred: persistent learner analytics, adaptive teaching, generated video, full personal learning profile.
+P00 inspection + contracts → P01 bilingual Korean lesson generator + validators → P02 minimal browser GUI → P03 capability request protocol & safe runtime → P04 worker quota adapter → P05 asset library → P06 synthetic Korean voices + multi-speaker exercises → P07 illustrative images/other media → P08 full offline demonstration and benchmarks. P01/P02 start the usable path; P03–P07 are incremental upgrades. P09 raw-audio pronunciation/accent/spoken-correctness assessment (issue #31) follows verified lesson/audio/UI contracts and privacy safeguards; scope and independent validation are separate from ASR and TTS. Deferred: full adaptive teaching, generated video, full personal learning profile. PR #28 contains prototype analytics but does not establish acceptance of learner telemetry or speech scoring.
 
 ## First milestone / definition of done
 From a phone browser, open a cached or freshly generated Korean lesson; view English/Hangul/true spoken phonetic rendering/explanation simultaneously; play one verified Korean example and repeat; complete a checked exercise; app stays functional offline for cached lessons. All generated content schema-validated and labelled verified/unverified. Demonstrated on intended 8-GB-VRAM computer with realistic resource measurements.
 
 ## Worker management
 Codex is **coordinator/integrator**, not sole worker. Delegate isolated research, fixture authoring, interface work, benchmarks, tests and documentation to suitable workers/models through existing harness where verified; use separate branches/PRs, test evidence and bounded scopes. Each packet below defines inputs, output, acceptance criteria, dependencies, handoff. Never mark jobs complete from a worker assertion alone. Stop and report missing credentials/services rather than buying access.
+
+## P09 — speech assessment integration (2026-10-26)
+Tracked in [issue #31](https://github.com/topher2387/Language-matrix-/issues/31). Goal: assess the student's **actual recorded Korean**, not merely the recognized text. This is proposed work, not a validated feature. Inspect existing main/PR #28, PR #25, PR #23 and issues #24/#27/#29 before implementing; reuse current lesson and GUI contracts.
+
+**Input:** versioned `SpeechAssessmentRequest` linking lesson and exercise to target Hangul/context, consent, a bounded locally recorded or imported audio asset, duration, channels, and sample rate. **Output:** versioned `SpeechAssessmentResult` with recognized hypothesis, signal-quality warnings, timestamped phonetic evidence, distinct pronunciation/accent-prosody/intelligibility versus grammar/register/meaning judgments, uncertainty, model/reference provenance, and actionable coaching.
+
+**Pipeline:** explicit phone/browser microphone consent → preserve waveform and check noise/clipping → Korean ASR → target-aware forced alignment where appropriate → native-reference-informed phoneme/acoustic and rhythm analysis → independent spoken grammar/register evaluation → feedback and replay. Korean-specific detection must include plain/tense/aspirated consonants, vowel contrasts, batchim/linking and natural connected speech. Do not confuse dialect variance with mistakes, ASR success with native pronunciation, or formal correctness with casual suitability. Respect formal-first preference.
+
+**Local-first safety:** no recordings retained without opt-in, explicit user controls for deletion, no unapproved cloud transmission, and no paid fallback. Enforce existing P03/P05 integration and resource limits.
+
+**Acceptance:** actual audio must affect acoustic findings independently of transcript; native-reviewed good/perturbed recordings must reveal expected phoneme errors; good grammar with American accent must retain grammar credit; register is separate; noise or insufficient evidence causes abstention. Test microphone permission denial, invalid/unsupported audio, offline mode and latency on available 8GB VRAM hardware. Independently compare feedback against native Korean listeners and report disagreement/false positives. Deliver implementation only in a reviewed draft PR, not by assuming a passing text-only test establishes voice quality.
